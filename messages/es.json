@@ -1,0 +1,78 @@
+{
+  "Hero": {
+    "title": "Espacios Exclusivos Dise\u00f1ados para la Vida Moderna",
+    "subtitle": "Descubra propiedades premium y oportunidades de inversi\u00f3n en ubicaciones privilegiadas.",
+    "cta": "Explorar Propiedades"
+  },
+  "Sections": {
+    "contactButton": "Cont\u00e1ctanos",
+    "featureTag": "Destacado por Lux",
+    "featureHeading": "Construido para el inversor de lujo del ma\u00f1ana",
+    "featureDescription": "Dise\u00f1amos espacios excepcionales y experiencias de inversi\u00f3n que elevan tu portafolio.",
+    "value1": {
+      "title": "Dise\u00f1o \u00fanico",
+      "description": "Arquitectura a medida y est\u00e9tica elevada para estilos de vida modernos."
+    },
+    "value2": {
+      "title": "Ubicaciones premium",
+      "description": "Direcciones urbanas y costeras de alto valor con accesibilidad excepcional."
+    },
+    "value3": {
+      "title": "Servicio concierge",
+      "description": "Soporte integral durante la adquisici\u00f3n, el dise\u00f1o y la entrega."
+    },
+    "value4": {
+      "title": "Retornos verificados",
+      "description": "Oportunidades de inversi\u00f3n construidas con transparencia y fuertes fundamentos de mercado."
+    },
+    "cardsTag": "Portafolio",
+    "cardsTitle": "Propiedades seleccionadas para explorar ahora",
+    "cardsSubtitle": "Residencias minimalistas dise\u00f1adas para vivir e invertir.",
+    "cardDetails": "Ver detalles",
+    "inquire": "Consultar",
+    "card1": {
+      "label": "Penthouse",
+      "title": "Residencia Sky en el Centro",
+      "location": "Miami Beach, FL",
+      "price": "$4.2M"
+    },
+    "card2": {
+      "label": "Villa firma",
+      "title": "Santuario Frente al Mar",
+      "location": "Malib\u00fa, CA",
+      "price": "$6.8M"
+    },
+    "card3": {
+      "label": "Finca privada",
+      "title": "Retiro en la Colina",
+      "location": "Aspen, CO",
+      "price": "$8.1M"
+    },
+    "valueTag": "Nuestra propuesta",
+    "valueTitle": "Por qu\u00e9 los clientes eligen Lux Development",
+    "valueDescription": "Una experiencia premium dise\u00f1ada alrededor de la privacidad, el retorno y la propiedad sin esfuerzo.",
+    "valueProposition1": {
+      "title": "Curaci\u00f3n a medida",
+      "description": "Seleccionamos solo las oportunidades de lujo m\u00e1s prometedoras."
+    },
+    "valueProposition2": {
+      "title": "Decisiones basadas en datos",
+      "description": "La inteligencia de mercado gu\u00eda cada adquisici\u00f3n y decisi\u00f3n de dise\u00f1o."
+    },
+    "valueProposition3": {
+      "title": "Acceso exclusivo",
+      "description": "Listados privados y alianzas que no est\u00e1n disponibles p\u00fablicamente."
+    },
+    "valueProposition4": {
+      "title": "Servicio personalizado",
+      "description": "Equipos dedicados garantizan una experiencia fluida desde la consulta hasta el cierre."
+    },
+    "contactTag": "Conect\u00e1 con nosotros",
+    "contactTitle": "Creamos tu pr\u00f3ximo activo distintivo",
+    "contactSubtitle": "Comparte tu visi\u00f3n y uno de nuestros asesores te responder\u00e1 con una gu\u00eda a medida.",
+    "contactName": "Nombre completo",
+    "contactEmail": "Correo electr\u00f3nico",
+    "contactMessage": "Contanos sobre tu proyecto",
+    "contactSubmit": "Enviar consulta"
+  }
+}

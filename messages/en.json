@@ -1,0 +1,78 @@
+{
+  "Hero": {
+    "title": "Exclusive Spaces Designed for Modern Living",
+    "subtitle": "Discover premium properties and investment opportunities in prime locations.",
+    "cta": "Explore Properties"
+  },
+  "Sections": {
+    "contactButton": "Contact Us",
+    "featureTag": "Featured by Lux",
+    "featureHeading": "Built for tomorrow's luxury investor",
+    "featureDescription": "We design exceptional living spaces and create investment experiences that elevate your portfolio.",
+    "value1": {
+      "title": "Unique design",
+      "description": "Tailored architecture and elevated aesthetics for modern lifestyles."
+    },
+    "value2": {
+      "title": "Prime locations",
+      "description": "High-value urban and coastal addresses with exceptional accessibility."
+    },
+    "value3": {
+      "title": "Concierge service",
+      "description": "End-to-end support through acquisition, design and delivery."
+    },
+    "value4": {
+      "title": "Verified returns",
+      "description": "Investment opportunities built with transparency and strong market fundamentals."
+    },
+    "cardsTag": "Portfolio",
+    "cardsTitle": "Curated properties you can explore now",
+    "cardsSubtitle": "Minimalist residences designed to perform for living and investment.",
+    "cardDetails": "View details",
+    "inquire": "Inquire",
+    "card1": {
+      "label": "Penthouse",
+      "title": "Downtown Sky Residence",
+      "location": "Miami Beach, FL",
+      "price": "$4.2M"
+    },
+    "card2": {
+      "label": "Signature Villa",
+      "title": "Oceanfront Sanctuary",
+      "location": "Malibu, CA",
+      "price": "$6.8M"
+    },
+    "card3": {
+      "label": "Private Estate",
+      "title": "Hillside Retreat",
+      "location": "Aspen, CO",
+      "price": "$8.1M"
+    },
+    "valueTag": "Our proposal",
+    "valueTitle": "Why clients choose Lux Development",
+    "valueDescription": "A premium experience designed around privacy, return and effortless ownership.",
+    "valueProposition1": {
+      "title": "Tailored curation",
+      "description": "We source only the most promising luxury opportunities."
+    },
+    "valueProposition2": {
+      "title": "Data-driven decisions",
+      "description": "Market intelligence guides every acquisition and design choice."
+    },
+    "valueProposition3": {
+      "title": "Exclusive access",
+      "description": "Private listings and partnerships that are not publicly available."
+    },
+    "valueProposition4": {
+      "title": "Personalized service",
+      "description": "Dedicated teams ensure your experience is seamless from inquiry to closing."
+    },
+    "contactTag": "Connect with us",
+    "contactTitle": "Let's create your next signature asset",
+    "contactSubtitle": "Share your vision and one of our advisors will respond with tailored guidance.",
+    "contactName": "Full name",
+    "contactEmail": "Email address",
+    "contactMessage": "Tell us about your project",
+    "contactSubmit": "Send inquiry"
+  }
+}
