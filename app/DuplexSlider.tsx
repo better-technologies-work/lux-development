@@ -11,8 +11,9 @@ export default function DuplexSlider({ locale }: DuplexSliderProps) {
   const [currentImage, setCurrentImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const totalImages = 14;
-  const images = Array.from({ length: totalImages }, (_, i) => `/casa${i + 1}.png`);
+  // Available images in public folder
+  const availableImages = ['/casa1.png', '/casa2.png', '/casa3.png', '/casa4.png', '/casa5.png', '/casa6.png', '/casa9.png'];
+  const totalImages = availableImages.length;
 
   const nextImage = () => {
     setCurrentImage((prev) => (prev + 1) % totalImages);
@@ -69,7 +70,8 @@ export default function DuplexSlider({ locale }: DuplexSliderProps) {
     },
   };
 
-  const data = duplex[locale as keyof typeof duplex] || duplex.en;
+  const currentLocale = (locale === 'es') ? 'es' : 'en';
+  const data = duplex[currentLocale];
 
   return (
     <>
@@ -78,7 +80,7 @@ export default function DuplexSlider({ locale }: DuplexSliderProps) {
         {/* Image Slider */}
         <div className="relative h-40 md:h-64 w-full overflow-hidden bg-slate-100">
           <Image
-            src={images[currentImage]}
+            src={availableImages[currentImage]}
             alt={`${data.title} - Image ${currentImage + 1}`}
             fill
             className="object-cover transition-opacity duration-300"
