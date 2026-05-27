@@ -211,12 +211,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <div className="order-2 md:order-1">
             <div className="relative overflow-hidden rounded-3xl h-64 md:h-96 bg-slate-100 border border-slate-200">
               <Image
-                src="/patricia-Fretes.jpg"
-                alt="Patricia Fretes"
-                fill
-                className="object-cover"
-                priority
-              />
+  src="/patricia-Fretes.jpg"
+  alt="Patricia Fretes"
+  fill
+  className="object-cover"
+  sizes="(max-width: 768px) 100vw, 50vw" // <-- AGREGA ESTO
+/>
             </div>
           </div>
 
