@@ -1,6 +1,8 @@
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/src/i18n/routing';
+import Image from 'next/image';
 import Link from 'next/link';
+import DuplexSlider from '@/app/DuplexSlider';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -31,26 +33,26 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const currentLang = locale as 'en' | 'es';
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-gray-200 selection:text-black">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-slate-200 selection:text-slate-950">
       {/* Header / Navbar */}
-      <header className="border-b border-gray-200 bg-white/95 backdrop-blur-md sticky top-0 z-50">
+      <header className="border-b border-slate-200 bg-slate-50/95 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
-          <div className="text-lg md:text-xl font-bold tracking-widest text-black">
-            LUX <span className="text-gray-400 font-light">DEV</span>
+          <div className="text-lg md:text-xl font-bold tracking-widest text-slate-950">
+            LUX <span className="text-slate-400 font-light">DEV</span>
           </div>
           <nav className="flex items-center gap-2 md:gap-8">
-            <a href="#portfolio" className="hidden md:inline text-sm text-gray-600 hover:text-black transition">
+            <a href="#portfolio" className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition">
               {locale === 'es' ? 'Portafolio' : 'Portfolio'}
             </a>
-            <a href="#team" className="hidden md:inline text-sm text-gray-600 hover:text-black transition">
+            <a href="#team" className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition">
               {locale === 'es' ? 'Equipo' : 'Team'}
             </a>
-            <a href="#values" className="hidden md:inline text-sm text-gray-600 hover:text-black transition">
+            <a href="#values" className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition">
               {locale === 'es' ? 'Valores' : 'Values'}
             </a>
             <Link
               href={`/${alternateLocale}`}
-              className="text-xs md:text-xs uppercase tracking-wider bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 md:px-3 py-1.5 rounded border border-gray-300 transition whitespace-nowrap"
+              className="text-xs md:text-xs uppercase tracking-wider bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 md:px-3 py-1.5 rounded border border-slate-300 transition whitespace-nowrap"
             >
               {alternateLocale === 'es' ? 'ES' : 'EN'}
             </Link>
@@ -60,37 +62,56 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16 md:pb-20 text-center">
-        <h1 className="text-3xl md:text-7xl font-extrabold text-black tracking-tight max-w-4xl mx-auto leading-tight">
+        <h1 className="text-3xl md:text-7xl font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto leading-tight">
           {hero('title')}
         </h1>
-        <p className="mt-4 md:mt-6 text-base md:text-xl text-gray-600 max-w-2xl mx-auto font-light">
+        <p className="mt-4 md:mt-6 text-base md:text-xl text-slate-600 max-w-2xl mx-auto font-light">
           {hero('subtitle')}
         </p>
         <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
           <a
             href="#portfolio"
-            className="bg-black text-white hover:bg-gray-800 px-6 md:px-8 py-3 md:py-3.5 rounded font-medium shadow-lg transition text-sm md:text-base"
+            className="bg-sky-900 text-white hover:bg-sky-800 px-6 md:px-8 py-3 md:py-3.5 rounded font-medium shadow-lg transition text-sm md:text-base"
           >
             {hero('cta')}
           </a>
           <a
             href="#team"
-            className="border border-gray-400 text-gray-700 hover:text-black hover:bg-gray-50 px-6 md:px-8 py-3 md:py-3.5 rounded font-medium transition text-sm md:text-base"
+            className="border border-slate-400 text-slate-700 hover:text-sky-900 hover:bg-slate-100 px-6 md:px-8 py-3 md:py-3.5 rounded font-medium transition text-sm md:text-base"
           >
             {sections('contactButton')}
           </a>
         </div>
       </section>
 
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16 text-center bg-slate-50 rounded-3xl border border-slate-200">
+        <h2 className="text-xs font-bold tracking-widest text-sky-700 uppercase mb-4">
+          {sections('externalLinksTag')}
+        </h2>
+        <p className="text-slate-600 font-light text-base md:text-lg max-w-2xl mx-auto mb-8">
+          {sections('externalLinksDescription')}
+        </p>
+        <div className="flex justify-center">
+          <a
+            href="https://asunciontimes.com/people/people-of-asuncion-2-patricia-fretes-from-the-us-i-love-the-experience-of-unity-within-people-here/"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-slate-100 px-6 py-3 text-sm font-semibold text-sky-700 hover:bg-slate-200 transition"
+          >
+            {sections('articleAboutMe')}
+          </a>
+        </div>
+      </section>
+
       {/* Featured Section */}
-      <section className="max-w-5xl mx-auto px-4 md:px-6 py-16 md:py-20 text-center bg-gray-50">
-        <h2 className="text-xs font-bold tracking-widest text-gray-500 uppercase mb-4">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 py-16 md:py-20 text-center bg-slate-50">
+        <h2 className="text-xs font-bold tracking-widest text-slate-500 uppercase mb-4">
           {sections('featureTag')}
         </h2>
-        <h3 className="text-2xl md:text-3xl font-bold text-black mb-4">
+        <h3 className="text-2xl md:text-3xl font-bold text-slate-950 mb-4">
           {sections('featureHeading')}
         </h3>
-        <p className="text-gray-600 font-light text-base md:text-lg">
+        <p className="text-slate-600 font-light text-base md:text-lg">
           {sections('featureDescription')}
         </p>
       </section>
@@ -101,11 +122,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           {[1, 2, 3, 4].map((num) => {
             const key = `value${num}` as any;
             return (
-              <div key={num} className="p-4 md:p-6 rounded-lg border border-gray-200 hover:border-gray-400 transition">
-                <h4 className="text-base md:text-lg font-bold text-black mb-2">
+              <div key={num} className="p-4 md:p-6 rounded-lg border border-slate-200 hover:border-slate-400 transition">
+                <h4 className="text-base md:text-lg font-bold text-slate-950 mb-2">
                   {sections(`${key}.title`)}
                 </h4>
-                <p className="text-gray-600 text-xs md:text-sm font-light">
+                <p className="text-slate-600 text-xs md:text-sm font-light">
                   {sections(`${key}.description`)}
                 </p>
               </div>
@@ -115,63 +136,41 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* Catalog / Properties Section */}
-      <section id="portfolio" className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-gray-200">
-        <h2 className="text-xl md:text-3xl font-bold text-black tracking-wider mb-2">
+      <section id="portfolio" className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200">
+        <h2 className="text-xl md:text-3xl font-bold text-slate-950 tracking-wider mb-2">
           {sections('cardsTag').toUpperCase()}
         </h2>
-        <div className="w-12 h-0.5 bg-gray-400 mb-4" />
-        <h3 className="text-base md:text-xl font-light text-gray-700 mb-2">
+        <div className="w-12 h-0.5 bg-slate-400 mb-4" />
+        <h3 className="text-base md:text-xl font-light text-slate-700 mb-2">
           {sections('cardsTitle')}
         </h3>
-        <p className="text-sm md:text-base text-gray-600 font-light mb-12">
+        <p className="text-sm md:text-base text-slate-600 font-light mb-12">
           {sections('cardsSubtitle')}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {/* Property 1: The Obsidian Residence */}
-          <Link
-            href={`/${locale}/properties/the-obsidian-residence`}
-            className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 transition-all duration-300"
-          >
-            <div className="h-40 md:h-64 bg-gray-100 relative overflow-hidden flex items-center justify-center text-gray-400 text-sm">
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl mb-2">🏠</div>
-                <p className="text-xs md:text-sm">The Obsidian Residence</p>
-              </div>
-            </div>
-            <div className="p-4 md:p-6">
-              <span className="text-xs font-semibold tracking-widest text-gray-500 uppercase">Malibu, USA</span>
-              <h3 className="text-lg md:text-xl font-bold text-black mt-1 group-hover:text-gray-700 transition">
-                The Obsidian Residence
-              </h3>
-              <p className="text-lg md:text-xl text-gray-700 font-light mt-4">$14,500,000</p>
-              <div className="mt-4 md:mt-6 pt-4 border-t border-gray-200">
-                <span className="text-xs font-bold text-gray-600 uppercase">
-                  {sections('cardDetails')} →
-                </span>
-              </div>
-            </div>
-          </Link>
+          {/* Property 1: Duplex with Slider */}
+          <DuplexSlider locale={locale} />
 
           {/* Property 2: Aura Penthouse */}
           <Link
             href={`/${locale}/properties/aura-penthouse`}
-            className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 transition-all duration-300"
+            className="group bg-white border border-slate-200 rounded-lg overflow-hidden hover:border-slate-400 transition-all duration-300"
           >
-            <div className="h-40 md:h-64 bg-gray-100 relative overflow-hidden flex items-center justify-center text-gray-400 text-sm">
+            <div className="h-40 md:h-64 bg-slate-100 relative overflow-hidden flex items-center justify-center text-slate-400 text-sm">
               <div className="text-center">
                 <div className="text-3xl md:text-4xl mb-2">🏢</div>
                 <p className="text-xs md:text-sm">Aura Penthouse</p>
               </div>
             </div>
             <div className="p-4 md:p-6">
-              <span className="text-xs font-semibold tracking-widest text-gray-500 uppercase">Monaco</span>
-              <h3 className="text-lg md:text-xl font-bold text-black mt-1 group-hover:text-gray-700 transition">
+              <span className="text-xs font-semibold tracking-widest text-slate-500 uppercase">Monaco</span>
+              <h3 className="text-lg md:text-xl font-bold text-slate-950 mt-1 group-hover:text-slate-700 transition">
                 Aura Penthouse
               </h3>
-              <p className="text-lg md:text-xl text-gray-700 font-light mt-4">$22,000,000</p>
-              <div className="mt-4 md:mt-6 pt-4 border-t border-gray-200">
-                <span className="text-xs font-bold text-gray-600 uppercase">
+              <p className="text-lg md:text-xl text-slate-700 font-light mt-4">$22,000,000</p>
+              <div className="mt-4 md:mt-6 pt-4 border-t border-slate-200">
+                <span className="text-xs font-bold text-slate-600 uppercase">
                   {sections('cardDetails')} →
                 </span>
               </div>
@@ -181,22 +180,22 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           {/* Property 3: The Zen Pavilions */}
           <Link
             href={`/${locale}/properties/the-zen-pavilions`}
-            className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 transition-all duration-300"
+            className="group bg-white border border-slate-200 rounded-lg overflow-hidden hover:border-slate-400 transition-all duration-300"
           >
-            <div className="h-40 md:h-64 bg-gray-100 relative overflow-hidden flex items-center justify-center text-gray-400 text-sm">
+            <div className="h-40 md:h-64 bg-slate-100 relative overflow-hidden flex items-center justify-center text-slate-400 text-sm">
               <div className="text-center">
                 <div className="text-3xl md:text-4xl mb-2">🏯</div>
                 <p className="text-xs md:text-sm">The Zen Pavilions</p>
               </div>
             </div>
             <div className="p-4 md:p-6">
-              <span className="text-xs font-semibold tracking-widest text-gray-500 uppercase">Kyoto, Japan</span>
-              <h3 className="text-lg md:text-xl font-bold text-black mt-1 group-hover:text-gray-700 transition">
+              <span className="text-xs font-semibold tracking-widest text-slate-500 uppercase">Kyoto, Japan</span>
+              <h3 className="text-lg md:text-xl font-bold text-slate-950 mt-1 group-hover:text-slate-700 transition">
                 The Zen Pavilions
               </h3>
-              <p className="text-lg md:text-xl text-gray-700 font-light mt-4">$9,200,000</p>
-              <div className="mt-4 md:mt-6 pt-4 border-t border-gray-200">
-                <span className="text-xs font-bold text-gray-600 uppercase">
+              <p className="text-lg md:text-xl text-slate-700 font-light mt-4">$9,200,000</p>
+              <div className="mt-4 md:mt-6 pt-4 border-t border-slate-200">
+                <span className="text-xs font-bold text-slate-600 uppercase">
                   {sections('cardDetails')} →
                 </span>
               </div>
@@ -206,41 +205,43 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* Team Section - Founder Photo & Bio */}
-      <section id="team" className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-gray-200">
+      <section id="team" className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Photo */}
           <div className="order-2 md:order-1">
-            <div className="bg-gray-100 rounded-lg overflow-hidden h-64 md:h-96 flex items-center justify-center text-gray-400">
-              <div className="text-center">
-                <div className="text-5xl md:text-6xl mb-4">👩‍💼</div>
-                <p className="text-base md:text-lg text-gray-600">Founder & CEO</p>
-                <p className="text-xs md:text-sm text-gray-500 mt-2">Alexandra Sterling</p>
-              </div>
+            <div className="relative overflow-hidden rounded-3xl h-64 md:h-96 bg-slate-100 border border-slate-200">
+              <Image
+                src="/patricia-Fretes.jpg"
+                alt="Patricia Fretes"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
           </div>
 
           {/* Bio */}
           <div className="order-1 md:order-2">
-            <h2 className="text-xs font-bold tracking-widest text-gray-500 uppercase mb-4">
+            <h2 className="text-xs font-bold tracking-widest text-sky-700 uppercase mb-4">
               {locale === 'es' ? 'Nuestro Equipo' : 'Our Team'}
             </h2>
             <h3 className="text-2xl md:text-4xl font-bold text-black mb-6">
-              Alexandra Sterling
+              Patricia Fretes
             </h3>
-            <p className="text-gray-700 text-sm md:text-lg leading-relaxed mb-6 font-light">
+            <p className="text-slate-700 text-sm md:text-lg leading-relaxed mb-6 font-light">
               {locale === 'es'
-                ? 'Con más de 20 años de experiencia en desarrollo inmobiliario de lujo, Alexandra ha redefinido el estándar de excelencia en la industria. Su visión única y atención meticulosa a los detalles han generado algunos de los activos inmobiliarios más codiciados del mundo.'
-                : 'With over 20 years of experience in luxury real estate development, Alexandra has redefined the standard of excellence in the industry. Her unique vision and meticulous attention to detail have created some of the most coveted real estate assets in the world.'}
+                ? 'Con más de 20 años de experiencia en desarrollo inmobiliario de lujo, Patricia ha redefinido el estándar de excelencia en la industria. Su visión única y atención meticulosa a los detalles han generado algunos de los activos inmobiliarios más codiciados del mundo.'
+                : 'With over 20 years of experience in luxury real estate development, Patricia has redefined the standard of excellence in the industry. Her unique vision and meticulous attention to detail have created some of the most coveted real estate assets in the world.'}
             </p>
             <div className="space-y-3 text-sm md:text-base">
-              <p className="text-gray-600 font-light">
-                <span className="text-black font-semibold">{locale === 'es' ? 'Especialización:' : 'Specialization:'}</span> {locale === 'es' ? 'Desarrollo inmobiliario de lujo, Arquitectura contemporánea' : 'Luxury real estate development, Contemporary architecture'}
+              <p className="text-slate-600 font-light">
+                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Especialización:' : 'Specialization:'}</span> {locale === 'es' ? 'Desarrollo inmobiliario de lujo, Arquitectura contemporánea' : 'Luxury real estate development, Contemporary architecture'}
               </p>
-              <p className="text-gray-600 font-light">
-                <span className="text-black font-semibold">{locale === 'es' ? 'Ubicación:' : 'Location:'}</span> {locale === 'es' ? 'Miami, Nueva York, Londres' : 'Miami, New York, London'}
+              <p className="text-slate-600 font-light">
+                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Ubicación:' : 'Location:'}</span> {locale === 'es' ? 'Miami, Nueva York, Londres' : 'Miami, New York, London'}
               </p>
-              <p className="text-gray-600 font-light">
-                <span className="text-black font-semibold">{locale === 'es' ? 'Portafolio:' : 'Portfolio:'}</span> {locale === 'es' ? '+$450M en transacciones completadas' : '+$450M in completed transactions'}
+              <p className="text-slate-600 font-light">
+                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Portafolio:' : 'Portfolio:'}</span> {locale === 'es' ? '+$450M en transacciones completadas' : '+$450M in completed transactions'}
               </p>
             </div>
           </div>
@@ -248,11 +249,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* References / Testimonials */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-gray-200 bg-gray-50">
-        <h2 className="text-xs font-bold tracking-widest text-gray-500 uppercase mb-4">
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200 bg-slate-50">
+        <h2 className="text-xs font-bold tracking-widest text-slate-500 uppercase mb-4">
           {locale === 'es' ? 'Referencias' : 'References'}
         </h2>
-        <h3 className="text-2xl md:text-3xl font-bold text-black mb-8 md:mb-12">
+        <h3 className="text-2xl md:text-3xl font-bold text-slate-950 mb-8 md:mb-12">
           {locale === 'es' ? 'Lo que dicen nuestros clientes' : 'What Our Clients Say'}
         </h3>
 
@@ -260,16 +261,16 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           {references.map((ref, idx) => {
             const refData = ref[currentLang];
             return (
-              <div key={idx} className="p-6 md:p-8 border border-gray-200 rounded-lg bg-white hover:border-gray-400 transition">
+              <div key={idx} className="p-6 md:p-8 border border-slate-200 rounded-lg bg-white hover:border-slate-400 transition">
                 <div className="flex items-start mb-4">
                   {[...Array(5)].map((_, i) => (
                     <span key={i} className="text-yellow-500 text-lg">★</span>
                   ))}
                 </div>
-                <p className="text-gray-700 font-light mb-6 italic text-sm md:text-base">"{refData.text}"</p>
+                <p className="text-slate-700 font-light mb-6 italic text-sm md:text-base">"{refData.text}"</p>
                 <div>
-                  <p className="text-black font-semibold text-sm md:text-base">{refData.name}</p>
-                  <p className="text-gray-600 text-xs md:text-sm">{refData.title}</p>
+                  <p className="text-slate-950 font-semibold text-sm md:text-base">{refData.name}</p>
+                  <p className="text-slate-600 text-xs md:text-sm">{refData.title}</p>
                 </div>
               </div>
             );
@@ -278,14 +279,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* Mission & Vision Section */}
-      <section id="values" className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-gray-200">
+      <section id="values" className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           {/* Mission */}
           <div>
-            <h3 className="text-2xl md:text-3xl font-bold text-black mb-6">
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-950 mb-6">
               {locale === 'es' ? 'Misión' : 'Mission'}
             </h3>
-            <p className="text-gray-700 text-sm md:text-lg leading-relaxed font-light">
+            <p className="text-slate-700 text-sm md:text-lg leading-relaxed font-light">
               {locale === 'es'
                 ? 'Crear espacios excepcionales que trasciendan la funcionalidad para convertirse en santuarios personales. Nos comprometemos a entregar propiedades que no solo cumplen con las expectativas más altas de diseño y construcción, sino que también generan valor duradero para nuestros clientes.'
                 : 'Create exceptional spaces that transcend functionality to become personal sanctuaries. We are committed to delivering properties that not only meet the highest expectations of design and construction, but also generate lasting value for our clients.'}
@@ -294,10 +295,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
           {/* Vision */}
           <div>
-            <h3 className="text-2xl md:text-3xl font-bold text-black mb-6">
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-950 mb-6">
               {locale === 'es' ? 'Visión' : 'Vision'}
             </h3>
-            <p className="text-gray-700 text-sm md:text-lg leading-relaxed font-light">
+            <p className="text-slate-700 text-sm md:text-lg leading-relaxed font-light">
               {locale === 'es'
                 ? 'Ser el desarrollador inmobiliario de lujo más respetado a nivel mundial, reconocido por nuestra integridad, innovación y resultados excepcionales. Aspiramos a redefinir continuamente lo que significa vivir en lujo, combinando tecnología de punta con craftsmanship atemporal.'
                 : 'To be the most respected luxury real estate developer globally, recognized for our integrity, innovation, and exceptional results. We aspire to continuously redefine what it means to live in luxury, combining cutting-edge technology with timeless craftsmanship.'}
@@ -307,8 +308,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 text-center text-gray-600 text-xs md:text-sm">
+      <footer className="border-t border-slate-200 bg-slate-50 py-8">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 text-center text-slate-600 text-xs md:text-sm">
           <p>© 2026 Lux Development. All rights reserved.</p>
         </div>
       </footer>
