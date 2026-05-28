@@ -1,8 +1,9 @@
 import { getTranslations } from 'next-intl/server';
-import { routing } from '@/src/i18n/routing';
+import { routing } from '@/i18n/routing';
 import Image from 'next/image';
 import Link from 'next/link';
 import DuplexSlider from '@/app/DuplexSlider';
+import TeamSectionWithAnimation from '@/components/TeamSectionWithAnimation';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -204,49 +205,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
       </section>
 
-      {/* Team Section - Founder Photo & Bio */}
-      <section id="team" className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-          {/* Photo */}
-          <div className="order-2 md:order-1">
-            <div className="relative overflow-hidden rounded-3xl h-64 md:h-96 bg-slate-100 border border-slate-200">
-              <Image
-  src="/patricia-Fretes.jpg"
-  alt="Patricia Fretes"
-  fill
-  className="object-cover"
-  sizes="(max-width: 768px) 100vw, 50vw" // <-- AGREGA ESTO
-/>
-            </div>
-          </div>
-
-          {/* Bio */}
-          <div className="order-1 md:order-2">
-            <h2 className="text-xs font-bold tracking-widest text-sky-700 uppercase mb-4">
-              {locale === 'es' ? 'Nuestro Equipo' : 'Our Team'}
-            </h2>
-            <h3 className="text-2xl md:text-4xl font-bold text-black mb-6">
-              Patricia Fretes
-            </h3>
-            <p className="text-slate-700 text-sm md:text-lg leading-relaxed mb-6 font-light">
-              {locale === 'es'
-                ? 'Con más de 20 años de experiencia en desarrollo inmobiliario de lujo, Patricia ha redefinido el estándar de excelencia en la industria. Su visión única y atención meticulosa a los detalles han generado algunos de los activos inmobiliarios más codiciados del mundo.'
-                : 'With over 20 years of experience in luxury real estate development, Patricia has redefined the standard of excellence in the industry. Her unique vision and meticulous attention to detail have created some of the most coveted real estate assets in the world.'}
-            </p>
-            <div className="space-y-3 text-sm md:text-base">
-              <p className="text-slate-600 font-light">
-                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Especialización:' : 'Specialization:'}</span> {locale === 'es' ? 'Desarrollo inmobiliario de lujo, Arquitectura contemporánea' : 'Luxury real estate development, Contemporary architecture'}
-              </p>
-              <p className="text-slate-600 font-light">
-                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Ubicación:' : 'Location:'}</span> {locale === 'es' ? 'Miami, Nueva York, Londres' : 'Miami, New York, London'}
-              </p>
-              <p className="text-slate-600 font-light">
-                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Portafolio:' : 'Portfolio:'}</span> {locale === 'es' ? '+$450M en transacciones completadas' : '+$450M in completed transactions'}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Team Section - Usar componente Client separado */}
+      <TeamSectionWithAnimation locale={locale} />
 
       {/* References / Testimonials */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200 bg-slate-50">
