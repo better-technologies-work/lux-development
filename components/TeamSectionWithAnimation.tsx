@@ -65,7 +65,7 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
               }`}
             >
               <Image
-                src="/patricia-Fretes.jpg"
+                src="/Patricia-Fretes.jpg"
                 alt="Patricia Fretes"
                 fill
                 className="object-cover"
