@@ -6,7 +6,8 @@ export const routing = defineRouting({
   locales: ['en', 'es'],
   
   defaultLocale: 'en',
-  localePrefix: 'as-needed' 
+  localePrefix: 'as-needed' ,
+  localeDetection: false
 });
  
 // Exportamos los helpers de navegación configurados con nuestros idiomas
