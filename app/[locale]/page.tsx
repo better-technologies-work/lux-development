@@ -7,8 +7,8 @@ import TeamSectionWithAnimation from '@/components/TeamSectionWithAnimation';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  const hero = await getTranslations('Hero');
-  const sections = await getTranslations('Sections');
+  const hero = await getTranslations({ locale, namespace: 'Hero' });
+const sections = await getTranslations({ locale, namespace: 'Sections' });
   const alternateLocale = routing.locales.find((item) => item !== locale) ?? routing.defaultLocale;
 
   // References data
@@ -267,10 +267,16 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
       </section>
 
-      {/* Footer */}
+  {/* Footer */}
       <footer className="border-t border-slate-200 bg-slate-50 py-8">
         <div className="max-w-7xl mx-auto px-4 md:px-6 text-center text-slate-600 text-xs md:text-sm">
           <p>© 2026 Lux Development. All rights reserved.</p>
+          <p className="mt-2 text-slate-400 text-xs">
+            Designed &amp; developed by{' '}
+            <a href="https://better-technologies.com" target="_blank" rel="noreferrer" className="hover:text-slate-600 transition underline underline-offset-2">
+              Better Technologies
+            </a>
+          </p>
         </div>
       </footer>
     </div>

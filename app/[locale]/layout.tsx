@@ -80,16 +80,15 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  // Validar que el locale sea uno de los permitidos
+  
   if (!routing.locales.includes(locale as any)) {
     notFound();
   }
 
-  // Obtener los mensajes para ese idioma
-  const messages = await getMessages();
+  const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale}>
+    <html lang={locale} data-scroll-behavior="smooth">
       <head>
         <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE" />
         
