@@ -85,24 +85,34 @@ const sections = await getTranslations({ locale, namespace: 'Sections' });
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16 text-center bg-slate-50 rounded-3xl border border-slate-200">
-        <h2 className="text-xs font-bold tracking-widest text-sky-700 uppercase mb-4">
-          {sections('externalLinksTag')}
-        </h2>
-        <p className="text-slate-600 font-light text-base md:text-lg max-w-2xl mx-auto mb-8">
-          {sections('externalLinksDescription')}
-        </p>
-        <div className="flex justify-center">
-          <a
-            href="https://asunciontimes.com/people/people-of-asuncion-2-patricia-fretes-from-the-us-i-love-the-experience-of-unity-within-people-here/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-slate-100 px-6 py-3 text-sm font-semibold text-sky-700 hover:bg-slate-200 transition"
-          >
-            {sections('articleAboutMe')}
-          </a>
-        </div>
-      </section>
+      {/* seccion 2 - the problem */}
+
+<section className="w-full flex justify-center py-10 px-4">
+ 
+  <div className="max-w-3xl w-full text-center space-y-6"> 
+    
+    <h2 className="text-blue-600 text-3xl md:text-4xl font-black uppercase tracking-tighter">
+      {locale === 'es' ? 'El problema' : 'The problem'}
+    </h2>
+
+    <span className="block text-slate-950 font-semibold text-lg">
+      {locale === 'es' 
+        ? "El mercado inmobiliario de Paraguay está lleno de oportunidades. Navegarlo de forma segura es el desafío." 
+        : "Paraguay's real estate market is full of opportunity. Navigating it safely is the challenge."}
+    </span>
+
+    <p className="text-slate-700 text-sm md:text-lg leading-relaxed font-light">
+      {locale === 'es'
+        ? `Comprar una propiedad debería ser emocionante, pero para muchos inversores, expatriados, jubilados y compradores primerizos, el proceso suele ser confuso, fragmentado y difícil de verificar.
+Desde requisitos legales y opciones de financiamiento hasta decisiones de desarrollo y trámites administrativos, un movimiento en falso puede convertirse en un error costoso.`
+        : `Buying property should be exciting, but for many investors, expats, retirees, and first-time buyers, the process is often confusing, fragmented, and difficult to verify.
+From legal requirements and financing options to development decisions and administrative procedures, one wrong move can become an expensive mistake.`}
+    </p>
+
+  </div>
+</section>
+
+     
 
       {/* Featured Section */}
       <section className="max-w-5xl mx-auto px-4 md:px-6 py-16 md:py-20 text-center bg-slate-50">
