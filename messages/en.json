@@ -6,51 +6,17 @@
   },
   "Sections": {
     "contactButton": "Explore Opportunities",
-    "featureTag": "Featured by Lux",
-    "featureHeading": "Built for tomorrow's luxury investor",
-    "featureDescription": "We design exceptional living spaces and create investment experiences that elevate your portfolio.",
+    "featureTag": "Our Value Proposition",
+    "featureHeading": "One trusted partner for your entire real estate journey.",
+    "featureDescription": "Most real estate providers only handle a single part of the process. Lux Development brings everything together under one roof, helping you move from opportunity to ownership with confidence.",
     "externalLinksTag": "Featured Links",
     "externalLinksDescription": "Read about Patricia Fretes in Asunción Times.",
     "articleAboutMe": "Article about me",
-    "value1": {
-      "title": "Unique design",
-      "description": "Tailored architecture and elevated aesthetics for modern lifestyles."
-    },
-    "value2": {
-      "title": "Prime locations",
-      "description": "High-value urban and coastal addresses with exceptional accessibility."
-    },
-    "value3": {
-      "title": "Concierge service",
-      "description": "End-to-end support through acquisition, design and delivery."
-    },
-    "value4": {
-      "title": "Verified returns",
-      "description": "Investment opportunities built with transparency and strong market fundamentals."
-    },
     "cardsTag": "Portfolio",
     "cardsTitle": "Curated properties you can explore now",
     "cardsSubtitle": "Minimalist residences designed to perform for living and investment.",
     "cardDetails": "View details",
     "inquire": "Inquire",
-    "card1": {
-      "label": "Penthouse",
-      "title": "Downtown Sky Residence",
-      "location": "Miami Beach, FL",
-      "price": "$4.2M"
-    },
-    "card2": {
-      "label": "Signature Villa",
-      "title": "Oceanfront Sanctuary",
-      "location": "Malibu, CA",
-      "price": "$6.8M"
-    },
-    "card3": {
-      "label": "Private Estate",
-      "title": "Hillside Retreat",
-      "location": "Aspen, CO",
-      "price": "$8.1M"
-    },
     "valueTag": "Our proposal",
     "valueTitle": "Why clients choose Lux Development",
     "valueDescription": "A premium experience designed around privacy, return and effortless ownership.",
@@ -76,6 +42,12 @@
     "contactName": "Full name",
     "contactEmail": "Email address",
     "contactMessage": "Tell us about your project",
-    "contactSubmit": "Send inquiry"
+    "contactSubmit": "Send inquiry",
+    "ValuePropositions": {
+      "buy": { "title": "Buy property" },
+      "develop": { "title": "Develop property" },
+      "finance": { "title": "Secure financing" },
+      "wealth": { "title": "Build wealth through real estate" }
+    }
   }
 }

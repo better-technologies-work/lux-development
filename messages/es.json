@@ -6,29 +6,20 @@
 },
   "Sections": {
     "contactButton": "Explorar oportunidades",
-    "featureTag": "Destacado por Lux",
-    "featureHeading": "Construido para el inversor de lujo del ma\u00f1ana",
-    "featureDescription": "Dise\u00f1amos espacios excepcionales y experiencias de inversi\u00f3n que elevan tu portafolio.",
+    "featureTag": "Nuestra propuesta de valor",
+    "featureHeading": "Un socio de confianza para todo su viaje inmobiliario.",
+    "featureDescription": "La mayoría de los proveedores inmobiliarios solo gestionan una parte del proceso. Lux Development reúne todo bajo un mismo techo, ayudándole a pasar de la oportunidad a la propiedad con confianza.",
+
     "externalLinksTag": "Enlaces destacados",
     "externalLinksDescription": "Lee sobre Patricia Fretes en Asunci\u00f3n Times.",
     "houseForSale": "Casa en venta",
     "articleAboutMe": "Artículo sobre mí",
-    "value1": {
-      "title": "Dise\u00f1o \u00fanico",
-      "description": "Arquitectura a medida y est\u00e9tica elevada para estilos de vida modernos."
-    },
-    "value2": {
-      "title": "Ubicaciones premium",
-      "description": "Direcciones urbanas y costeras de alto valor con accesibilidad excepcional."
-    },
-    "value3": {
-      "title": "Servicio concierge",
-      "description": "Soporte integral durante la adquisici\u00f3n, el dise\u00f1o y la entrega."
-    },
-    "value4": {
-      "title": "Retornos verificados",
-      "description": "Oportunidades de inversi\u00f3n construidas con transparencia y fuertes fundamentos de mercado."
-    },
+  "ValuePropositions": {
+    "buy": { "title": "Comprar propiedades" },
+    "develop": { "title": "Desarrollar propiedades" },
+    "finance": { "title": "Obtener financiamiento" },
+    "wealth": { "title": "Crear riqueza a través de bienes raíces" }
+  },
     "cardsTag": "Portafolio",
     "cardsTitle": "Propiedades seleccionadas para explorar ahora",
     "cardsSubtitle": "Residencias minimalistas dise\u00f1adas para vivir e invertir.",

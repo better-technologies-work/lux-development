@@ -77,7 +77,7 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
           {/* Bio */}
           <div className="order-1 md:order-2">
             <h2 className="text-xs font-bold tracking-widest text-sky-700 uppercase mb-4">
-              {locale === 'es' ? 'The Problem' : 'El Problema'}
+              {locale === 'es' ? 'El Equipo' : 'The Team'}
             </h2>
           
             <h3 className="text-2xl md:text-4xl font-bold text-black mb-6">

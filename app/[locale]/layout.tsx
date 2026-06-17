@@ -91,7 +91,11 @@ export default async function LocaleLayout({
     <html lang={locale} data-scroll-behavior="smooth">
       <head>
         <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE" />
-        
+        {/* Tabler Icons */}
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+  />
         {/* Organization Schema */}
         <Script id="organization-schema" type="application/ld+json">
           {`{

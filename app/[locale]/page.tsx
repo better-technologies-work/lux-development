@@ -4,11 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import DuplexSlider from '@/app/DuplexSlider';
 import TeamSectionWithAnimation from '@/components/TeamSectionWithAnimation';
+import { useTranslations } from 'next-intl';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const hero = await getTranslations({ locale, namespace: 'Hero' });
 const sections = await getTranslations({ locale, namespace: 'Sections' });
+const rootT = await getTranslations({ locale });
   const alternateLocale = routing.locales.find((item) => item !== locale) ?? routing.defaultLocale;
 
   // References data
@@ -112,7 +114,8 @@ From legal requirements and financing options to development decisions and admin
   </div>
 </section>
 
-     
+     {/* Team Section - Usar componente Client separado */}
+      <TeamSectionWithAnimation locale={locale} />
 
       {/* Featured Section */}
       <section className="max-w-5xl mx-auto px-4 md:px-6 py-16 md:py-20 text-center bg-slate-50">
@@ -127,24 +130,37 @@ From legal requirements and financing options to development decisions and admin
         </p>
       </section>
 
-      {/* Value Propositions */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-          {[1, 2, 3, 4].map((num) => {
-            const key = `value${num}` as any;
-            return (
-              <div key={num} className="p-4 md:p-6 rounded-lg border border-slate-200 hover:border-slate-400 transition">
-                <h4 className="text-base md:text-lg font-bold text-slate-950 mb-2">
-                  {sections(`${key}.title`)}
-                </h4>
-                <p className="text-slate-600 text-xs md:text-sm font-light">
-                  {sections(`${key}.description`)}
-                </p>
-              </div>
-            );
-          })}
+  {/* Value Propositions */}
+  <section className="w-full bg-slate-100 py-16 md:py-20">
+  <div className="max-w-7xl mx-auto px-4 md:px-6">
+
+    <h3 className="text-xl font-bold text-slate-950 mb-10">
+      {locale === 'es' ? 'Ayudamos a nuestros clientes:' : 'We help clients:'}
+    </h3>
+
+    <div className="flex flex-col md:grid md:grid-cols-4 gap-6">
+      {[
+        { key: 'buy',     icon: 'ti-building-estate' },
+        { key: 'develop', icon: 'ti-crane'            },
+        { key: 'finance', icon: 'ti-currency-dollar'  },
+        { key: 'wealth',  icon: 'ti-chart-line'       },
+      ].map(({ key, icon }) => (
+        <div key={key} className="flex md:flex-col items-start gap-4 p-6 md:p-10 bg-white rounded-lg border border-slate-200">
+          <div className="w-12 h-12 md:w-16 md:h-16 border border-slate-900 rounded-lg flex items-center justify-center shrink-0">
+            <i className={`ti ${icon} text-2xl md:text-4xl text-slate-900`} aria-hidden="true" />
+          </div>
+          <p className="font-semibold text-slate-950 text-base md:text-xl leading-snug self-center md:self-auto md:mt-4">
+            {sections(`ValuePropositions.${key}.title`)}
+          </p>
         </div>
-      </section>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+ 
+
 
       {/* Catalog / Properties Section */}
       <section id="portfolio" className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200">
@@ -215,8 +231,7 @@ From legal requirements and financing options to development decisions and admin
         </div>
       </section>
 
-      {/* Team Section - Usar componente Client separado */}
-      <TeamSectionWithAnimation locale={locale} />
+      
 
       {/* References / Testimonials */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200 bg-slate-50">
