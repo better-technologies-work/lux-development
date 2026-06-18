@@ -134,6 +134,14 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
+        <a
+  href="https://wa.me/595991358652"
+  target="_blank"
+  rel="noreferrer"
+  className="fixed bottom-6 right-6 z-[9999] flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+>
+  <i className="ti ti-brand-whatsapp text-3xl" />
+</a>
       </body>
     </html>
   );
