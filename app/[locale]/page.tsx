@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import PropertyCarousel from '@/components/PropertyCarousel';
 import SuccessStories from '@/components/SuccessStories';
 import OurServices from '@/components/OurServices';
+import WhyLuxDevelopment from "@/components/WhyLuxDevelopment";
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -285,6 +286,7 @@ From legal requirements and financing options to development decisions and admin
 
 <SuccessStories locale={locale} />
 <OurServices locale={locale} />
+<WhyLuxDevelopment locale={locale} />
 
       {/* References / Testimonials */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200 bg-slate-50">
