@@ -9,6 +9,7 @@ import PropertyCarousel from '@/components/PropertyCarousel';
 import SuccessStories from '@/components/SuccessStories';
 import OurServices from '@/components/OurServices';
 import WhyLuxDevelopment from "@/components/WhyLuxDevelopment";
+import FAQSection from "@/components/FAQSection";
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -287,6 +288,7 @@ From legal requirements and financing options to development decisions and admin
 <SuccessStories locale={locale} />
 <OurServices locale={locale} />
 <WhyLuxDevelopment locale={locale} />
+<FAQSection locale={locale} imageSrc="/OIP.webp" />
 
       {/* References / Testimonials */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200 bg-slate-50">
@@ -353,7 +355,7 @@ From legal requirements and financing options to development decisions and admin
           <p>© 2026 Lux Development. All rights reserved.</p>
           <p className="mt-2 text-slate-400 text-xs">
             Designed &amp; developed by{' '}
-            <a href="https://better-technologies.com" target="_blank" rel="noreferrer" className="hover:text-slate-600 transition underline underline-offset-2">
+            <a href="https://www.better-technologies.com" target="_blank" rel="noreferrer" className="hover:text-slate-600 transition underline underline-offset-2">
               Better Technologies
             </a>
           </p>
