@@ -6,11 +6,11 @@ const TC = 7600;
 export default function CalcAdquisicion({ locale, onClose }: { locale: string; onClose: () => void }) {
   const [currency, setCurrencyState] = useState<'USD' | 'GS'>('USD');
   const [precio, setPrecio] = useState(600000);
-  const [anticipo, setAnticipo] = useState(30);
   const [plazo, setPlazo] = useState(15);
   const [tasa, setTasa] = useState(8.5);
 
-  const monto = precio * (1 - anticipo / 100);
+  // Se eliminó el anticipo, ahora el monto a financiar es el precio total
+  const monto = precio; 
   const n = plazo * 12;
   const r = tasa / 100 / 12;
   const cuota = r === 0 ? monto / n : (monto * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
@@ -51,15 +51,10 @@ export default function CalcAdquisicion({ locale, onClose }: { locale: string; o
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div className="flex flex-col gap-1">
-            <label className="text-xs text-slate-500 uppercase font-medium">{locale === 'es' ? 'Valor propiedad' : 'Property value'}</label>
-            <input type="number" value={precio} onChange={(e) => setPrecio(parseFloat(e.target.value) || 0)} className="border border-slate-300 rounded-lg px-3 py-2 text-sm" />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-xs text-slate-500 uppercase font-medium">{locale === 'es' ? 'Anticipo' : 'Down payment'}: {anticipo}%</label>
-            <input type="range" min={10} max={50} value={anticipo} onChange={(e) => setAnticipo(Number(e.target.value))} className="mt-2" />
-          </div>
+        {/* Solo dejamos el Valor Propiedad */}
+        <div className="mb-4">
+          <label className="text-xs text-slate-500 uppercase font-medium">{locale === 'es' ? 'Valor propiedad' : 'Property value'}</label>
+          <input type="number" value={precio} onChange={(e) => setPrecio(parseFloat(e.target.value) || 0)} className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1" />
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
@@ -89,10 +84,8 @@ export default function CalcAdquisicion({ locale, onClose }: { locale: string; o
           ))}
         </div>
 
-        <div className="h-2 bg-slate-100 rounded-full overflow-hidden flex mb-6">
-          <div className="bg-slate-900 h-full transition-all" style={{ width: `${(monto / total) * 100}%` }} />
-          <div className="bg-slate-300 h-full flex-1" />
-        </div>
+        {/* Barra de progreso ajustada */}
+        <div className="h-2 bg-slate-900 rounded-full mb-6" />
 
         <div className="grid grid-cols-2 gap-2 mb-6">
           {[
