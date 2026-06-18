@@ -66,29 +66,48 @@ const rootT = await getTranslations({ locale });
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16 md:pb-20 text-center">
-        <h1 className="text-3xl md:text-7xl font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto leading-tight">
-          {hero('title')}
-        </h1>
-        <p className="mt-4 md:mt-6 text-base md:text-xl text-slate-600 max-w-2xl mx-auto font-light">
-          {hero('subtitle')}
-        </p>
-        <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-          <a
-            href="#portfolio"
-            className="bg-sky-900 text-white hover:bg-sky-800 px-6 md:px-8 py-3 md:py-3.5 rounded font-medium shadow-lg transition text-sm md:text-base"
-          >
-            {hero('cta')}
-          </a>
-          <a
-            href="#team"
-            className="border border-slate-400 text-slate-700 hover:text-sky-900 hover:bg-slate-100 px-6 md:px-8 py-3 md:py-3.5 rounded font-medium transition text-sm md:text-base"
-          >
-            {sections('contactButton')}
-          </a>
-        </div>
-      </section>
+<section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
+
+  <Image
+  src="/casa.avif"
+  alt="Lux"
+  fill
+  priority
+  sizes="100vw"
+  className="object-cover object-center"
+/>
+
+  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+
+  <div className="relative z-10 text-center px-4">
+
+    <h1 className="text-3xl md:text-7xl font-extrabold text-white tracking-tight max-w-4xl mx-auto leading-tight">
+      {hero('title')}
+    </h1>
+
+    <p className="mt-4 md:mt-6 text-base md:text-xl text-slate-200 max-w-2xl mx-auto font-light">
+      {hero('subtitle')}
+    </p>
+
+    <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
+      <a
+        href="#portfolio"
+        className="bg-sky-900 text-white hover:bg-sky-800 px-6 md:px-8 py-3 rounded font-medium"
+      >
+        {hero('cta')}
+      </a>
+
+      <a
+        href="#team"
+        className="border border-white text-white hover:bg-white/10 px-6 md:px-8 py-3 rounded font-medium"
+      >
+        {sections('contactButton')}
+      </a>
+    </div>
+
+  </div>
+
+</section>
 
       {/* seccion 2 - the problem */}
 
