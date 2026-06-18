@@ -290,64 +290,7 @@ From legal requirements and financing options to development decisions and admin
 <WhyLuxDevelopment locale={locale} />
 <FAQSection locale={locale} imageSrc="/OIP.webp" />
 
-      {/* References / Testimonials */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200 bg-slate-50">
-        <h2 className="text-xs font-bold tracking-widest text-slate-500 uppercase mb-4">
-          {locale === 'es' ? 'Referencias' : 'References'}
-        </h2>
-        <h3 className="text-2xl md:text-3xl font-bold text-slate-950 mb-8 md:mb-12">
-          {locale === 'es' ? 'Lo que dicen nuestros clientes' : 'What Our Clients Say'}
-        </h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          {references.map((ref, idx) => {
-            const refData = ref[currentLang];
-            return (
-              <div key={idx} className="p-6 md:p-8 border border-slate-200 rounded-lg bg-white hover:border-slate-400 transition">
-                <div className="flex items-start mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-yellow-500 text-lg">★</span>
-                  ))}
-                </div>
-                <p className="text-slate-700 font-light mb-6 italic text-sm md:text-base">"{refData.text}"</p>
-                <div>
-                  <p className="text-slate-950 font-semibold text-sm md:text-base">{refData.name}</p>
-                  <p className="text-slate-600 text-xs md:text-sm">{refData.title}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Mission & Vision Section */}
-      <section id="values" className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          {/* Mission */}
-          <div>
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-950 mb-6">
-              {locale === 'es' ? 'Misión' : 'Mission'}
-            </h3>
-            <p className="text-slate-700 text-sm md:text-lg leading-relaxed font-light">
-              {locale === 'es'
-                ? 'Crear espacios excepcionales que trasciendan la funcionalidad para convertirse en santuarios personales. Nos comprometemos a entregar propiedades que no solo cumplen con las expectativas más altas de diseño y construcción, sino que también generan valor duradero para nuestros clientes.'
-                : 'Create exceptional spaces that transcend functionality to become personal sanctuaries. We are committed to delivering properties that not only meet the highest expectations of design and construction, but also generate lasting value for our clients.'}
-            </p>
-          </div>
-
-          {/* Vision */}
-          <div>
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-950 mb-6">
-              {locale === 'es' ? 'Visión' : 'Vision'}
-            </h3>
-            <p className="text-slate-700 text-sm md:text-lg leading-relaxed font-light">
-              {locale === 'es'
-                ? 'Ser el desarrollador inmobiliario de lujo más respetado a nivel mundial, reconocido por nuestra integridad, innovación y resultados excepcionales. Aspiramos a redefinir continuamente lo que significa vivir en lujo, combinando tecnología de punta con craftsmanship atemporal.'
-                : 'To be the most respected luxury real estate developer globally, recognized for our integrity, innovation, and exceptional results. We aspire to continuously redefine what it means to live in luxury, combining cutting-edge technology with timeless craftsmanship.'}
-            </p>
-          </div>
-        </div>
-      </section>
+          
 
   {/* Footer */}
       <footer className="border-t border-slate-200 bg-slate-50 py-8">
