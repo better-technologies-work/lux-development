@@ -75,43 +75,108 @@ const rootT = await getTranslations({ locale });
         </div>
       </header>
 
-<section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
+<section className="relative flex flex-col md:flex-row overflow-hidden min-h-[80vh]">
 
-  <Image
-  src="/casa.avif"
-  alt="Lux"
-  fill
-  priority
-  sizes="100vw"
-  className="object-cover object-center"
-/>
+  {/* IZQUIERDA - Letras SVG */}
+  <div className="w-full md:w-1/2 flex items-center justify-center bg-slate-50 min-h-[50vh] md:min-h-[80vh]">
 
-  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+    <div className="flex items-center gap-2 md:gap-4 scale-75 md:scale-100">
 
-  <div className="relative z-10 text-center px-4">
+      {/* L */}
+      <div style={{ marginTop: "2rem" }}>
+        <svg width="100" height="160" viewBox="0 0 100 160">
+          <defs>
+            <clipPath id="hero-clip-L">
+              <path d="M15,5 Q15,0 20,0 L40,0 Q45,0 45,5 L45,115 L80,115 Q85,115 85,120 L85,155 Q85,160 80,160 L20,160 Q15,160 15,155 Z" />
+            </clipPath>
+          </defs>
 
-    <h1 className="text-3xl md:text-7xl font-extrabold text-white tracking-tight max-w-4xl mx-auto leading-tight">
-      {hero('title')}
-    </h1>
+          <image
+            href="/casa.avif"
+            width="100"
+            height="160"
+            preserveAspectRatio="xMidYMid slice"
+            clipPath="url(#hero-clip-L)"
+          />
+        </svg>
+      </div>
 
-    <p className="mt-4 md:mt-6 text-base md:text-xl text-slate-200 max-w-2xl mx-auto font-light">
-      {hero('subtitle')}
-    </p>
+      {/* U */}
+      <div>
+        <svg width="100" height="160" viewBox="0 0 100 160">
+          <defs>
+            <clipPath id="hero-clip-U">
+              <path d="M10,0 L10,0 Q10,0 15,0 L35,0 Q40,0 40,5 L40,110 Q40,130 50,130 Q60,130 60,110 L60,5 Q60,0 65,0 L85,0 Q90,0 90,5 L90,115 Q90,160 50,160 Q10,160 10,115 Z" />
+            </clipPath>
+          </defs>
 
-    <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-      <a
-        href="#portfolio"
-        className="bg-sky-900 text-white hover:bg-sky-800 px-6 md:px-8 py-3 rounded font-medium"
-      >
-        {hero('cta')}
-      </a>
+          <image
+            href="/casa.avif"
+            width="100"
+            height="160"
+            preserveAspectRatio="xMidYMid slice"
+            clipPath="url(#hero-clip-U)"
+          />
+        </svg>
+      </div>
 
-      <a
-        href="#team"
-        className="border border-white text-white hover:bg-white/10 px-6 md:px-8 py-3 rounded font-medium"
-      >
-        {sections('contactButton')}
-      </a>
+      {/* X */}
+      <div style={{ marginTop: "1rem" }}>
+        <svg width="100" height="160" viewBox="0 0 100 160">
+          <defs>
+            <clipPath id="hero-clip-X">
+              <path d="
+                M5,0 L38,0 L50,22 L62,0 L95,0
+                L95,5 L68,50 L95,95 L95,100
+                L62,100 L50,78 L38,100 L5,100
+                L5,95 L32,50 L5,5 Z
+                M5,115 L38,115 L50,137 L62,115 L95,115
+                L95,120 L68,160 L32,160 L5,120 Z
+              " />
+            </clipPath>
+          </defs>
+
+          <image
+            href="/casa.avif"
+            width="100"
+            height="160"
+            preserveAspectRatio="xMidYMid slice"
+            clipPath="url(#hero-clip-X)"
+          />
+        </svg>
+      </div>
+
+    </div>
+
+  </div>
+
+  {/* DERECHA - SIN IMAGEN */}
+  <div className="w-full md:w-1/2 flex items-center justify-center bg-[#0f172a] min-h-[60vh] md:min-h-[80vh]">
+
+    <div className="text-center px-6 md:px-10">
+      <h2 className="text-2xl md:text-5xl font-extrabold text-white tracking-tight max-w-xl mx-auto leading-tight">
+        {hero('title')}
+      </h2>
+
+      <p className="mt-4 text-sm md:text-lg text-slate-300 max-w-md mx-auto font-light">
+        {hero('subtitle')}
+      </p>
+
+      <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="#portfolio"
+          className="bg-sky-700 text-white hover:bg-sky-600 px-6 py-3 rounded font-medium text-sm"
+        >
+          {hero('cta')}
+        </a>
+
+        <a
+          href="#team"
+          className="border border-white text-white hover:bg-white/10 px-6 py-3 rounded font-medium text-sm"
+        >
+          {sections('contactButton')}
+        </a>
+      </div>
     </div>
 
   </div>
