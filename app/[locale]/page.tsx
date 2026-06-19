@@ -78,77 +78,43 @@ const rootT = await getTranslations({ locale });
 <section className="relative flex flex-col md:flex-row overflow-hidden min-h-[80vh]">
 
   {/* IZQUIERDA - Letras SVG */}
-  <div className="w-full md:w-1/2 flex items-center justify-center bg-slate-50 min-h-[50vh] md:min-h-[80vh]">
+<div className="w-full md:w-1/2 flex items-center justify-center bg-slate-50 min-h-[50vh] md:min-h-[80vh]">
+  
+  {/* Cambiamos items-center por items-end para alinear todas al piso */}
+  <div className="flex items-end gap-2 md:gap-4 scale-75 md:scale-100">
 
-    <div className="flex items-center gap-2 md:gap-4 scale-75 md:scale-100">
+    {/* L - Quitamos el div con marginTop */}
+    <svg width="100" height="160" viewBox="0 0 100 160">
+      <defs>
+        <clipPath id="hero-clip-L">
+          <path d="M15,5 Q15,0 20,0 L40,0 Q45,0 45,5 L45,115 L80,115 Q85,115 85,120 L85,155 Q85,160 80,160 L20,160 Q15,160 15,155 Z" />
+        </clipPath>
+      </defs>
+      <image href="/casa.avif" width="100" height="160" preserveAspectRatio="xMidYMid slice" clipPath="url(#hero-clip-L)" />
+    </svg>
 
-      {/* L */}
-      <div style={{ marginTop: "2rem" }}>
-        <svg width="100" height="160" viewBox="0 0 100 160">
-          <defs>
-            <clipPath id="hero-clip-L">
-              <path d="M15,5 Q15,0 20,0 L40,0 Q45,0 45,5 L45,115 L80,115 Q85,115 85,120 L85,155 Q85,160 80,160 L20,160 Q15,160 15,155 Z" />
-            </clipPath>
-          </defs>
+    {/* U */}
+    <svg width="100" height="160" viewBox="0 0 100 160">
+      <defs>
+        <clipPath id="hero-clip-U">
+          <path d="M10,0 L10,0 Q10,0 15,0 L35,0 Q40,0 40,5 L40,110 Q40,130 50,130 Q60,130 60,110 L60,5 Q60,0 65,0 L85,0 Q90,0 90,5 L90,115 Q90,160 50,160 Q10,160 10,115 Z" />
+        </clipPath>
+      </defs>
+      <image href="/casa.avif" width="100" height="160" preserveAspectRatio="xMidYMid slice" clipPath="url(#hero-clip-U)" />
+    </svg>
 
-          <image
-            href="/casa.avif"
-            width="100"
-            height="160"
-            preserveAspectRatio="xMidYMid slice"
-            clipPath="url(#hero-clip-L)"
-          />
-        </svg>
-      </div>
-
-      {/* U */}
-      <div>
-        <svg width="100" height="160" viewBox="0 0 100 160">
-          <defs>
-            <clipPath id="hero-clip-U">
-              <path d="M10,0 L10,0 Q10,0 15,0 L35,0 Q40,0 40,5 L40,110 Q40,130 50,130 Q60,130 60,110 L60,5 Q60,0 65,0 L85,0 Q90,0 90,5 L90,115 Q90,160 50,160 Q10,160 10,115 Z" />
-            </clipPath>
-          </defs>
-
-          <image
-            href="/casa.avif"
-            width="100"
-            height="160"
-            preserveAspectRatio="xMidYMid slice"
-            clipPath="url(#hero-clip-U)"
-          />
-        </svg>
-      </div>
-
-      {/* X */}
-      <div style={{ marginTop: "1rem" }}>
-        <svg width="100" height="160" viewBox="0 0 100 160">
-          <defs>
-            <clipPath id="hero-clip-X">
-              <path d="
-                M5,0 L38,0 L50,22 L62,0 L95,0
-                L95,5 L68,50 L95,95 L95,100
-                L62,100 L50,78 L38,100 L5,100
-                L5,95 L32,50 L5,5 Z
-                M5,115 L38,115 L50,137 L62,115 L95,115
-                L95,120 L68,160 L32,160 L5,120 Z
-              " />
-            </clipPath>
-          </defs>
-
-          <image
-            href="/casa.avif"
-            width="100"
-            height="160"
-            preserveAspectRatio="xMidYMid slice"
-            clipPath="url(#hero-clip-X)"
-          />
-        </svg>
-      </div>
-
-    </div>
+    {/* X - Quitamos el div con marginTop */}
+    <svg width="100" height="160" viewBox="0 0 100 160">
+      <defs>
+        <clipPath id="hero-clip-X">
+          <path d="M5,0 L38,0 L50,22 L62,0 L95,0 L95,5 L68,50 L95,95 L95,100 L62,100 L50,78 L38,100 L5,100 L5,95 L32,50 L5,5 Z M5,115 L38,115 L50,137 L62,115 L95,115 L95,120 L68,160 L32,160 L5,120 Z" />
+        </clipPath>
+      </defs>
+      <image href="/casa.avif" width="100" height="160" preserveAspectRatio="xMidYMid slice" clipPath="url(#hero-clip-X)" />
+    </svg>
 
   </div>
+</div>
 
   {/* DERECHA - SIN IMAGEN */}
   <div className="w-full md:w-1/2 flex items-center justify-center bg-white min-h-[60vh] md:min-h-[80vh]">
