@@ -151,16 +151,15 @@ const rootT = await getTranslations({ locale });
   </div>
 
   {/* DERECHA - SIN IMAGEN */}
-  <div className="w-full md:w-1/2 flex items-center justify-center bg-[#0f172a] min-h-[60vh] md:min-h-[80vh]">
+  <div className="w-full md:w-1/2 flex items-center justify-center bg-white min-h-[60vh] md:min-h-[80vh]">
 
     <div className="text-center px-6 md:px-10">
-      <h2 className="text-2xl md:text-5xl font-extrabold text-white tracking-tight max-w-xl mx-auto leading-tight">
-        {hero('title')}
-      </h2>
-
-      <p className="mt-4 text-sm md:text-lg text-slate-300 max-w-md mx-auto font-light">
-        {hero('subtitle')}
-      </p>
+      <h2 className="text-2xl md:text-5xl font-normal text-black tracking-tight max-w-xl mx-auto leading-tight">
+  {hero('title')}
+</h2>
+      <p className="mt-4 text-sm md:text-lg text-slate-600 max-w-md mx-auto font-light">
+  {hero('subtitle')}
+</p>
 
       <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
         <a
@@ -171,11 +170,11 @@ const rootT = await getTranslations({ locale });
         </a>
 
         <a
-          href="#team"
-          className="border border-white text-white hover:bg-white/10 px-6 py-3 rounded font-medium text-sm"
-        >
-          {sections('contactButton')}
-        </a>
+  href="#team"
+  className="border border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white px-6 py-3 rounded font-medium text-sm transition-colors duration-200"
+>
+  {sections('contactButton')}
+</a>
       </div>
     </div>
 
