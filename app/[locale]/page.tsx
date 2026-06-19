@@ -45,9 +45,16 @@ const rootT = await getTranslations({ locale });
       {/* Header / Navbar */}
       <header className="border-b border-slate-200 bg-slate-50/95 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
-          <div className="text-lg md:text-xl font-bold tracking-widest text-slate-950">
-            LUX <span className="text-slate-400 font-light">DEV</span>
-          </div>
+          <div className="flex items-center gap-2 text-lg md:text-xl font-bold tracking-widest text-slate-950">
+  <Image
+    src="/logo.png"
+    alt="Lux Development"
+    width={42}
+    height={42}
+    className="object-contain"
+  />
+  LUX <span className="text-slate-400 font-light">DEV</span>
+</div>
           <nav className="flex items-center gap-2 md:gap-8">
             <a href="#portfolio" className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition">
               {locale === 'es' ? 'Portafolio' : 'Portfolio'}
@@ -183,9 +190,6 @@ From legal requirements and financing options to development decisions and admin
   </div>
 </section>
 
- 
-
-
      {/* Catalog / Properties Section */}
 <section id="portfolio" className="py-16 md:py-20 border-t border-slate-200">
   <div className="max-w-7xl mx-auto px-4 md:px-6">
@@ -289,8 +293,6 @@ From legal requirements and financing options to development decisions and admin
 <OurServices locale={locale} />
 <WhyLuxDevelopment locale={locale} />
 <FAQSection locale={locale} imageSrc="/OIP.webp" />
-
-          
 
   {/* Footer */}
       <footer className="border-t border-slate-200 bg-slate-50 py-8">

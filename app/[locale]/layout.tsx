@@ -23,11 +23,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     es: 'Descubre propiedades de lujo premium y oportunidades de inversión inmobiliaria en Malibu, Mónaco, Kioto y más. Espacios exclusivos para la vida moderna.',
   };
 
-  const baseUrl = 'https://lux-development.com';
+  const baseUrl = 'https://luxdevelopmentpy.com';
 
   return {
     title: titles[locale] || titles.en,
     description: descriptions[locale] || descriptions.en,
+    icons: {
+      icon: '/logo.png',
+      shortcut: '/logo.png',
+      apple: '/logo.png',
+    },
     keywords: locale === 'es' 
       ? 'casas de lujo, propiedades exclusivas, inversión inmobiliaria, vivienda de lujo, Malibu, Mónaco, Kioto'
       : 'luxury homes, exclusive properties, real estate investment, luxury living, Malibu, Monaco, Kyoto',
@@ -43,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       images: [
         {
-          url: `${baseUrl}/og-image.jpg`,
+          url: `${baseUrl}/logo.png`,
           width: 1200,
           height: 630,
           alt: 'Lux Development - Exclusive Properties',
@@ -80,7 +85,6 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  
   if (!routing.locales.includes(locale as any)) {
     notFound();
   }
@@ -92,18 +96,18 @@ export default async function LocaleLayout({
       <head>
         <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE" />
         {/* Tabler Icons */}
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
-  />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+        />
         {/* Organization Schema */}
         <Script id="organization-schema" type="application/ld+json">
           {`{
             "@context": "https://schema.org",
             "@type": "RealEstateAgent",
             "name": "Lux Development",
-            "url": "https://lux-development.com",
-            "logo": "https://lux-development.com/logo.png",
+            "url": "https://luxdevelopmentpy.com",
+            "logo": "https://luxdevelopmentpy.com/logo.png",
             "description": "${locale === 'es' ? 'Propiedades exclusivas de lujo y oportunidades de inversión inmobiliaria' : 'Exclusive luxury properties and real estate investment opportunities'}",
             "sameAs": [
               "https://www.instagram.com/luxdevelopment",
@@ -112,7 +116,7 @@ export default async function LocaleLayout({
             "contactPoint": {
               "@type": "ContactPoint",
               "contactType": "Customer Service",
-              "email": "contact@lux-development.com"
+              "email": "contact@luxdevelopmentpy.com"
             },
             "areaServed": ["US", "MC", "JP"]
           }`}
@@ -124,9 +128,9 @@ export default async function LocaleLayout({
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             "name": "Lux Development",
-            "image": "https://lux-development.com/logo.png",
+            "image": "https://luxdevelopmentpy.com/logo.png",
             "description": "${locale === 'es' ? 'Desarrollo inmobiliario de lujo' : 'Luxury real estate development'}",
-            "url": "https://lux-development.com"
+            "url": "https://luxdevelopmentpy.com"
           }`}
         </Script>
       </head>
@@ -135,13 +139,13 @@ export default async function LocaleLayout({
           {children}
         </NextIntlClientProvider>
         <a
-  href="https://wa.me/595991358652"
-  target="_blank"
-  rel="noreferrer"
-  className="fixed bottom-6 right-6 z-[9999] flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
->
-  <i className="ti ti-brand-whatsapp text-3xl" />
-</a>
+          href="https://wa.me/595991358652"
+          target="_blank"
+          rel="noreferrer"
+          className="fixed bottom-6 right-6 z-[9999] flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+        >
+          <i className="ti ti-brand-whatsapp text-3xl" />
+        </a>
       </body>
     </html>
   );
