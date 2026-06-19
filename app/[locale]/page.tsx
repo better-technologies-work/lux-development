@@ -155,7 +155,8 @@ const rootT = await getTranslations({ locale });
 
     <div className="text-center px-6 md:px-10">
       <h2 className="text-2xl md:text-5xl font-normal text-black tracking-tight max-w-xl mx-auto leading-tight">
-  {hero('title')}
+  {hero('title_part1')}
+  <span className="text-[#8B7A5E]">{hero('title_part2')}</span>
 </h2>
       <p className="mt-4 text-sm md:text-lg text-slate-600 max-w-md mx-auto font-light">
   {hero('subtitle')}

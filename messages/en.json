@@ -1,8 +1,10 @@
 {
   "Hero": {
-    "title": "Invest, Buy and Develop Property in Paraguay with Confidence.",
-    "subtitle": "We help local buyers and international investors navigate Paraguay's real estate market .",
+    "title_part1": "Invest, Buy and Develop Property in Paraguay ",
+    "title_part2": "with Confidence.",
+    "subtitle": "We help local buyers and international investors navigate Paraguay's real estate market.",
     "cta": "Schedule a Consultation"
+
   },
   "Sections": {
     "contactButton": "Explore Opportunities",

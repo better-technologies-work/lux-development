@@ -1,8 +1,10 @@
 {
   "Hero": {
-  "title": "Invierta, compre y desarrolle propiedades en Paraguay con confianza.",
-  "subtitle": "Asesoramos a compradores locales e inversores internacionales en el mercado inmobiliario de Paraguay.",
-  "cta": "Programar una consulta"
+    "title_part1": "Invierte, compra y desarrolla propiedades en Paraguay ",
+    "title_part2": "con confianza.",
+    "subtitle": "Ayudamos a compradores locales e inversores internacionales a navegar el mercado inmobiliario de Paraguay.",
+    "cta": "Agendar una consulta"
+
 },
   "Sections": {
     "contactButton": "Explorar oportunidades",
