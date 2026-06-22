@@ -83,7 +83,14 @@ const PROJECTS: Project[] = [
     location: { en: 'Monaco', es: 'Monaco' },
     title: { en: 'Aura Penthouse', es: 'Aura Penthouse' },
     price: '$22,000,000',
+    bedrooms: '4',
+    bathrooms: '5',
+    area: '6,200 sq ft',
     type: { en: 'Luxury', es: 'Lujo' },
+    description: {
+      en: 'A contemporary penthouse offering unparalleled elegance and sophisticated design. Featuring floor-to-ceiling windows, private terrace with panoramic views, and premium finishes throughout.',
+      es: 'Un penthouse contemporáneo que ofrece elegancia sin igual y diseño sofisticado. Con ventanas de piso a techo, terraza privada con vistas panorámicas y acabados premium en todo el espacio.',
+    },
   },
   {
     id: 'the-zen-pavilions',
@@ -92,7 +99,14 @@ const PROJECTS: Project[] = [
     location: { en: 'Kyoto, Japan', es: 'Kyoto, Japón' },
     title: { en: 'The Zen Pavilions', es: 'The Zen Pavilions' },
     price: '$9,200,000',
+    bedrooms: '6',
+    bathrooms: '7',
+    area: '12,000 sq ft',
     type: { en: 'Development', es: 'Desarrollo' },
+    description: {
+      en: 'A serene retreat combining traditional Japanese aesthetics with contemporary luxury. Multiple pavilions, meditation gardens, natural spring water features, and bespoke art collections.',
+      es: 'Un retiro sereno que combina la estética japonesa tradicional con el lujo contemporáneo. Múltiples pabellones, jardines de meditación, fuentes de agua natural y colecciones de arte a medida.',
+    },
   },
 ];
 
