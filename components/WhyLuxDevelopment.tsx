@@ -111,12 +111,12 @@ export default function WhyLuxDevelopment({ locale }: Props) {
     <>
       <style>{`
         .wld-section {
-          padding: 4rem 1.25rem;
-          max-width: 960px;
-          margin: 0 auto;
-          box-sizing: border-box;
-          width: 100%;
-        }
+  padding: 4rem 1.25rem;
+  max-width: 1280px;  /* ← era 960px */
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+}
         .wld-eyebrow {
           font-size: 12px !important;
           font-weight: 600 !important;
@@ -147,13 +147,15 @@ export default function WhyLuxDevelopment({ locale }: Props) {
           text-decoration: none !important;
         }
         .wld-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1px;
-          background: #e8e0d4;
-          border: 0.5px solid #e8e0d4;
-          border-radius: 16px;
-          overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: #e8e0d4;
+  border: 0.5px solid #e8e0d4;
+  border-radius: 16px;
+  overflow: hidden;
+  width: 100%;  
+
         }
         .wld-card {
           background: #fff;
