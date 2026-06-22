@@ -1,24 +1,32 @@
 'use client';
 import { useState } from 'react';
+import { PROJECTS } from '@/lib/projects';
 
 export default function CalcFinanciamiento({ locale, onClose }: { locale: string; onClose: () => void }) {
+  const [proyectoId, setProyectoId] = useState(PROJECTS[0].id);
   const [nombre, setNombre] = useState('');
-  const [monto, setMonto] = useState('');
+  const [monto, setMonto] = useState(String(PROJECTS[0].priceUSD));
   const [ingresos, setIngresos] = useState('');
   const [plazo, setPlazo] = useState('15');
 
+  const proyecto = PROJECTS.find((p) => p.id === proyectoId)!;
+
+  const handleProyecto = (id: string) => {
+    const p = PROJECTS.find((x) => x.id === id);
+    if (!p) return;
+    setProyectoId(id);
+    setMonto(String(p.priceUSD));
+  };
+
   const waMsg = encodeURIComponent(
-    `Consulta financiamiento:\nNombre: ${nombre}\nMonto solicitado: USD ${monto}\nIngresos mensuales: USD ${ingresos}\nPlazo deseado: ${plazo} años`
+    `Consulta financiamiento:\nProyecto: ${locale === 'es' ? proyecto.name : proyecto.nameEn}\nNombre: ${nombre}\nMonto solicitado: USD ${monto}\nIngresos mensuales: USD ${ingresos}\nPlazo deseado: ${plazo} años`
   );
 
   const requisitos = [
-    { icon: 'ti-id', label: locale === 'es' ? 'Cédula de identidad vigente' : 'Valid national ID' },
-    { icon: 'ti-file-dollar', label: locale === 'es' ? 'Comprobante de ingresos (últimos 3 meses)' : 'Proof of income (last 3 months)' },
-    { icon: 'ti-building-bank', label: locale === 'es' ? 'Extractos bancarios (últimos 6 meses)' : 'Bank statements (last 6 months)' },
-    { icon: 'ti-home-search', label: locale === 'es' ? 'Tasación del inmueble' : 'Property appraisal' },
-    { icon: 'ti-file-certificate', label: locale === 'es' ? 'Escritura o promesa de compraventa' : 'Title deed or purchase agreement' },
-    { icon: 'ti-user-check', label: locale === 'es' ? 'Referencias personales o comerciales' : 'Personal or commercial references' },
-  ];
+  { icon: 'ti-file-dollar', label: locale === 'es' ? 'Comprobante de ingresos: 2 años' : 'Proof of income: 2 years' },
+  { icon: 'ti-user', label: locale === 'es' ? 'Edad: 25+ años' : 'Age: 25+ years' },
+  { icon: 'ti-circle-check', label: locale === 'es' ? 'Sin deudas' : 'No debt' },
+];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={onClose}>
@@ -33,6 +41,25 @@ export default function CalcFinanciamiento({ locale, onClose }: { locale: string
         <p className="text-sm text-slate-500 mb-5">
           {locale === 'es' ? 'Requisitos y consulta personalizada' : 'Requirements and personalized consultation'}
         </p>
+
+        {/* Selector de proyecto */}
+        <div className="mb-5">
+          <label className="text-xs text-slate-500 uppercase font-medium">
+            {locale === 'es' ? 'Proyecto' : 'Project'}
+          </label>
+          <select
+            value={proyectoId}
+            onChange={(e) => handleProyecto(e.target.value)}
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1"
+          >
+            {PROJECTS.map((p) => (
+              <option key={p.id} value={p.id}>
+                {locale === 'es' ? p.name : p.nameEn}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs text-slate-400 mt-1">{proyecto.location}</p>
+        </div>
 
         {/* Requisitos */}
         <div className="mb-6">
@@ -56,25 +83,37 @@ export default function CalcFinanciamiento({ locale, onClose }: { locale: string
 
         <div className="flex flex-col gap-3 mb-6">
           <div className="flex flex-col gap-1">
-            <label className="text-xs text-slate-500 uppercase font-medium">{locale === 'es' ? 'Nombre completo' : 'Full name'}</label>
-            <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder={locale === 'es' ? 'Tu nombre' : 'Your name'}
+            <label className="text-xs text-slate-500 uppercase font-medium">
+              {locale === 'es' ? 'Nombre completo' : 'Full name'}
+            </label>
+            <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)}
+              placeholder={locale === 'es' ? 'Tu nombre' : 'Your name'}
               className="border border-slate-300 rounded-lg px-3 py-2 text-sm" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-slate-500 uppercase font-medium">{locale === 'es' ? 'Monto (USD)' : 'Amount (USD)'}</label>
-              <input type="number" value={monto} onChange={(e) => setMonto(e.target.value)} placeholder="200,000"
+              <label className="text-xs text-slate-500 uppercase font-medium">
+                {locale === 'es' ? 'Monto (USD)' : 'Amount (USD)'}
+              </label>
+              <input type="number" value={monto} onChange={(e) => setMonto(e.target.value)}
+                placeholder="200,000"
                 className="border border-slate-300 rounded-lg px-3 py-2 text-sm" />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-slate-500 uppercase font-medium">{locale === 'es' ? 'Ingresos/mes (USD)' : 'Income/month (USD)'}</label>
-              <input type="number" value={ingresos} onChange={(e) => setIngresos(e.target.value)} placeholder="5,000"
+              <label className="text-xs text-slate-500 uppercase font-medium">
+                {locale === 'es' ? 'Ingresos/mes (USD)' : 'Income/month (USD)'}
+              </label>
+              <input type="number" value={ingresos} onChange={(e) => setIngresos(e.target.value)}
+                placeholder="5,000"
                 className="border border-slate-300 rounded-lg px-3 py-2 text-sm" />
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-xs text-slate-500 uppercase font-medium">{locale === 'es' ? 'Plazo deseado' : 'Desired term'}</label>
-            <select value={plazo} onChange={(e) => setPlazo(e.target.value)} className="border border-slate-300 rounded-lg px-3 py-2 text-sm">
+            <label className="text-xs text-slate-500 uppercase font-medium">
+              {locale === 'es' ? 'Plazo deseado' : 'Desired term'}
+            </label>
+            <select value={plazo} onChange={(e) => setPlazo(e.target.value)}
+              className="border border-slate-300 rounded-lg px-3 py-2 text-sm">
               <option value="5">5 {locale === 'es' ? 'años' : 'years'}</option>
               <option value="10">10 {locale === 'es' ? 'años' : 'years'}</option>
               <option value="15">15 {locale === 'es' ? 'años' : 'years'}</option>
@@ -84,7 +123,7 @@ export default function CalcFinanciamiento({ locale, onClose }: { locale: string
           </div>
         </div>
 
-        <a href={`https://wa.me/595991358652?text=${waMsg}`} target="_blank" rel="noreferrer"
+        <a href={`https://wa.me/595981506175?text=${waMsg}`} target="_blank" rel="noreferrer"
           className="flex items-center justify-center gap-2 w-full bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold py-3 rounded-xl transition">
           <i className="ti ti-brand-whatsapp text-lg" />
           {locale === 'es' ? 'Enviar consulta por WhatsApp' : 'Send inquiry via WhatsApp'}

@@ -1,20 +1,23 @@
 'use client';
 import { useState } from 'react';
+import { PROJECTS } from '@/lib/projects';
 
 const TC = 7600;
 
 export default function CalcAdquisicion({ locale, onClose }: { locale: string; onClose: () => void }) {
   const [currency, setCurrencyState] = useState<'USD' | 'GS'>('USD');
-  const [precio, setPrecio] = useState(600000);
+  const [proyectoId, setProyectoId] = useState(PROJECTS[0].id);
+  const [precio, setPrecio] = useState(PROJECTS[0].priceUSD);
+  const [anticipo, setAnticipo] = useState(10);
   const [plazo, setPlazo] = useState(15);
   const [tasa, setTasa] = useState(8.5);
 
-  // Se eliminó el anticipo, ahora el monto a financiar es el precio total
-  const monto = precio; 
+  const proyecto = PROJECTS.find((p) => p.id === proyectoId)!;
+  const montoAnticipo = precio * (anticipo / 100);
+  const monto = precio - montoAnticipo;
   const n = plazo * 12;
   const r = tasa / 100 / 12;
   const cuota = r === 0 ? monto / n : (monto * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-  const total = cuota * n;
 
   const fmt = (val: number) =>
     currency === 'GS'
@@ -22,11 +25,24 @@ export default function CalcAdquisicion({ locale, onClose }: { locale: string; o
       : 'USD ' + Math.round(val).toLocaleString('en-US');
 
   const handleCurrency = (c: 'USD' | 'GS') => {
+    if (c === currency) return;
     setPrecio((prev) => c === 'GS' ? Math.round(prev * TC) : Math.round(prev / TC));
     setCurrencyState(c);
   };
 
-  const waMsg = encodeURIComponent(`Consulta adquisición: Cuota ${fmt(cuota)} para propiedad de ${fmt(precio)}.`);
+  const handleProyecto = (id: string) => {
+  const p = PROJECTS.find((x) => x.id === id);
+  if (!p) return;
+  setProyectoId(id);
+  setCurrencyState((curr) => {
+    setPrecio(curr === 'GS' ? Math.round(p.priceUSD * TC) : p.priceUSD);
+    return curr;
+  });
+};
+
+  const waMsg = encodeURIComponent(
+    `Consulta adquisición: Proyecto ${locale === 'es' ? proyecto.name : proyecto.nameEn}, Precio ${fmt(precio)}, Anticipo ${anticipo}%, Financiación ${fmt(monto)}, Cuota mensual ${fmt(cuota)}.`
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={onClose}>
@@ -42,6 +58,26 @@ export default function CalcAdquisicion({ locale, onClose }: { locale: string; o
           {locale === 'es' ? 'Estimá tu cuota mensual' : 'Estimate your monthly payment'}
         </p>
 
+        {/* Selector de proyecto */}
+        <div className="mb-4">
+          <label className="text-xs text-slate-500 uppercase font-medium">
+            {locale === 'es' ? 'Proyecto' : 'Project'}
+          </label>
+          <select
+            value={proyectoId}
+            onChange={(e) => handleProyecto(e.target.value)}
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1"
+          >
+            {PROJECTS.map((p) => (
+              <option key={p.id} value={p.id}>
+                {locale === 'es' ? p.name : p.nameEn}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs text-slate-400 mt-1">{proyecto.location}</p>
+        </div>
+
+        {/* Moneda */}
         <div className="flex gap-2 mb-5">
           {(['USD', 'GS'] as const).map((c) => (
             <button key={c} onClick={() => handleCurrency(c)}
@@ -51,42 +87,87 @@ export default function CalcAdquisicion({ locale, onClose }: { locale: string; o
           ))}
         </div>
 
-        {/* Solo dejamos el Valor Propiedad */}
+        {/* Precio */}
         <div className="mb-4">
-          <label className="text-xs text-slate-500 uppercase font-medium">{locale === 'es' ? 'Valor propiedad' : 'Property value'}</label>
-          <input type="number" value={precio} onChange={(e) => setPrecio(parseFloat(e.target.value) || 0)} className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1" />
+          <label className="text-xs text-slate-500 uppercase font-medium">
+            {locale === 'es' ? 'Valor propiedad' : 'Property value'}
+          </label>
+          <input
+            type="number"
+            value={precio}
+            onChange={(e) => {
+              const val = parseFloat(e.target.value);
+              setPrecio(isNaN(val) ? 0 : val);
+            }}
+            className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1"
+          />
         </div>
 
+        {/* Down Payment */}
+        <div className="mb-4">
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-xs text-slate-500 uppercase font-medium">
+              {locale === 'es' ? 'Anticipo (Down Payment)' : 'Down Payment'}
+            </label>
+            <span className="text-sm font-bold text-slate-950">{anticipo}% — {fmt(montoAnticipo)}</span>
+          </div>
+          <input
+            type="range" min={0} max={30} step={5} value={anticipo}
+            onChange={(e) => setAnticipo(Number(e.target.value))}
+            className="w-full"
+          />
+          <div className="flex justify-between text-xs text-slate-400 mt-1">
+            <span>0%</span>
+            <span>30%</span>
+          </div>
+        </div>
+
+        {/* Plazo y Tasa */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="flex flex-col gap-1">
-            <label className="text-xs text-slate-500 uppercase font-medium">{locale === 'es' ? 'Plazo' : 'Term'}</label>
-            <select value={plazo} onChange={(e) => setPlazo(Number(e.target.value))} className="border border-slate-300 rounded-lg px-3 py-2 text-sm">
+            <label className="text-xs text-slate-500 uppercase font-medium">
+              {locale === 'es' ? 'Plazo' : 'Term'}
+            </label>
+            <select
+              value={plazo}
+              onChange={(e) => setPlazo(Number(e.target.value))}
+              className="border border-slate-300 rounded-lg px-3 py-2 text-sm"
+            >
               <option value={15}>15 {locale === 'es' ? 'años' : 'years'}</option>
               <option value={30}>30 {locale === 'es' ? 'años' : 'years'}</option>
             </select>
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-xs text-slate-500 uppercase font-medium">{locale === 'es' ? 'Tasa anual' : 'Annual rate'}: {tasa.toFixed(1)}%</label>
-            <input type="range" min={5} max={14} step={0.5} value={tasa} onChange={(e) => setTasa(Number(e.target.value))} className="mt-2" />
+            <label className="text-xs text-slate-500 uppercase font-medium">
+              {locale === 'es' ? 'Tasa anual' : 'Annual rate'}: {tasa.toFixed(1)}%
+            </label>
+            <input
+              type="range" min={5} max={14} step={0.5} value={tasa}
+              onChange={(e) => setTasa(Number(e.target.value))}
+              className="mt-2"
+            />
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 mb-5">
-          {[
-            { label: locale === 'es' ? 'Cuota' : 'Payment', value: fmt(cuota) },
-            { label: locale === 'es' ? 'Financiación' : 'Financing', value: fmt(monto) },
-            { label: 'Total', value: fmt(total) },
-          ].map((m) => (
-            <div key={m.label} className="bg-slate-50 rounded-xl p-3 text-center">
-              <p className="text-xs text-slate-500 uppercase mb-1">{m.label}</p>
-              <p className="text-sm font-bold text-slate-950 break-all">{m.value}</p>
-            </div>
-          ))}
+        {/* Resultados */}
+        <div className="grid grid-cols-2 gap-3 mb-5">
+          <div className="bg-slate-50 rounded-xl p-3 text-center">
+            <p className="text-xs text-slate-500 uppercase mb-1">
+              {locale === 'es' ? 'Financiación total' : 'Total Financing'}
+            </p>
+            <p className="text-sm font-bold text-slate-950 break-all">{fmt(monto)}</p>
+          </div>
+          <div className="bg-slate-50 rounded-xl p-3 text-center">
+            <p className="text-xs text-slate-500 uppercase mb-1">
+              {locale === 'es' ? 'Cuota mensual' : 'Monthly Payment'}
+            </p>
+            <p className="text-sm font-bold text-slate-950 break-all">{fmt(cuota)}</p>
+          </div>
         </div>
 
-        {/* Barra de progreso ajustada */}
         <div className="h-2 bg-slate-900 rounded-full mb-6" />
 
+        {/* Requisitos */}
         <div className="grid grid-cols-2 gap-2 mb-6">
           {[
             locale === 'es' ? 'Cédula vigente' : 'Valid ID',
@@ -98,8 +179,10 @@ export default function CalcAdquisicion({ locale, onClose }: { locale: string; o
           ))}
         </div>
 
-        <a href={`https://wa.me/595991358652?text=${waMsg}`} target="_blank" rel="noreferrer"
-          className="flex items-center justify-center gap-2 w-full bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold py-3 rounded-xl transition">
+        <a href={`https://wa.me/595981506175?text=${waMsg}`}
+          target="_blank" rel="noreferrer"
+          className="flex items-center justify-center gap-2 w-full bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold py-3 rounded-xl transition"
+        >
           <i className="ti ti-brand-whatsapp text-lg" />
           {locale === 'es' ? 'Consultar por WhatsApp' : 'Contact via WhatsApp'}
         </a>
