@@ -12,6 +12,7 @@ import WhyLuxDevelopment from "@/components/WhyLuxDevelopment";
 import FAQSection from "@/components/FAQSection";
 import WhoWeHelpSection from "@/components/WhoWeHelpSection";
 import OurMissionSection from "@/components/OurMissionSection";
+import FinalCTA from '@/components/FinalCTA'
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -330,6 +331,7 @@ From legal requirements and financing options to development decisions and admin
 <FAQSection locale={locale} imageSrc="/OIP.webp" />
 <WhoWeHelpSection  />
 <OurMissionSection />
+<FinalCTA locale={locale} />
 
   {/* Footer */}
       <footer className="border-t border-slate-200 bg-slate-50 py-8">
