@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import Image from 'next/image';
 import Link from 'next/link';
-import DuplexSlider from '@/app/DuplexSlider';
+
 import TeamSectionWithAnimation from '@/components/TeamSectionWithAnimation';
 import { useTranslations } from 'next-intl';
 import PropertyCarousel from '@/components/PropertyCarousel';
@@ -13,6 +13,7 @@ import FAQSection from "@/components/FAQSection";
 import WhoWeHelpSection from "@/components/WhoWeHelpSection";
 import OurMissionSection from "@/components/OurMissionSection";
 import FinalCTA from '@/components/FinalCTA'
+import ProjectsSection from '@/components/ProjectsSection';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -243,86 +244,7 @@ From legal requirements and financing options to development decisions and admin
 <div className="md:hidden">
   <PropertyCarousel locale={locale} cardDetails={sections('cardDetails')} />
 </div>
-
-  {/* Desktop: grid normal */}
-  <div className="hidden md:grid md:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto px-6">
-
-    <DuplexSlider locale={locale} />
-
-    <Link
-      href={`/${locale}/properties/aura-penthouse`}
-      className="group bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-md transition-all duration-300"
-    >
-      <div className="h-48 md:h-56 bg-slate-200 relative overflow-hidden flex items-center justify-center">
-        <div className="text-center text-slate-400">
-          <div className="text-4xl mb-2">🏢</div>
-          <p className="text-xs">Aura Penthouse</p>
-        </div>
-        <div className="absolute top-3 left-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
-          <i className="ti ti-circle-check text-sm" aria-hidden="true" />
-          {locale === 'es' ? 'Disponible para invertir' : 'Available to invest'}
-        </div>
-      </div>
-      <div className="p-4 md:p-5">
-        <p className="text-xs text-slate-500 mb-1">Monaco</p>
-        <h3 className="text-base font-bold text-slate-950 mb-4 group-hover:text-slate-700 transition">Aura Penthouse</h3>
-        <div className="border-t border-slate-100">
-          <div className="flex justify-between items-center py-2 border-b border-slate-100">
-            <span className="text-xs text-slate-500">{locale === 'es' ? 'Tipo de proyecto' : 'Project type'}</span>
-            <span className="text-xs font-semibold text-slate-800">{locale === 'es' ? 'Lujo' : 'Luxury'}</span>
-          </div>
-          <div className="flex justify-between items-center py-2 border-b border-slate-100">
-            <span className="text-xs text-slate-500">{locale === 'es' ? 'Precio' : 'Price'}</span>
-            <span className="text-xs font-semibold text-slate-800">$22,000,000</span>
-          </div>
-          <div className="flex justify-between items-center py-2 border-b border-slate-100">
-            <span className="text-xs text-slate-500">{locale === 'es' ? 'Ubicación' : 'Location'}</span>
-            <span className="text-xs font-semibold text-slate-800">Monaco</span>
-          </div>
-        </div>
-        <button className="mt-4 w-full bg-sky-900 hover:bg-sky-800 text-white text-sm font-semibold py-2.5 rounded-lg transition">
-          {sections('cardDetails')}
-        </button>
-      </div>
-    </Link>
-
-    <Link
-      href={`/${locale}/properties/the-zen-pavilions`}
-      className="group bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-md transition-all duration-300"
-    >
-      <div className="h-48 md:h-56 bg-slate-200 relative overflow-hidden flex items-center justify-center">
-        <div className="text-center text-slate-400">
-          <div className="text-4xl mb-2">🏯</div>
-          <p className="text-xs">The Zen Pavilions</p>
-        </div>
-        <div className="absolute top-3 left-3 bg-amber-500 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
-          <i className="ti ti-clock text-sm" aria-hidden="true" />
-          {locale === 'es' ? 'Próximamente' : 'Coming soon'}
-        </div>
-      </div>
-      <div className="p-4 md:p-5">
-        <p className="text-xs text-slate-500 mb-1">Kyoto, Japan</p>
-        <h3 className="text-base font-bold text-slate-950 mb-4 group-hover:text-slate-700 transition">The Zen Pavilions</h3>
-        <div className="border-t border-slate-100">
-          <div className="flex justify-between items-center py-2 border-b border-slate-100">
-            <span className="text-xs text-slate-500">{locale === 'es' ? 'Tipo de proyecto' : 'Project type'}</span>
-            <span className="text-xs font-semibold text-slate-800">{locale === 'es' ? 'Desarrollo' : 'Development'}</span>
-          </div>
-          <div className="flex justify-between items-center py-2 border-b border-slate-100">
-            <span className="text-xs text-slate-500">{locale === 'es' ? 'Precio' : 'Price'}</span>
-            <span className="text-xs font-semibold text-slate-800">$9,200,000</span>
-          </div>
-          <div className="flex justify-between items-center py-2 border-b border-slate-100">
-            <span className="text-xs text-slate-500">{locale === 'es' ? 'Ubicación' : 'Location'}</span>
-            <span className="text-xs font-semibold text-slate-800">Kyoto, Japan</span>
-          </div>
-        </div>
-        <button className="mt-4 w-full bg-sky-900 hover:bg-sky-800 text-white text-sm font-semibold py-2.5 rounded-lg transition">
-          {sections('cardDetails')}
-        </button>
-      </div>
-    </Link>
-  </div>
+<ProjectsSection locale={locale} cardDetails={locale === 'es' ? 'Ver Detalles' : 'View Details'} />
 </section>
 
 <SuccessStories locale={locale} />
