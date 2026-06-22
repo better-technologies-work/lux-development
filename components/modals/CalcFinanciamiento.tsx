@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { PROJECTS } from '@/lib/projects';
 
 export default function CalcFinanciamiento({ locale, onClose }: { locale: string; onClose: () => void }) {
-  const [proyectoId, setProyectoId] = useState(PROJECTS[0].id);
+  const [proyectoId, setProyectoId] = useState<string>(PROJECTS[0].id);
   const [nombre, setNombre] = useState('');
   const [monto, setMonto] = useState(String(PROJECTS[0].priceUSD));
   const [ingresos, setIngresos] = useState('');
