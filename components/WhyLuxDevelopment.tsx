@@ -27,9 +27,9 @@ const TRANSLATIONS = {
         body: "Bridging language and cultural barriers between local stakeholders and international investors.",
       },
     ],
-    wideTitle: "Our goal is not a transaction.",
-    wideSub: "Our goal is to become your trusted real estate partner for years to come.",
-    wideBadge: "Long-term relationships",
+    wideTitle: "Long-Term Relationships",
+    wideSub: "Our goal is not a transaction.",
+    wideBadge: "Our goal is to become your trusted real estate partner for years to come.",
   },
   es: {
     eyebrow: "Por qué Lux Development",
@@ -55,9 +55,9 @@ const TRANSLATIONS = {
         body: "Tendemos puentes entre barreras idiomáticas y culturales entre actores locales e inversores internacionales.",
       },
     ],
-    wideTitle: "Nuestro objetivo no es una transacción.",
-    wideSub: "Es convertirnos en tu socio inmobiliario de confianza por los años que vienen.",
-    wideBadge: "Relaciones de largo plazo",
+    wideTitle: "Relaciones a Largo Plazo",
+    wideSub: "Nuestro objetivo no es una transacción.",
+    wideBadge: "Nuestro objetivo es convertirnos en su socio inmobiliario de confianza durante muchos años.",
   },
 };
 
@@ -118,11 +118,11 @@ export default function WhyLuxDevelopment({ locale }: Props) {
           width: 100%;
         }
         .wld-eyebrow {
-          font-size: 11px !important;
+          font-size: 12px !important;
           font-weight: 600 !important;
           letter-spacing: 0.14em !important;
           text-transform: uppercase !important;
-          color: #8B7A5E !important;
+          color: #050897 !important;
           margin: 0 0 0.75rem !important;
           text-decoration: none !important;
         }
@@ -136,7 +136,7 @@ export default function WhyLuxDevelopment({ locale }: Props) {
           text-decoration: none !important;
         }
         .wld-headline span {
-          color: #8B7A5E !important;
+          color: #0b27a3 !important;
         }
         .wld-subtitle {
           font-size: 15px !important;

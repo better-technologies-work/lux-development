@@ -51,5 +51,28 @@
       "finance": { "title": "Secure financing" },
       "wealth": { "title": "Build wealth through real estate" }
     }
+  },
+  
+  "Home": {
+  "whoWeHelpTag": "Who We Help",
+  "whoWeHelpTitle": "Built for people who want certainty before making important real estate decisions.",
+  "audience1Title": "International Investors",
+  "audience1Description": "Access emerging opportunities in one of South America's most promising real estate markets.",
+  "audience2Title": "Expats & Retirees",
+  "audience2Description": "Relocate, build, or retire in Paraguay with trusted local guidance every step of the way.",
+  "audience3Title": "First-Time Home Buyers",
+  "audience3Description": "Understand the process, explore financing options, and achieve homeownership with confidence.",
+  "audience4Title": "Local Families & Investors",
+  "audience4Description": "Make smarter real estate decisions that protect and grow your future.",
+   
+  "missionTag": "Our Mission",
+  "missionTitle": "Helping shape the future of real estate in Paraguay.",
+  "missionParagraph1": "We believe Paraguay is entering one of the most important growth periods in its history.",
+  "missionParagraph2": "Our mission is to make real estate ownership, development, and investment more transparent, accessible, and trustworthy for both local communities and international investors.",
+  "missionParagraph3": "We don't simply sell properties.",
+  "missionParagraph4": "We help people build security, opportunity, wealth, and a future."
   }
+  
+  
 }
+
