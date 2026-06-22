@@ -77,26 +77,31 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
           {/* Bio */}
           <div className="order-1 md:order-2">
             <h2 className="text-xs font-bold tracking-widest text-sky-700 uppercase mb-4">
-              {locale === 'es' ? 'El Equipo' : 'The Team'}
+              {locale === 'es' ? 'La fundadora' : 'The Founder'}
             </h2>
           
             <h3 className="text-2xl md:text-4xl font-bold text-black mb-6">
               Patricia Natalia Narvaez
             </h3>
-            <p className="text-slate-700 text-sm md:text-lg leading-relaxed mb-6 font-light">
+            <p className="text-slate-700 text-sm md:text-base leading-relaxed mb-4 font-light">
               {locale === 'es'
-                ? 'Con más de 20 años de experiencia en desarrollo inmobiliario de lujo, Patricia ha redefinido el estándar de excelencia en la industria. Su visión única y atención meticulosa a los detalles han generado algunos de los activos inmobiliarios más codiciados del mundo.'
-                : 'With over 20 years of experience in luxury real estate development, Patricia has redefined the standard of excellence in the industry. Her unique vision and meticulous attention to detail have created some of the most coveted real estate assets in the world.'}
+                ? 'With extensive experience in residential real estate across New York and Paraguay, Patricia has built a reputation for guiding families and investors through every stage of the homeownership journey. Her client-first approach, deep market knowledge, and commitment to results have led to the successful delivery of more than 100 projects with a 100% satisfaction rate.'
+                : 'Con una amplia experiencia en el sector inmobiliario residencial en Nueva York y Paraguay, Patricia se ha ganado una reputación por guiar a familias e inversores en cada etapa del proceso de adquisición de una propiedad. Su enfoque centrado en el cliente, su profundo conocimiento del mercado y su compromiso con los resultados le han permitido completar con éxito más de 100 proyectos con una tasa de satisfacción del 100%.'}
             </p>
-            <div className="space-y-3 text-sm md:text-base">
+            <p className="text-slate-700 text-sm md:text-base leading-relaxed mb-4 font-light">
+  {locale === 'es'
+    ? 'Un capítulo destacado de su carrera llegó durante la crisis financiera de 2008, cuando la ola de ejecuciones hipotecarias puso en riesgo a millones de propietarios. Patricia trabajó directamente con bancos para negociar acuerdos de deuda y soluciones hipotecarias, ayudando a familias a evitar la quiebra durante uno de los períodos más desafiantes de la historia inmobiliaria moderna.'
+    : 'A notable chapter of her career came during the 2008 financial crisis, when widespread mortgage defaults put millions of homeowners at risk. Patricia worked directly with banks to negotiate debt settlements and mortgage solutions, helping families avoid bankruptcy during one of the most challenging periods in modern real estate history.'}
+</p>
+            <div className="space-y-2 text-sm md:text-sm">
               <p className="text-slate-600 font-light">
-                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Especialización:' : 'Specialization:'}</span> {locale === 'es' ? 'Desarrollo inmobiliario de lujo, Arquitectura contemporánea' : 'Luxury real estate development, Contemporary architecture'}
+                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Especialización:' : 'Specialization:'}</span> {locale === 'es' ? 'Propiedades residenciales, Hipotecas para viviendas, Negociacion de deudas.' : 'Residential real estate, Home mortgages, Debt negotiation'}
               </p>
               <p className="text-slate-600 font-light">
-                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Ubicación:' : 'Location:'}</span> {locale === 'es' ? 'Miami, Nueva York, Londres' : 'Miami, New York, London'}
+                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Ubicación:' : 'Location:'}</span> {locale === 'es' ? ' Nueva York, Paraguay' : ' New York, Paraguay'}
               </p>
               <p className="text-slate-600 font-light">
-                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Portafolio:' : 'Portfolio:'}</span> {locale === 'es' ? '+$450M en transacciones completadas' : '+$450M in completed transactions'}
+                <span className="text-slate-950 font-semibold">{locale === 'es' ? 'Historial comprobado:' : 'Track Record:'}</span> {locale === 'es' ? 'Más de 100 proyectos exitosos entregados | 100% de satisfacción de los clientes' : '100+ successful projects delivered | 100% client satisfaction'}
               </p>
             </div>
           </div>

@@ -63,7 +63,7 @@ export default function OurServices({ locale }: Props) {
               {locale === 'es' ? 'Todo lo que necesitás para invertir con confianza en Paraguay.' : 'Everything you need to invest with confidence in Paraguay.'}
             </p>
           </div>
-          <a href="https://wa.me/595991358652" target="_blank" rel="noreferrer"
+          <a href="https://wa.me/595981506175" target="_blank" rel="noreferrer"
             className="shrink-0 inline-flex items-center gap-2 bg-sky-900 hover:bg-sky-800 text-white text-sm font-semibold px-6 py-3 rounded-lg transition">
             <i className="ti ti-brand-whatsapp text-lg" />
             {locale === 'es' ? 'Hablá con un representante' : 'Talk to a representative'}
