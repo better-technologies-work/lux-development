@@ -87,7 +87,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const baseUrl = 'https://lux-development.com';
+  const baseUrl = 'https://luxdevelopmentpy.com';
   const propertyUrl = `${baseUrl}${locale === 'en' ? '' : `/${locale}`}/properties/${slug}`;
 
   return {
@@ -150,7 +150,7 @@ export default async function PropertyPage({ params }: Props) {
     );
   }
 
-  const baseUrl = 'https://lux-development.com';
+  const baseUrl = 'https://luxdevelopmentpy.com';
   const schemaData = {
     '@context': 'https://schema.org',
     '@type': 'RealEstateProperty',

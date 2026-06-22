@@ -178,18 +178,18 @@ From legal requirements and financing options to development decisions and admin
   </div>
 </section>
 
-     {/* Team Section - Usar componente Client separado */}
+     {/* Team Section  */}
       <TeamSectionWithAnimation locale={locale} />
 
       {/* 3 - Featured Section */}
       <section className="max-w-5xl mx-auto px-4 md:px-6 py-16 md:py-20 text-center bg-slate-50">
-        <h2 className="text-xs font-bold tracking-widest text-slate-500 uppercase mb-4">
-          {sections('featureTag')}
-        </h2>
+        <h2 className="text-lg font-bold tracking-widest text-[#0A4D8C] uppercase mb-4">
+  {sections('featureTag')}
+</h2>
         <h3 className="text-2xl md:text-3xl font-bold text-slate-950 mb-4">
           {sections('featureHeading')}
         </h3>
-        <p className="text-slate-600 font-light text-base md:text-lg">
+        <p className="whitespace-pre-line text-slate-600 font-light text-base md:text-lg">
           {sections('featureDescription')}
         </p>
       </section>
