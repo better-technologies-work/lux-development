@@ -6,7 +6,7 @@ const TC = 7600;
 
 export default function CalcAdquisicion({ locale, onClose }: { locale: string; onClose: () => void }) {
   const [currency, setCurrencyState] = useState<'USD' | 'GS'>('USD');
-  const [proyectoId, setProyectoId] = useState(PROJECTS[0].id);
+  const [proyectoId, setProyectoId] = useState<string>(PROJECTS[0].id);
   const [precio, setPrecio] = useState<number>(PROJECTS[0].priceUSD);
   const [anticipo, setAnticipo] = useState(10);
   const [plazo, setPlazo] = useState(15);

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { PROJECTS } from '@/lib/projects';
 
 export default function CalcDesarrollo({ locale, onClose }: { locale: string; onClose: () => void }) {
-  const [proyectoId, setProyectoId] = useState(PROJECTS[0].id);
+  const [proyectoId, setProyectoId] = useState<string>(PROJECTS[0].id);
   const [inversion, setInversion] = useState<number>(PROJECTS[0].priceUSD);
   const [retorno, setRetorno] = useState(32);
   const [meses, setMeses] = useState(24);
