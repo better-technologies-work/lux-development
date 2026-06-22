@@ -6,8 +6,8 @@ const TC = 7600;
 
 export default function CalcRenta({ locale, onClose }: { locale: string; onClose: () => void }) {
   const [currency, setCurrencyState] = useState<'USD' | 'GS'>('USD');
+  const [precio, setPrecio] = useState<number>(PROJECTS[0].priceUSD);
   const [proyectoId, setProyectoId] = useState(PROJECTS[0].id);
-  const [precio, setPrecio] = useState(PROJECTS[0].priceUSD);
   const [tasa, setTasa] = useState(8.5);
   const [mesesContrato, setMesesContrato] = useState(6);
 
