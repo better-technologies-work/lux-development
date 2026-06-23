@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
 
 interface Props {
   locale: string;
@@ -125,6 +126,15 @@ function ProjectModal({
 }) {
   const l = locale as 'en' | 'es';
   const [currentImage, setCurrentImage] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState({
+    title: project.title[l] || '',
+    location: project.location[l] || '',
+    description: project.description?.[l] || '',
+    price: project.price || '',
+    status: project.status || 'available',
+  });
+
   const hasImages = project.images.length > 0;
 
   return (
@@ -142,15 +152,20 @@ function ProjectModal({
             <button
               key={p.id}
               onClick={() => onNavigate(p.id)}
-              className={`flex items-center gap-2 rounded-xl p-2 text-left transition w-full ${
-                p.id === project.id
-                  ? 'bg-sky-900 text-white'
-                  : 'hover:bg-slate-200 text-slate-700'
-              }`}
+              className={`flex items-center gap-2 rounded-xl p-2 text-left transition w-full ${p.id === project.id
+                ? 'bg-sky-900 text-white'
+                : 'hover:bg-slate-200 text-slate-700'
+                }`}
             >
               <div className="w-9 h-9 rounded-full overflow-hidden shrink-0 relative bg-slate-200">
-                {p.images[0] ? (
-                  <Image src={p.images[0]} alt={p.title[l]} fill className="object-cover" sizes="36px" />
+                {p.images[0] && typeof p.images[0] === 'string' && p.images[0].trim() !== "" ? (
+                  <Image
+                    src={p.images[0]}
+                    alt={p.title[l]}
+                    fill
+                    className="object-cover"
+                    sizes="36px"
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-base">🏢</div>
                 )}
@@ -169,184 +184,290 @@ function ProjectModal({
 
         {/* Contenido principal */}
         <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-          {/* Header */}
-          <div className="sticky top-0 bg-sky-900 text-white p-5 flex justify-between items-start z-10 shrink-0">
+          {/* Header corregido */}
+          <div className="sticky top-0 bg-sky-900 text-white p-5 flex justify-between items-center z-10 shrink-0">
             <div>
               <h2 className="text-lg font-bold">{project.title[l]}</h2>
               <p className="text-sky-100 mt-0.5 text-sm">{project.location[l]}</p>
             </div>
-            <button onClick={onClose} className="text-2xl font-light hover:text-sky-100 transition ml-4">✕</button>
+
+            {/* Contenedor agrupador para botones */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setIsEditing(!isEditing)}
+                className="text-xs bg-white text-sky-900 px-4 py-1.5 rounded-full font-bold hover:bg-sky-100 transition shadow-sm"
+              >
+                {isEditing ? 'Cancelar' : 'Editar'}
+              </button>
+              
+              <button 
+                onClick={onClose} 
+                className="text-2xl font-light hover:text-sky-100 transition"
+              >
+                ✕
+              </button>
+            </div>
           </div>
 
-          {/* Scroll area */}
-          <div className="overflow-y-auto flex-1 p-6 space-y-6">
+          {isEditing ? (
 
-            {/* Imagen */}
-            {hasImages ? (
-              <div className="relative h-56 rounded-xl overflow-hidden bg-slate-100">
-                <Image
-                  src={project.images[currentImage]}
-                  alt={`${project.title[l]} - ${currentImage + 1}`}
-                  fill
-                  className="object-cover"
-                  sizes="600px"
+            <div className="p-6 bg-white border border-sky-100 rounded-xl shadow-sm">
+              <h3 className="font-bold text-sky-900 mb-4">
+                Editando: {project.title[l]}
+              </h3>
+
+
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  value={editData.title}
+                  onChange={(e) =>
+                    setEditData({ ...editData, title: e.target.value })
+                  }
+                  placeholder="Title"
+                  className="w-full border rounded-lg px-3 py-2"
                 />
-                {project.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={() => setCurrentImage((p) => (p - 1 + project.images.length) % project.images.length)}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
-                    >&#10094;</button>
-                    <button
-                      onClick={() => setCurrentImage((p) => (p + 1) % project.images.length)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
-                    >&#10095;</button>
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                      {project.images.map((_, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setCurrentImage(i)}
-                          className={`w-2 h-2 rounded-full transition ${i === currentImage ? 'bg-white' : 'bg-white/40'}`}
-                        />
-                      ))}
-                    </div>
-                    <div className="absolute bottom-3 right-3 bg-slate-950/70 text-white text-xs px-2 py-1 rounded font-semibold">
-                      {currentImage + 1} / {project.images.length}
-                    </div>
-                  </>
-                )}
-              </div>
-            ) : (
-              <div className="h-40 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
-                <div className="text-center">
-                  <div className="text-5xl mb-2">🏢</div>
-                  <p className="text-sm">{project.title[l]}</p>
-                </div>
-              </div>
-            )}
 
-            {/* Precio */}
-            <div className="border-b border-slate-200 pb-4">
-              <p className="text-3xl font-bold text-slate-950">{project.price}</p>
-              {(project.bedrooms || project.bathrooms || project.area) && (
-                <div className="mt-3 grid grid-cols-3 gap-4 text-sm">
-                  {project.bedrooms && (
-                    <div>
-                      <p className="text-slate-500 font-light">{l === 'es' ? 'Dormitorios' : 'Bedrooms'}</p>
-                      <p className="text-lg font-bold text-sky-900">{project.bedrooms}</p>
-                    </div>
-                  )}
-                  {project.bathrooms && (
-                    <div>
-                      <p className="text-slate-500 font-light">{l === 'es' ? 'Baños' : 'Bathrooms'}</p>
-                      <p className="text-lg font-bold text-sky-900">{project.bathrooms}</p>
-                    </div>
-                  )}
-                  {project.area && (
-                    <div>
-                      <p className="text-slate-500 font-light">{l === 'es' ? 'Área' : 'Area'}</p>
-                      <p className="text-lg font-bold text-sky-900">{project.area}</p>
-                    </div>
-                  )}
+                <input
+                  type="text"
+                  value={editData.location}
+                  onChange={(e) =>
+                    setEditData({ ...editData, location: e.target.value })
+                  }
+                  placeholder="Location"
+                  className="w-full border rounded-lg px-3 py-2"
+                />
+
+                <input
+                  type="text"
+                  value={editData.price}
+                  onChange={(e) =>
+                    setEditData({ ...editData, price: e.target.value })
+                  }
+                  placeholder="Price"
+                  className="w-full border rounded-lg px-3 py-2"
+                />
+
+                <textarea
+                  value={editData.description}
+                  onChange={(e) =>
+                    setEditData({ ...editData, description: e.target.value })
+                  }
+                  rows={5}
+                  className="w-full border rounded-lg px-3 py-2"
+                />
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="px-4 py-2 border rounded-lg"
+                  >
+                    Cancelar
+                  </button>
+
+                  <button
+                    onClick={async () => {
+                      const { error } = await supabase
+                        .from('lux_projects')
+                        .update({
+                          title: editData.title,
+                          location: editData.location,
+                          description: editData.description,
+                          price: Number(editData.price),
+                          status: editData.status,
+                        })
+                        .eq('id', project.id);
+
+                      if (!error) {
+                        window.location.reload();
+                      }
+                    }}
+                    className="px-4 py-2 bg-sky-900 text-white rounded-lg"
+                  >
+                    Guardar
+                  </button>
                 </div>
+              </div>
+
+            </div>
+          
+          ) : (
+            <></>
+          )}
+
+            {/* Imagen */}
+          {hasImages ? (
+            <div className="relative h-56 rounded-xl overflow-hidden bg-slate-100">
+              <Image
+                src={project.images[currentImage]}
+                alt={`${project.title[l]} - ${currentImage + 1}`}
+                fill
+                className="object-cover"
+                sizes="600px"
+              />
+              {project.images.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setCurrentImage((p) => (p - 1 + project.images.length) % project.images.length)}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
+                  >&#10094;</button>
+                  <button
+                    onClick={() => setCurrentImage((p) => (p + 1) % project.images.length)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
+                  >&#10095;</button>
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                    {project.images.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setCurrentImage(i)}
+                        className={`w-2 h-2 rounded-full transition ${i === currentImage ? 'bg-white' : 'bg-white/40'}`}
+                      />
+                    ))}
+                  </div>
+                  <div className="absolute bottom-3 right-3 bg-slate-950/70 text-white text-xs px-2 py-1 rounded font-semibold">
+                    {currentImage + 1} / {project.images.length}
+                  </div>
+                </>
               )}
             </div>
-
-            {/* Descripción */}
-            {project.description && (
-              <div>
-                <h3 className="text-base font-bold text-slate-950 mb-2">{l === 'es' ? 'Descripción' : 'Description'}</h3>
-                <p className="text-slate-600 text-sm leading-relaxed font-light">{project.description[l]}</p>
+          ) : (
+            <div className="h-40 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
+              <div className="text-center">
+                <div className="text-5xl mb-2">🏢</div>
+                <p className="text-sm">{project.title[l]}</p>
               </div>
-            )}
+            </div>
+          )}
 
-            {/* Highlights */}
-            {project.highlights && (
-              <div>
-                <h3 className="text-base font-bold text-slate-950 mb-3">{l === 'es' ? 'Características' : 'Features'}</h3>
-                <ul className="space-y-2 text-sm text-slate-600 font-light">
-                  {project.highlights[l].map((h, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-sky-900 font-bold mt-0.5">•</span>
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Amenities */}
-            {project.amenities && (
-              <div>
-                <h3 className="text-base font-bold text-slate-950 mb-3">{l === 'es' ? 'Comodidades' : 'Amenities'}</h3>
-                <div className="grid grid-cols-2 gap-3 text-sm text-slate-600 font-light">
-                  {project.amenities[l].map((a, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="text-sky-900">✓</span>
-                      <span>{a}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Financiación */}
-            {project.finance && (
-              <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
-                <h3 className="text-xs font-bold text-sky-900 uppercase">{l === 'es' ? 'Financiación' : 'Financing'}</h3>
-                <p className="text-slate-700 text-sm mt-2">{project.finance[l]}</p>
-                {project.monthlyPayment && (
-                  <p className="text-slate-600 text-xs mt-1 font-light">
-                    {l === 'es' ? 'Cuota mensual' : 'Monthly Payment'}:{' '}
-                    <span className="font-bold text-slate-950">{project.monthlyPayment}</span>
-                  </p>
+          {/* Precio */}
+          <div className="border-b border-slate-200 pb-4">
+            <p className="text-3xl font-bold text-slate-950">{project.price}</p>
+            {(project.bedrooms || project.bathrooms || project.area) && (
+              <div className="mt-3 grid grid-cols-3 gap-4 text-sm">
+                {project.bedrooms && (
+                  <div>
+                    <p className="text-slate-500 font-light">{l === 'es' ? 'Dormitorios' : 'Bedrooms'}</p>
+                    <p className="text-lg font-bold text-sky-900">{project.bedrooms}</p>
+                  </div>
+                )}
+                {project.bathrooms && (
+                  <div>
+                    <p className="text-slate-500 font-light">{l === 'es' ? 'Baños' : 'Bathrooms'}</p>
+                    <p className="text-lg font-bold text-sky-900">{project.bathrooms}</p>
+                  </div>
+                )}
+                {project.area && (
+                  <div>
+                    <p className="text-slate-500 font-light">{l === 'es' ? 'Área' : 'Area'}</p>
+                    <p className="text-lg font-bold text-sky-900">{project.area}</p>
+                  </div>
                 )}
               </div>
             )}
+          </div>
 
-            {/* CTA */}
-            {project.externalUrl && (
-              
-              <a  href={project.externalUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="block w-full bg-sky-900 text-white hover:bg-sky-800 px-6 py-3 rounded-lg font-medium transition text-center text-sm"
-              >
-                {l === 'es' ? 'Ver en InfoCasas' : 'View on InfoCasas'}
-              </a>
-            )}
+          {/* Descripción */}
+          {project.description && (
+            <div>
+              <h3 className="text-base font-bold text-slate-950 mb-2">{l === 'es' ? 'Descripción' : 'Description'}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed font-light">{project.description[l]}</p>
+            </div>
+          )}
 
-            {/* Navegación mobile — solo en pantallas pequeñas */}
-            <div className="md:hidden border-t border-slate-100 pt-4">
-              <p className="text-xs text-slate-400 uppercase font-medium mb-3">
-                {l === 'es' ? 'Otros proyectos' : 'Other projects'}
-              </p>
-              <div className="flex gap-2">
-                {allProjects.filter((p) => p.id !== project.id).map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => onNavigate(p.id)}
-                    className="flex items-center gap-2 flex-1 border border-slate-200 hover:border-sky-900 rounded-xl p-2 text-left transition"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-slate-100 overflow-hidden shrink-0 relative">
-                      {p.images[0] ? (
-                        <Image src={p.images[0]} alt={p.title[l]} fill className="object-cover" sizes="32px" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-sm">🏢</div>
-                      )}
-                    </div>
-                    <p className="text-xs font-semibold text-slate-950 truncate">{p.title[l]}</p>
-                  </button>
+          {/* Highlights */}
+          {project.highlights && (
+            <div>
+              <h3 className="text-base font-bold text-slate-950 mb-3">{l === 'es' ? 'Características' : 'Features'}</h3>
+              <ul className="space-y-2 text-sm text-slate-600 font-light">
+                {project.highlights[l].map((h, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-sky-900 font-bold mt-0.5">•</span>
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Amenities */}
+          {project.amenities && (
+            <div>
+              <h3 className="text-base font-bold text-slate-950 mb-3">{l === 'es' ? 'Comodidades' : 'Amenities'}</h3>
+              <div className="grid grid-cols-2 gap-3 text-sm text-slate-600 font-light">
+                {project.amenities[l].map((a, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <span className="text-sky-900">✓</span>
+                    <span>{a}</span>
+                  </div>
                 ))}
               </div>
             </div>
+          )}
 
+          {/* Financiación */}
+          {project.finance && (
+            <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
+              <h3 className="text-xs font-bold text-sky-900 uppercase">{l === 'es' ? 'Financiación' : 'Financing'}</h3>
+              <p className="text-slate-700 text-sm mt-2">{project.finance[l]}</p>
+              {project.monthlyPayment && (
+                <p className="text-slate-600 text-xs mt-1 font-light">
+                  {l === 'es' ? 'Cuota mensual' : 'Monthly Payment'}:{' '}
+                  <span className="font-bold text-slate-950">{project.monthlyPayment}</span>
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* CTA */}
+          {project.externalUrl && (
+
+            <a href={project.externalUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="block w-full bg-sky-900 text-white hover:bg-sky-800 px-6 py-3 rounded-lg font-medium transition text-center text-sm"
+            >
+              {l === 'es' ? 'Ver en InfoCasas' : 'View on InfoCasas'}
+            </a>
+          )}
+
+
+          <div className="md:hidden border-t border-slate-100 pt-4">
+            <p className="text-xs text-slate-400 uppercase font-medium mb-3">
+              {l === 'es' ? 'Otros proyectos' : 'Other projects'}
+            </p>
+            <div className="flex gap-2">
+              {allProjects.filter((p) => p.id !== project.id).map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => onNavigate(p.id)}
+                  className="flex items-center gap-2 flex-1 border border-slate-200 hover:border-sky-900 rounded-xl p-2 text-left transition"
+                >
+                  <div className="w-8 h-8 rounded-full bg-slate-100 overflow-hidden shrink-0 relative">
+                    {p.images[0] && typeof p.images[0] === 'string' && p.images[0].trim() !== "" ? (
+                      <Image
+                        src={p.images[0]}
+                        alt={p.title[l]}
+                        fill
+                        className="object-cover"
+                        sizes="32px"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-sm">🏢</div>
+                    )}
+                  </div>
+                  <p className="text-xs font-semibold text-slate-950 truncate">{p.title[l]}</p>
+                </button>
+              ))}
+            </div>
           </div>
+
         </div>
       </div>
     </div>
+
   );
 }
+
 function ProjectCard({
   project,
   locale,
@@ -360,69 +481,56 @@ function ProjectCard({
 }) {
   const l = locale as 'en' | 'es';
   const [currentImage, setCurrentImage] = useState(0);
-  const hasImages = project.images.length > 0;
+
+
+  const hasImages = project.images && project.images.length > 0;
+  const currentImageUrl = hasImages ? project.images[currentImage] : null;
+  const isImageValid = typeof currentImageUrl === 'string' && currentImageUrl.trim() !== "";
 
   return (
     <div className="group bg-white border border-slate-200 rounded-lg overflow-hidden hover:border-slate-400 transition-all duration-300">
+
       <div className="relative h-48 md:h-56 bg-slate-200 overflow-hidden">
-        {hasImages ? (
+        {isImageValid ? (
           <>
             <Image
-              src={project.images[currentImage]}
+              src={currentImageUrl!}
               alt={project.title[l]}
               fill
               className="object-cover transition-opacity duration-300"
               sizes="(max-width: 768px) 100vw, 33vw"
             />
             {project.images.length > 1 && (
-              <>
-                <button
-                  onClick={(e) => { e.stopPropagation(); setCurrentImage((p) => (p - 1 + project.images.length) % project.images.length); }}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
-                >&#10094;</button>
-                <button
-                  onClick={(e) => { e.stopPropagation(); setCurrentImage((p) => (p + 1) % project.images.length); }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
-                >&#10095;</button>
-                <div className="absolute bottom-2 right-2 bg-slate-950/80 text-white px-3 py-1 rounded text-xs font-semibold">
-                  {currentImage + 1} / {project.images.length}
-                </div>
-              </>
+              <div className="absolute bottom-2 right-2 bg-slate-950/80 text-white px-3 py-1 rounded text-xs font-semibold">
+                {currentImage + 1} / {project.images.length}
+              </div>
             )}
           </>
         ) : (
           <div className="flex items-center justify-center h-full text-slate-400">
             <div className="text-center">
               <div className="text-4xl mb-2">🏢</div>
-              <p className="text-xs">{project.title[l]}</p>
             </div>
           </div>
         )}
+
+
         <div className={`absolute top-3 left-3 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1 ${project.status === 'available' ? 'bg-green-500' : 'bg-amber-500'}`}>
           <i className={`ti ${project.status === 'available' ? 'ti-circle-check' : 'ti-clock'} text-sm`} aria-hidden="true" />
           {project.status === 'available'
-            ? (l === 'es' ? 'Disponible para invertir' : 'Available to invest')
+            ? (l === 'es' ? 'Disponible' : 'Available')
             : (l === 'es' ? 'Próximamente' : 'Coming soon')}
         </div>
       </div>
 
+      {/* Contenido de la tarjeta */}
       <div className="p-4 md:p-5">
         <p className="text-xs text-slate-500 mb-1">{project.location[l]}</p>
-        <h3 className="text-base font-bold text-slate-950 mb-4 group-hover:text-slate-700 transition line-clamp-2">
-          {project.title[l]}
-        </h3>
+        <h3 className="text-base font-bold text-slate-950 mb-4 line-clamp-2">{project.title[l]}</h3>
         <div className="border-t border-slate-100">
-          <div className="flex justify-between items-center py-2 border-b border-slate-100">
-            <span className="text-xs text-slate-500">{l === 'es' ? 'Tipo de proyecto' : 'Project type'}</span>
-            <span className="text-xs font-semibold text-slate-800">{project.type[l]}</span>
-          </div>
           <div className="flex justify-between items-center py-2 border-b border-slate-100">
             <span className="text-xs text-slate-500">{l === 'es' ? 'Precio' : 'Price'}</span>
             <span className="text-xs font-semibold text-slate-800">{project.price}</span>
-          </div>
-          <div className="flex justify-between items-center py-2 border-b border-slate-100">
-            <span className="text-xs text-slate-500">{l === 'es' ? 'Ubicación' : 'Location'}</span>
-            <span className="text-xs font-semibold text-slate-800">{project.location[l]}</span>
           </div>
         </div>
         <button
@@ -437,13 +545,44 @@ function ProjectCard({
 }
 
 export default function ProjectsSection({ locale, cardDetails }: Props) {
+  const [projects, setProjects] = useState<Project[]>([]);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
-  const activeProject = PROJECTS.find((p) => p.id === activeProjectId) ?? null;
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProjects() {
+      const { data } = await supabase.from('lux_projects').select('*');
+
+      const supabaseProjects: Project[] = data ? data.map((item: any) => ({
+        id: item.id,
+
+        status: (item.status === 'coming-soon' ? 'coming-soon' : 'available'),
+
+        images: (item.images && typeof item.images === 'string' && item.images.trim() !== "")
+          ? [item.images]
+          : [],
+        location: { en: item.location || '', es: item.location || '' },
+        title: { en: item.title || '', es: item.title || '' },
+        price: item.price || '',
+        type: { en: 'Residential', es: 'Residencial' },
+        description: { en: item.description || '', es: item.description || '' },
+      })) : [];
+
+
+      setProjects([...PROJECTS, ...supabaseProjects]);
+      setLoading(false);
+    }
+    fetchProjects();
+  }, []);
+
+  const activeProject = projects.find((p) => p.id === activeProjectId) ?? null;
+
+  if (loading) return <div className="text-center py-10">Cargando proyectos...</div>;
 
   return (
     <>
       <div className="hidden md:grid md:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto px-6">
-        {PROJECTS.map((project) => (
+        {projects.map((project) => (
           <ProjectCard
             key={project.id}
             project={project}
@@ -460,7 +599,7 @@ export default function ProjectsSection({ locale, cardDetails }: Props) {
           locale={locale}
           onClose={() => setActiveProjectId(null)}
           onNavigate={(id) => setActiveProjectId(id)}
-          allProjects={PROJECTS}
+          allProjects={projects}
         />
       )}
     </>

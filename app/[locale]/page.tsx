@@ -14,6 +14,7 @@ import WhoWeHelpSection from "@/components/WhoWeHelpSection";
 import OurMissionSection from "@/components/OurMissionSection";
 import FinalCTA from '@/components/FinalCTA'
 import ProjectsSection from '@/components/ProjectsSection';
+import { supabase } from '@/lib/supabase'
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
