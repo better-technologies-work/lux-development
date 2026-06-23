@@ -9,108 +9,48 @@ interface Props {
   cardDetails: string;
 }
 
+// ─── Tipo alineado con la tabla lux_projects ────────────────────────────────
 type Project = {
   id: string;
-  status: 'available' | 'coming-soon';
-  images: string[];
-  location: { en: string; es: string };
-  title: { en: string; es: string };
-  price: string;
+  title: string;
+  description: string;
+  location: string;
+  status: 'available' | 'sold' | 'coming_soon' | 'reserved';
+  price: number | null;
+  currency: 'USD' | 'PYG';
+  category: string;
+  external_link: string;
+  images: string[];         // TEXT[] en Supabase → ya llega como array
+  featured: boolean;
+  order_index: number;
+  // Campos legacy del hardcode anterior (opcionales para compatibilidad)
   bedrooms?: string;
   bathrooms?: string;
   area?: string;
-  type: { en: string; es: string };
-  description?: { en: string; es: string };
   highlights?: { en: string[]; es: string[] };
   amenities?: { en: string[]; es: string[] };
   finance?: { en: string; es: string };
   monthlyPayment?: string;
-  externalUrl?: string;
 };
 
-const PROJECTS: Project[] = [
-  {
-    id: 'duplex-villa-elisa',
-    status: 'available',
-    images: ['/casa1.png', '/casa2.png', '/casa3.png', '/casa4.png', '/casa5.png', '/casa6.png', '/casa9.png'],
-    location: { en: 'Villa Elisa, Central', es: 'Villa Elisa, Central' },
-    title: {
-      en: 'Duplex Moderno (American Details) In Villa Elisa',
-      es: 'Duplex Moderno (Detalles Estadounidense) En Villa Elisa',
-    },
-    price: 'Gs. 600,000,000',
-    bedrooms: '3',
-    bathrooms: '3',
-    area: '130 m²',
-    type: { en: 'Residential', es: 'Residencial' },
-    description: {
-      en: 'Luxury Duplex for Sale – Villa Elisa (bordering Asunción). Located in one of the most strategic and growing areas of Villa Elisa, 5 minutes from Avda. Von Poleski and Americo Pico, 5 minutes from the municipality, 4 minutes from Luisito Supermarket. Ideal for living with comfort, style and security.',
-      es: 'Lujoso Dúplex en Venta – Villa Elisa (límite con Asunción). Ubicado en una de las zonas más estratégicas y en crecimiento de Villa Elisa, a 5 minutos de Avda. Von Poleski y Americo Pico, a 5 minutos de la municipalidad, a 4 minutos del Supermercado Luisito. Ideal para vivir con comodidad, estilo y seguridad.',
-    },
-    highlights: {
-      en: [
-        'Land of 180 m² | Built area: 130 m²',
-        'Garage for 3 large vehicles',
-        'Spacious living room with social bathroom',
-        'Designs with American details - unique to this duplex',
-        'Electric gate for convenience',
-        'Dining room integrated with modern kitchen with AC included',
-        'Ground floor: Garage for 3 vehicles • Spacious living room • Dining and integrated kitchen with AC and excellent natural lighting',
-        'Upper floor: 3 bedrooms (1 en suite with private bathroom), all with terraces • Family bathroom',
-      ],
-      es: [
-        'Terreno de 180 m² | Superficie construida: 130 m²',
-        'Cochera para 3 vehículos grandes',
-        'Amplia sala con baño social',
-        'Diseños con detalles estadounidenses - único en este duplex',
-        'Portón eléctrico para su conveniencia',
-        'Comedor integrado a cocina moderna con aire acondicionado incluido',
-        'Planta baja: Cochera para 3 vehículos • Amplia sala • Comedor y cocina integrados con AC e iluminación natural',
-        'Planta alta: 3 dormitorios (1 en suite con baño privado), todos con terraza • Baño familiar',
-      ],
-    },
-    amenities: {
-      en: ['Box / Storage', 'BBQ / Grill', 'Balcony / Terrace', 'Central Hot Water', 'Air Conditioning', 'Garden / Patio'],
-      es: ['Box / Depósito', 'Parrillero / Barbacoa', 'Balcón / Terraza', 'Agua Caliente Central', 'Aire Acondicionado', 'Jardín / Patio'],
-    },
-    finance: { en: 'AFD - My First Home - 27 years', es: 'AFD - Mi Primera Vivienda - 27 años' },
-    monthlyPayment: 'Gs. 5,625,168',
-    externalUrl: 'https://www.infocasas.com.py/duplex-moderno-detalles-estadounidense-en-villa-elisa/193595624',
-  },
-  {
-    id: 'aura-penthouse',
-    status: 'available',
-    images: [],
-    location: { en: 'Monaco', es: 'Monaco' },
-    title: { en: 'Aura Penthouse', es: 'Aura Penthouse' },
-    price: '$22,000,000',
-    bedrooms: '4',
-    bathrooms: '5',
-    area: '6,200 sq ft',
-    type: { en: 'Luxury', es: 'Lujo' },
-    description: {
-      en: 'A contemporary penthouse offering unparalleled elegance and sophisticated design. Featuring floor-to-ceiling windows, private terrace with panoramic views, and premium finishes throughout.',
-      es: 'Un penthouse contemporáneo que ofrece elegancia sin igual y diseño sofisticado. Con ventanas de piso a techo, terraza privada con vistas panorámicas y acabados premium en todo el espacio.',
-    },
-  },
-  {
-    id: 'the-zen-pavilions',
-    status: 'coming-soon',
-    images: [],
-    location: { en: 'Kyoto, Japan', es: 'Kyoto, Japón' },
-    title: { en: 'The Zen Pavilions', es: 'The Zen Pavilions' },
-    price: '$9,200,000',
-    bedrooms: '6',
-    bathrooms: '7',
-    area: '12,000 sq ft',
-    type: { en: 'Development', es: 'Desarrollo' },
-    description: {
-      en: 'A serene retreat combining traditional Japanese aesthetics with contemporary luxury. Multiple pavilions, meditation gardens, natural spring water features, and bespoke art collections.',
-      es: 'Un retiro sereno que combina la estética japonesa tradicional con el lujo contemporáneo. Múltiples pabellones, jardines de meditación, fuentes de agua natural y colecciones de arte a medida.',
-    },
-  },
-];
 
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+const STATUS_LABELS = {
+  available:   { es: 'Disponible',   en: 'Available',    color: 'bg-green-500' },
+  sold:        { es: 'Vendido',      en: 'Sold',         color: 'bg-red-500' },
+  coming_soon: { es: 'Próximamente', en: 'Coming soon',  color: 'bg-amber-500' },
+  reserved:    { es: 'Reservado',    en: 'Reserved',     color: 'bg-blue-500' },
+};
+
+function formatPrice(price: number | null, currency: 'USD' | 'PYG'): string {
+  if (!price) return '—';
+  if (currency === 'USD') {
+    return `$${Number(price).toLocaleString('en-US')}`;
+  }
+  return `Gs. ${Number(price).toLocaleString('es-PY')}`;
+}
+
+// ─── Modal ───────────────────────────────────────────────────────────────────
 function ProjectModal({
   project,
   locale,
@@ -126,16 +66,12 @@ function ProjectModal({
 }) {
   const l = locale as 'en' | 'es';
   const [currentImage, setCurrentImage] = useState(0);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editData, setEditData] = useState({
-    title: project.title[l] || '',
-    location: project.location[l] || '',
-    description: project.description?.[l] || '',
-    price: project.price || '',
-    status: project.status || 'available',
-  });
+  const hasImages = project.images && project.images.length > 0;
 
-  const hasImages = project.images.length > 0;
+  // Reset imagen al cambiar de proyecto
+  useEffect(() => { setCurrentImage(0); }, [project.id]);
+
+  const statusInfo = STATUS_LABELS[project.status] ?? STATUS_LABELS.available;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
@@ -143,7 +79,7 @@ function ProjectModal({
         className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Barra lateral izquierda — otros proyectos */}
+        {/* Sidebar — otros proyectos */}
         <div className="hidden md:flex flex-col w-48 shrink-0 border-r border-slate-100 bg-slate-50 p-3 gap-2 overflow-y-auto">
           <p className="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mb-1 px-1">
             {l === 'es' ? 'Proyectos' : 'Projects'}
@@ -152,30 +88,23 @@ function ProjectModal({
             <button
               key={p.id}
               onClick={() => onNavigate(p.id)}
-              className={`flex items-center gap-2 rounded-xl p-2 text-left transition w-full ${p.id === project.id
-                ? 'bg-sky-900 text-white'
-                : 'hover:bg-slate-200 text-slate-700'
-                }`}
+              className={`flex items-center gap-2 rounded-xl p-2 text-left transition w-full ${
+                p.id === project.id ? 'bg-sky-900 text-white' : 'hover:bg-slate-200 text-slate-700'
+              }`}
             >
               <div className="w-9 h-9 rounded-full overflow-hidden shrink-0 relative bg-slate-200">
-                {p.images[0] && typeof p.images[0] === 'string' && p.images[0].trim() !== "" ? (
-                  <Image
-                    src={p.images[0]}
-                    alt={p.title[l]}
-                    fill
-                    className="object-cover"
-                    sizes="36px"
-                  />
+                {p.images?.[0] ? (
+                  <Image src={p.images[0]} alt={p.title} fill className="object-cover" sizes="36px" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-base">🏢</div>
                 )}
               </div>
               <div className="min-w-0">
                 <p className={`text-xs font-semibold truncate leading-tight ${p.id === project.id ? 'text-white' : 'text-slate-950'}`}>
-                  {p.title[l]}
+                  {p.title}
                 </p>
                 <p className={`text-[10px] truncate ${p.id === project.id ? 'text-sky-200' : 'text-slate-400'}`}>
-                  {p.location[l]}
+                  {p.location}
                 </p>
               </div>
             </button>
@@ -183,291 +112,183 @@ function ProjectModal({
         </div>
 
         {/* Contenido principal */}
-        <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-          {/* Header corregido */}
+        <div className="flex flex-col flex-1 min-w-0 overflow-y-auto">
+          {/* Header */}
           <div className="sticky top-0 bg-sky-900 text-white p-5 flex justify-between items-center z-10 shrink-0">
             <div>
-              <h2 className="text-lg font-bold">{project.title[l]}</h2>
-              <p className="text-sky-100 mt-0.5 text-sm">{project.location[l]}</p>
+              <h2 className="text-lg font-bold">{project.title}</h2>
+              <p className="text-sky-100 mt-0.5 text-sm">{project.location}</p>
             </div>
-
-            {/* Contenedor agrupador para botones */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setIsEditing(!isEditing)}
-                className="text-xs bg-white text-sky-900 px-4 py-1.5 rounded-full font-bold hover:bg-sky-100 transition shadow-sm"
-              >
-                {isEditing ? 'Cancelar' : 'Editar'}
-              </button>
-              
-              <button 
-                onClick={onClose} 
-                className="text-2xl font-light hover:text-sky-100 transition"
-              >
-                ✕
-              </button>
-            </div>
+            <button onClick={onClose} className="text-2xl font-light hover:text-sky-100 transition">✕</button>
           </div>
 
-          {isEditing ? (
-
-            <div className="p-6 bg-white border border-sky-100 rounded-xl shadow-sm">
-              <h3 className="font-bold text-sky-900 mb-4">
-                Editando: {project.title[l]}
-              </h3>
-
-
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  value={editData.title}
-                  onChange={(e) =>
-                    setEditData({ ...editData, title: e.target.value })
-                  }
-                  placeholder="Title"
-                  className="w-full border rounded-lg px-3 py-2"
+          <div className="p-5 space-y-5">
+            {/* Imagen */}
+            {hasImages ? (
+              <div className="relative h-56 rounded-xl overflow-hidden bg-slate-100">
+                <Image
+                  src={project.images[currentImage]}
+                  alt={`${project.title} - ${currentImage + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="600px"
                 />
-
-                <input
-                  type="text"
-                  value={editData.location}
-                  onChange={(e) =>
-                    setEditData({ ...editData, location: e.target.value })
-                  }
-                  placeholder="Location"
-                  className="w-full border rounded-lg px-3 py-2"
-                />
-
-                <input
-                  type="text"
-                  value={editData.price}
-                  onChange={(e) =>
-                    setEditData({ ...editData, price: e.target.value })
-                  }
-                  placeholder="Price"
-                  className="w-full border rounded-lg px-3 py-2"
-                />
-
-                <textarea
-                  value={editData.description}
-                  onChange={(e) =>
-                    setEditData({ ...editData, description: e.target.value })
-                  }
-                  rows={5}
-                  className="w-full border rounded-lg px-3 py-2"
-                />
-
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => setIsEditing(false)}
-                    className="px-4 py-2 border rounded-lg"
-                  >
-                    Cancelar
-                  </button>
-
-                  <button
-                    onClick={async () => {
-                      const { error } = await supabase
-                        .from('lux_projects')
-                        .update({
-                          title: editData.title,
-                          location: editData.location,
-                          description: editData.description,
-                          price: Number(editData.price),
-                          status: editData.status,
-                        })
-                        .eq('id', project.id);
-
-                      if (!error) {
-                        window.location.reload();
-                      }
-                    }}
-                    className="px-4 py-2 bg-sky-900 text-white rounded-lg"
-                  >
-                    Guardar
-                  </button>
-                </div>
+                {project.images.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => setCurrentImage((p) => (p - 1 + project.images.length) % project.images.length)}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
+                    >&#10094;</button>
+                    <button
+                      onClick={() => setCurrentImage((p) => (p + 1) % project.images.length)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
+                    >&#10095;</button>
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                      {project.images.map((_, i) => (
+                        <button key={i} onClick={() => setCurrentImage(i)}
+                          className={`w-2 h-2 rounded-full transition ${i === currentImage ? 'bg-white' : 'bg-white/40'}`}
+                        />
+                      ))}
+                    </div>
+                    <div className="absolute bottom-3 right-3 bg-slate-950/70 text-white text-xs px-2 py-1 rounded font-semibold">
+                      {currentImage + 1} / {project.images.length}
+                    </div>
+                  </>
+                )}
               </div>
+            ) : (
+              <div className="h-40 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
+                <div className="text-center"><div className="text-5xl mb-2">🏢</div></div>
+              </div>
+            )}
 
-            </div>
-          
-          ) : (
-            <></>
-          )}
+            {/* Status badge */}
+            <span className={`inline-flex items-center gap-1 text-white text-xs font-semibold px-3 py-1 rounded-full ${statusInfo.color}`}>
+              {statusInfo[l]}
+            </span>
 
-            {/* Imagen */}
-          {hasImages ? (
-            <div className="relative h-56 rounded-xl overflow-hidden bg-slate-100">
-              <Image
-                src={project.images[currentImage]}
-                alt={`${project.title[l]} - ${currentImage + 1}`}
-                fill
-                className="object-cover"
-                sizes="600px"
-              />
-              {project.images.length > 1 && (
-                <>
-                  <button
-                    onClick={() => setCurrentImage((p) => (p - 1 + project.images.length) % project.images.length)}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
-                  >&#10094;</button>
-                  <button
-                    onClick={() => setCurrentImage((p) => (p + 1) % project.images.length)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
-                  >&#10095;</button>
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                    {project.images.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setCurrentImage(i)}
-                        className={`w-2 h-2 rounded-full transition ${i === currentImage ? 'bg-white' : 'bg-white/40'}`}
-                      />
-                    ))}
-                  </div>
-                  <div className="absolute bottom-3 right-3 bg-slate-950/70 text-white text-xs px-2 py-1 rounded font-semibold">
-                    {currentImage + 1} / {project.images.length}
-                  </div>
-                </>
+            {/* Precio */}
+            <div className="border-b border-slate-200 pb-4">
+              <p className="text-3xl font-bold text-slate-950">{formatPrice(project.price, project.currency)}</p>
+              {(project.bedrooms || project.bathrooms || project.area) && (
+                <div className="mt-3 grid grid-cols-3 gap-4 text-sm">
+                  {project.bedrooms && (
+                    <div>
+                      <p className="text-slate-500 font-light">{l === 'es' ? 'Dormitorios' : 'Bedrooms'}</p>
+                      <p className="text-lg font-bold text-sky-900">{project.bedrooms}</p>
+                    </div>
+                  )}
+                  {project.bathrooms && (
+                    <div>
+                      <p className="text-slate-500 font-light">{l === 'es' ? 'Baños' : 'Bathrooms'}</p>
+                      <p className="text-lg font-bold text-sky-900">{project.bathrooms}</p>
+                    </div>
+                  )}
+                  {project.area && (
+                    <div>
+                      <p className="text-slate-500 font-light">{l === 'es' ? 'Área' : 'Area'}</p>
+                      <p className="text-lg font-bold text-sky-900">{project.area}</p>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
-          ) : (
-            <div className="h-40 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
-              <div className="text-center">
-                <div className="text-5xl mb-2">🏢</div>
-                <p className="text-sm">{project.title[l]}</p>
-              </div>
-            </div>
-          )}
 
-          {/* Precio */}
-          <div className="border-b border-slate-200 pb-4">
-            <p className="text-3xl font-bold text-slate-950">{project.price}</p>
-            {(project.bedrooms || project.bathrooms || project.area) && (
-              <div className="mt-3 grid grid-cols-3 gap-4 text-sm">
-                {project.bedrooms && (
-                  <div>
-                    <p className="text-slate-500 font-light">{l === 'es' ? 'Dormitorios' : 'Bedrooms'}</p>
-                    <p className="text-lg font-bold text-sky-900">{project.bedrooms}</p>
-                  </div>
-                )}
-                {project.bathrooms && (
-                  <div>
-                    <p className="text-slate-500 font-light">{l === 'es' ? 'Baños' : 'Bathrooms'}</p>
-                    <p className="text-lg font-bold text-sky-900">{project.bathrooms}</p>
-                  </div>
-                )}
-                {project.area && (
-                  <div>
-                    <p className="text-slate-500 font-light">{l === 'es' ? 'Área' : 'Area'}</p>
-                    <p className="text-lg font-bold text-sky-900">{project.area}</p>
-                  </div>
+            {/* Descripción */}
+            {project.description && (
+              <div>
+                <h3 className="text-base font-bold text-slate-950 mb-2">{l === 'es' ? 'Descripción' : 'Description'}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed font-light">{project.description}</p>
+              </div>
+            )}
+
+            {/* Highlights (solo proyectos estáticos) */}
+            {project.highlights && (
+              <div>
+                <h3 className="text-base font-bold text-slate-950 mb-3">{l === 'es' ? 'Características' : 'Features'}</h3>
+                <ul className="space-y-2 text-sm text-slate-600 font-light">
+                  {project.highlights[l].map((h, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-sky-900 font-bold mt-0.5">•</span>
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Amenities (solo proyectos estáticos) */}
+            {project.amenities && (
+              <div>
+                <h3 className="text-base font-bold text-slate-950 mb-3">{l === 'es' ? 'Comodidades' : 'Amenities'}</h3>
+                <div className="grid grid-cols-2 gap-3 text-sm text-slate-600 font-light">
+                  {project.amenities[l].map((a, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="text-sky-900">✓</span><span>{a}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Financiación (solo proyectos estáticos) */}
+            {project.finance && (
+              <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
+                <h3 className="text-xs font-bold text-sky-900 uppercase">{l === 'es' ? 'Financiación' : 'Financing'}</h3>
+                <p className="text-slate-700 text-sm mt-2">{project.finance[l]}</p>
+                {project.monthlyPayment && (
+                  <p className="text-slate-600 text-xs mt-1 font-light">
+                    {l === 'es' ? 'Cuota mensual' : 'Monthly Payment'}:{' '}
+                    <span className="font-bold text-slate-950">{project.monthlyPayment}</span>
+                  </p>
                 )}
               </div>
             )}
-          </div>
 
-          {/* Descripción */}
-          {project.description && (
-            <div>
-              <h3 className="text-base font-bold text-slate-950 mb-2">{l === 'es' ? 'Descripción' : 'Description'}</h3>
-              <p className="text-slate-600 text-sm leading-relaxed font-light">{project.description[l]}</p>
-            </div>
-          )}
+            {/* CTA */}
+            {project.external_link && (
+              <a
+                href={project.external_link}
+                target="_blank"
+                rel="noreferrer"
+                className="block w-full bg-sky-900 text-white hover:bg-sky-800 px-6 py-3 rounded-lg font-medium transition text-center text-sm"
+              >
+                {l === 'es' ? 'Ver publicación' : 'View listing'}
+              </a>
+            )}
 
-          {/* Highlights */}
-          {project.highlights && (
-            <div>
-              <h3 className="text-base font-bold text-slate-950 mb-3">{l === 'es' ? 'Características' : 'Features'}</h3>
-              <ul className="space-y-2 text-sm text-slate-600 font-light">
-                {project.highlights[l].map((h, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <span className="text-sky-900 font-bold mt-0.5">•</span>
-                    <span>{h}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Amenities */}
-          {project.amenities && (
-            <div>
-              <h3 className="text-base font-bold text-slate-950 mb-3">{l === 'es' ? 'Comodidades' : 'Amenities'}</h3>
-              <div className="grid grid-cols-2 gap-3 text-sm text-slate-600 font-light">
-                {project.amenities[l].map((a, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <span className="text-sky-900">✓</span>
-                    <span>{a}</span>
-                  </div>
+            {/* Otros proyectos — mobile */}
+            <div className="md:hidden border-t border-slate-100 pt-4">
+              <p className="text-xs text-slate-400 uppercase font-medium mb-3">
+                {l === 'es' ? 'Otros proyectos' : 'Other projects'}
+              </p>
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {allProjects.filter((p) => p.id !== project.id).map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => onNavigate(p.id)}
+                    className="flex items-center gap-2 shrink-0 border border-slate-200 hover:border-sky-900 rounded-xl p-2 text-left transition"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-slate-100 overflow-hidden shrink-0 relative">
+                      {p.images?.[0] ? (
+                        <Image src={p.images[0]} alt={p.title} fill className="object-cover" sizes="32px" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-sm">🏢</div>
+                      )}
+                    </div>
+                    <p className="text-xs font-semibold text-slate-950 truncate max-w-[80px]">{p.title}</p>
+                  </button>
                 ))}
               </div>
             </div>
-          )}
-
-          {/* Financiación */}
-          {project.finance && (
-            <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
-              <h3 className="text-xs font-bold text-sky-900 uppercase">{l === 'es' ? 'Financiación' : 'Financing'}</h3>
-              <p className="text-slate-700 text-sm mt-2">{project.finance[l]}</p>
-              {project.monthlyPayment && (
-                <p className="text-slate-600 text-xs mt-1 font-light">
-                  {l === 'es' ? 'Cuota mensual' : 'Monthly Payment'}:{' '}
-                  <span className="font-bold text-slate-950">{project.monthlyPayment}</span>
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* CTA */}
-          {project.externalUrl && (
-
-            <a href={project.externalUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="block w-full bg-sky-900 text-white hover:bg-sky-800 px-6 py-3 rounded-lg font-medium transition text-center text-sm"
-            >
-              {l === 'es' ? 'Ver en InfoCasas' : 'View on InfoCasas'}
-            </a>
-          )}
-
-
-          <div className="md:hidden border-t border-slate-100 pt-4">
-            <p className="text-xs text-slate-400 uppercase font-medium mb-3">
-              {l === 'es' ? 'Otros proyectos' : 'Other projects'}
-            </p>
-            <div className="flex gap-2">
-              {allProjects.filter((p) => p.id !== project.id).map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => onNavigate(p.id)}
-                  className="flex items-center gap-2 flex-1 border border-slate-200 hover:border-sky-900 rounded-xl p-2 text-left transition"
-                >
-                  <div className="w-8 h-8 rounded-full bg-slate-100 overflow-hidden shrink-0 relative">
-                    {p.images[0] && typeof p.images[0] === 'string' && p.images[0].trim() !== "" ? (
-                      <Image
-                        src={p.images[0]}
-                        alt={p.title[l]}
-                        fill
-                        className="object-cover"
-                        sizes="32px"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-sm">🏢</div>
-                    )}
-                  </div>
-                  <p className="text-xs font-semibold text-slate-950 truncate">{p.title[l]}</p>
-                </button>
-              ))}
-            </div>
           </div>
-
         </div>
       </div>
     </div>
-
   );
 }
 
+// ─── Card ─────────────────────────────────────────────────────────────────────
 function ProjectCard({
   project,
   locale,
@@ -480,57 +301,44 @@ function ProjectCard({
   onOpen: () => void;
 }) {
   const l = locale as 'en' | 'es';
-  const [currentImage, setCurrentImage] = useState(0);
-
-
   const hasImages = project.images && project.images.length > 0;
-  const currentImageUrl = hasImages ? project.images[currentImage] : null;
-  const isImageValid = typeof currentImageUrl === 'string' && currentImageUrl.trim() !== "";
+  const statusInfo = STATUS_LABELS[project.status] ?? STATUS_LABELS.available;
 
   return (
     <div className="group bg-white border border-slate-200 rounded-lg overflow-hidden hover:border-slate-400 transition-all duration-300">
-
       <div className="relative h-48 md:h-56 bg-slate-200 overflow-hidden">
-        {isImageValid ? (
+        {hasImages ? (
           <>
             <Image
-              src={currentImageUrl!}
-              alt={project.title[l]}
+              src={project.images[0]}
+              alt={project.title}
               fill
               className="object-cover transition-opacity duration-300"
               sizes="(max-width: 768px) 100vw, 33vw"
             />
             {project.images.length > 1 && (
               <div className="absolute bottom-2 right-2 bg-slate-950/80 text-white px-3 py-1 rounded text-xs font-semibold">
-                {currentImage + 1} / {project.images.length}
+                1 / {project.images.length}
               </div>
             )}
           </>
         ) : (
           <div className="flex items-center justify-center h-full text-slate-400">
-            <div className="text-center">
-              <div className="text-4xl mb-2">🏢</div>
-            </div>
+            <div className="text-center"><div className="text-4xl mb-2">🏢</div></div>
           </div>
         )}
-
-
-        <div className={`absolute top-3 left-3 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1 ${project.status === 'available' ? 'bg-green-500' : 'bg-amber-500'}`}>
-          <i className={`ti ${project.status === 'available' ? 'ti-circle-check' : 'ti-clock'} text-sm`} aria-hidden="true" />
-          {project.status === 'available'
-            ? (l === 'es' ? 'Disponible' : 'Available')
-            : (l === 'es' ? 'Próximamente' : 'Coming soon')}
+        <div className={`absolute top-3 left-3 text-white text-xs font-semibold px-3 py-1 rounded-full ${statusInfo.color}`}>
+          {statusInfo[l]}
         </div>
       </div>
 
-      {/* Contenido de la tarjeta */}
       <div className="p-4 md:p-5">
-        <p className="text-xs text-slate-500 mb-1">{project.location[l]}</p>
-        <h3 className="text-base font-bold text-slate-950 mb-4 line-clamp-2">{project.title[l]}</h3>
+        <p className="text-xs text-slate-500 mb-1">{project.location}</p>
+        <h3 className="text-base font-bold text-slate-950 mb-4 line-clamp-2">{project.title}</h3>
         <div className="border-t border-slate-100">
           <div className="flex justify-between items-center py-2 border-b border-slate-100">
             <span className="text-xs text-slate-500">{l === 'es' ? 'Precio' : 'Price'}</span>
-            <span className="text-xs font-semibold text-slate-800">{project.price}</span>
+            <span className="text-xs font-semibold text-slate-800">{formatPrice(project.price, project.currency)}</span>
           </div>
         </div>
         <button
@@ -544,6 +352,7 @@ function ProjectCard({
   );
 }
 
+// ─── Section principal ────────────────────────────────────────────────────────
 export default function ProjectsSection({ locale, cardDetails }: Props) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
@@ -551,37 +360,57 @@ export default function ProjectsSection({ locale, cardDetails }: Props) {
 
   useEffect(() => {
     async function fetchProjects() {
-      const { data } = await supabase.from('lux_projects').select('*');
+      const { data, error } = await supabase
+        .from('lux_projects')
+        .select('*')
+        .order('order_index', { ascending: true });
 
-      const supabaseProjects: Project[] = data ? data.map((item: any) => ({
+      if (error) {
+  console.error('Error fetching projects:', error.message);
+  setProjects([]);
+  setLoading(false);
+  return;
+}
+
+      // Mapeo correcto: images ya es TEXT[] → llega como string[]
+      const supabaseProjects: Project[] = (data ?? []).map((item: any) => ({
         id: item.id,
+        title: item.title ?? '',
+        description: item.description ?? '',
+        location: item.location ?? '',
+        // status viene como 'coming_soon', 'available', etc. — matchea directo
+        status: item.status as Project['status'],
+        price: item.price ? Number(item.price) : null,
+        currency: (item.currency ?? 'USD') as 'USD' | 'PYG',
+        category: item.category ?? 'residential',
+        external_link: item.external_link ?? '',
+        // images es TEXT[] en Supabase → ya es string[], no necesita parseo
+        images: Array.isArray(item.images) ? item.images : [],
+        featured: item.featured ?? false,
+        order_index: item.order_index ?? 0,
+      }));
 
-        status: (item.status === 'coming-soon' ? 'coming-soon' : 'available'),
-
-        images: (item.images && typeof item.images === 'string' && item.images.trim() !== "")
-          ? [item.images]
-          : [],
-        location: { en: item.location || '', es: item.location || '' },
-        title: { en: item.title || '', es: item.title || '' },
-        price: item.price || '',
-        type: { en: 'Residential', es: 'Residencial' },
-        description: { en: item.description || '', es: item.description || '' },
-      })) : [];
-
-
-      setProjects([...PROJECTS, ...supabaseProjects]);
+      // Proyectos estáticos primero, luego los de Supabase
+      setProjects(supabaseProjects);
       setLoading(false);
     }
+
     fetchProjects();
   }, []);
 
   const activeProject = projects.find((p) => p.id === activeProjectId) ?? null;
 
-  if (loading) return <div className="text-center py-10">Cargando proyectos...</div>;
+  if (loading) {
+    return (
+      <div className="text-center py-10 text-slate-400 text-sm">
+        {locale === 'es' ? 'Cargando proyectos...' : 'Loading projects...'}
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className="hidden md:grid md:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto px-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto px-6">
         {projects.map((project) => (
           <ProjectCard
             key={project.id}
