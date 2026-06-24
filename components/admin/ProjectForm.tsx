@@ -103,7 +103,7 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-2xl space-y-5 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+<form onSubmit={handleSubmit} className="w-full space-y-5 bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
       <h2 className="text-xl font-bold text-gray-900 border-b pb-2">Nuevo Proyecto</h2>
 
       {/* Título */}
@@ -130,7 +130,7 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
       </div>
 
       {/* Ubicación + Estado */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Ubicación</label>
           <input
@@ -157,7 +157,7 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
       </div>
 
       {/* Precio + Moneda + Categoría */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Precio</label>
           <input
@@ -231,7 +231,7 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
 
         {/* Previews */}
         {previews.length > 0 && (
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
             {previews.map((src, i) => (
               <div key={i} className="relative group aspect-square rounded-lg overflow-hidden bg-gray-100">
                 <img src={src} alt="" className="w-full h-full object-cover" />
