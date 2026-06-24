@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import {  getProjects } from '@/lib/projectService';
+import { getProjects } from '@/lib/projectService';
 
 const TC = 7600;
 
@@ -14,27 +14,40 @@ export default function CalcRenta({
   const [projects, setProjects] = useState<any[]>([]);
   const [proyectoId, setProyectoId] = useState<string>('');
   const [precio, setPrecio] = useState<number>(0);
-
   const [currency, setCurrencyState] = useState<'USD' | 'GS'>('USD');
   const [tasa, setTasa] = useState(8.5);
   const [mesesContrato, setMesesContrato] = useState(6);
 
- useEffect(() => {
-  async function load() {
-    const data = await getProjects();
+  useEffect(() => {
+    async function load() {
+      const data = await getProjects();
+      setProjects(data);
 
-    setProjects(data);
-
-    if (data?.length > 0) {
-  setProyectoId(data[0].id);
-  setPrecio(Number(data[0].priceUSD ?? 0));
-}
-  }
-
-  load();
-}, []);
+      if (data?.length > 0) {
+        const first = data[0];
+        setProyectoId(first.id);
+        // price en Supabase es el valor base; si es PYG lo convertimos a USD
+        const priceUSD = first.currency === 'PYG'
+          ? Math.round(Number(first.price) / TC)
+          : Number(first.price ?? 0);
+        setPrecio(priceUSD);
+      }
+    }
+    load();
+  }, []);
 
   const proyecto = projects.find((p) => p.id === proyectoId);
+
+  const handleProyecto = (id: string) => {
+    const p = projects.find((x) => x.id === id);
+    if (!p) return;
+    setProyectoId(id);
+    const priceUSD = p.currency === 'PYG'
+      ? Math.round(Number(p.price) / TC)
+      : Number(p.price ?? 0);
+    // Convertir al currency activo
+    setPrecio(currency === 'GS' ? Math.round(priceUSD * TC) : priceUSD);
+  };
 
   const n = 30 * 12;
   const r = tasa / 100 / 12;
@@ -42,8 +55,7 @@ export default function CalcRenta({
   const rentingFee =
     r === 0
       ? precio / n
-      : (precio * r * Math.pow(1 + r, n)) /
-        (Math.pow(1 + r, n) - 1);
+      : (precio * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
 
   const totalRentLiquidity = rentingFee * mesesContrato;
   const precioFinal = precio - totalRentLiquidity;
@@ -53,31 +65,18 @@ export default function CalcRenta({
       ? 'Gs. ' + Math.round(val).toLocaleString('es-PY')
       : 'US$ ' + Math.round(val).toLocaleString('en-US');
 
-  const handleProyecto = (id: string) => {
-    const p = projects.find((x) => x.id === id);
-    if (!p) return;
-    setProyectoId(id);
-    setPrecio(p.priceUSD);
-  };
-
   const waMsg = encodeURIComponent(
-    `Consulta Sooner Program: Proyecto ${
-      locale === 'es' ? proyecto?.name : proyecto?.nameEn
-    }, Propiedad ${fmt(precio)}, Renting Fee ${fmt(
-      rentingFee
-    )}/mes por ${mesesContrato} meses. Precio final: ${fmt(
-      Math.max(precioFinal, 0)
-    )}.`
+    `Consulta Sooner Program: Proyecto ${proyecto?.title ?? ''}, Propiedad ${fmt(precio)}, Renting Fee ${fmt(rentingFee)}/mes por ${mesesContrato} meses. Precio final: ${fmt(Math.max(precioFinal, 0))}.`
   );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
-<div
-  className="w-full max-w-md bg-white rounded-3xl overflow-y-auto max-h-[90vh] shadow-2xl relative"
-  onClick={(e) => e.stopPropagation()}
->
+      <div
+        className="w-full max-w-md bg-white rounded-3xl overflow-y-auto max-h-[90vh] shadow-2xl relative"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-          <div className="bg-[#C0C0C0] p-6 text-slate-900 rounded-b-[2rem] shrink-0">
+        <div className="bg-[#C0C0C0] p-6 text-slate-900 rounded-b-[2rem] shrink-0">
 
           <div className="flex items-start justify-between mb-2">
             <div className="flex items-center gap-4">
@@ -115,13 +114,13 @@ export default function CalcRenta({
             >
               {projects.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {locale === 'es' ? p.name : p.nameEn}
+                  {p.title}
                 </option>
               ))}
             </select>
             <p className="text-xs opacity-60 mt-1">
-  {proyecto?.location ?? ''}
-</p>
+              {proyecto?.location ?? ''}
+            </p>
           </div>
 
           {/* Moneda */}
