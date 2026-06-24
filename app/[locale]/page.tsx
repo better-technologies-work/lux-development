@@ -14,6 +14,7 @@ import WhoWeHelpSection from "@/components/WhoWeHelpSection";
 import OurMissionSection from "@/components/OurMissionSection";
 import FinalCTA from '@/components/FinalCTA'
 import ProjectsSection from '@/components/ProjectsSection';
+import Navbar from '@/components/Navbar';
 import { supabase } from '@/lib/supabase'
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
@@ -47,57 +48,7 @@ const rootT = await getTranslations({ locale });
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-slate-200 selection:text-slate-950">
-      {/* Header / Navbar */}
-      <header className="border-b border-slate-200 bg-slate-50/95 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-lg md:text-xl font-bold tracking-widest text-slate-950">
-  <Image
-    src="/logo.png"
-    alt="Lux Development"
-    width={42}
-    height={42}
-    className="object-contain"
-  />
-  LUX <span className="text-slate-400 font-light">DEV</span>
-</div>
-          <nav className="flex items-center gap-2 md:gap-8">
-  <a
-    href="#portfolio"
-    className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition"
-  >
-    {locale === 'es' ? 'Portafolio' : 'Portfolio'}
-  </a>
-
-  <a
-    href="#team"
-    className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition"
-  >
-    {locale === 'es' ? 'Equipo' : 'Team'}
-  </a>
-
-  <a
-    href="#values"
-    className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition"
-  >
-    {locale === 'es' ? 'Valores' : 'Values'}
-  </a>
-
-  <Link
-    href={`/${locale}/blog`}
-    className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition"
-  >
-    Blog
-  </Link>
-
-  <Link
-    href={`/${alternateLocale}`}
-    className="text-xs md:text-xs uppercase tracking-wider bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 md:px-3 py-1.5 rounded border border-slate-300 transition whitespace-nowrap"
-  >
-    {alternateLocale === 'es' ? 'ES' : 'EN'}
-  </Link>
-</nav>
-        </div>
-      </header>
+      <Navbar locale={locale} alternateLocale={alternateLocale} />
 
 <section className="relative flex flex-col md:flex-row overflow-hidden min-h-[80vh]">
 
