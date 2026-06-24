@@ -61,22 +61,41 @@ const rootT = await getTranslations({ locale });
   LUX <span className="text-slate-400 font-light">DEV</span>
 </div>
           <nav className="flex items-center gap-2 md:gap-8">
-            <a href="#portfolio" className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition">
-              {locale === 'es' ? 'Portafolio' : 'Portfolio'}
-            </a>
-            <a href="#team" className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition">
-              {locale === 'es' ? 'Equipo' : 'Team'}
-            </a>
-            <a href="#values" className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition">
-              {locale === 'es' ? 'Valores' : 'Values'}
-            </a>
-            <Link
-              href={`/${alternateLocale}`}
-              className="text-xs md:text-xs uppercase tracking-wider bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 md:px-3 py-1.5 rounded border border-slate-300 transition whitespace-nowrap"
-            >
-              {alternateLocale === 'es' ? 'ES' : 'EN'}
-            </Link>
-          </nav>
+  <a
+    href="#portfolio"
+    className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition"
+  >
+    {locale === 'es' ? 'Portafolio' : 'Portfolio'}
+  </a>
+
+  <a
+    href="#team"
+    className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition"
+  >
+    {locale === 'es' ? 'Equipo' : 'Team'}
+  </a>
+
+  <a
+    href="#values"
+    className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition"
+  >
+    {locale === 'es' ? 'Valores' : 'Values'}
+  </a>
+
+  <Link
+    href={`/${locale}/blog`}
+    className="hidden md:inline text-sm text-slate-600 hover:text-sky-900 transition"
+  >
+    Blog
+  </Link>
+
+  <Link
+    href={`/${alternateLocale}`}
+    className="text-xs md:text-xs uppercase tracking-wider bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 md:px-3 py-1.5 rounded border border-slate-300 transition whitespace-nowrap"
+  >
+    {alternateLocale === 'es' ? 'ES' : 'EN'}
+  </Link>
+</nav>
         </div>
       </header>
 

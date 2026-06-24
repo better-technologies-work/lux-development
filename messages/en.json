@@ -71,8 +71,15 @@
   "missionParagraph2": "Our mission is to make real estate ownership, development, and investment more transparent, accessible, and trustworthy for both local communities and international investors.",
   "missionParagraph3": "We don't simply sell properties.",
   "missionParagraph4": "We help people build security, opportunity, wealth, and a future."
+  },
+  
+  "Blog": {
+    "title": "Blog & Insights",
+    "subtitle": "Market analysis, investment opportunities and strategic perspectives.",
+    "readMore": "Read article"
   }
-  
-  
 }
+  
+  
+
 
