@@ -1,16 +1,60 @@
 'use client';
-import { useState } from 'react';
-import { PROJECTS } from '@/lib/projects';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
-export default function CalcDesarrollo({ locale, onClose }: { locale: string; onClose: () => void }) {
-  const [proyectoId, setProyectoId] = useState<string>(PROJECTS[0].id);
-  const [inversion, setInversion] = useState<number>(PROJECTS[0].priceUSD);
+type Project = {
+  id: string;
+  title: string;
+  location: string;
+  price: number;
+};
+
+export default function CalcDesarrollo({
+  locale,
+  onClose,
+}: {
+  locale: string;
+  onClose: () => void;
+}) {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const [proyectoId, setProyectoId] = useState('');
+  const [inversion, setInversion] = useState(0);
   const [retorno, setRetorno] = useState(32);
   const [meses, setMeses] = useState(24);
   const [condicion, setCondicion] = useState<'contado' | 'cuotas'>('contado');
   const [cuotas, setCuotas] = useState(12);
 
-  const proyecto = PROJECTS.find((p) => p.id === proyectoId)!;
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('lux_projects')
+        .select('id,title,location,price')
+        .order('order_index', { ascending: true });
+
+      const formatted = (data ?? []).map((p: any) => ({
+        id: p.id,
+        title: p.title,
+        location: p.location,
+        price: p.price ?? 0,
+      }));
+
+      setProjects(formatted);
+
+      if (formatted.length > 0) {
+        setProyectoId(formatted[0].id);
+        setInversion(formatted[0].price);
+      }
+
+      setLoading(false);
+    }
+
+    load();
+  }, []);
+
+  const proyecto = projects.find((p) => p.id === proyectoId);
+
   const ganancia = inversion * (retorno / 100);
   const total = inversion + ganancia;
   const cuotaMensual = condicion === 'cuotas' ? inversion / cuotas : 0;
@@ -18,48 +62,69 @@ export default function CalcDesarrollo({ locale, onClose }: { locale: string; on
   const fmt = (val: number) => 'USD ' + Math.round(val).toLocaleString('en-US');
 
   const handleProyecto = (id: string) => {
-    const p = PROJECTS.find((x) => x.id === id);
+    const p = projects.find((x) => x.id === id);
     if (!p) return;
+
     setProyectoId(id);
-    setInversion(p.priceUSD);
+    setInversion(p.price);
   };
 
+  if (loading || !proyecto) return null;
+
   const waMsg = encodeURIComponent(
-    `Consulta desarrollo: Proyecto ${locale === 'es' ? proyecto.name : proyecto.nameEn}, Inversión ${fmt(inversion)}, retorno estimado ${retorno}% en ${meses} meses. Total: ${fmt(total)}.`
+    `Consulta desarrollo: Proyecto ${
+      locale === 'es' ? proyecto.title : proyecto.title
+    }, Inversión ${fmt(inversion)}, retorno estimado ${retorno}% en ${meses} meses. Total: ${fmt(total)}.`
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={onClose}>
-      <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 relative" onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-700">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 relative"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-700"
+        >
           <i className="ti ti-x text-xl" />
         </button>
 
         <h3 className="text-lg font-bold text-slate-950 mb-1">
           {locale === 'es' ? 'Simulador de desarrollo' : 'Development simulator'}
         </h3>
+
         <p className="text-sm text-slate-500 mb-5">
-          {locale === 'es' ? 'Calculá el retorno de tu inversión' : 'Calculate your investment return'}
+          {locale === 'es'
+            ? 'Calculá el retorno de tu inversión'
+            : 'Calculate your investment return'}
         </p>
 
-        {/* Selector de proyecto */}
+        {/* Proyecto */}
         <div className="mb-4">
           <label className="text-xs text-slate-500 uppercase font-medium">
             {locale === 'es' ? 'Proyecto' : 'Project'}
           </label>
+
           <select
             value={proyectoId}
             onChange={(e) => handleProyecto(e.target.value)}
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1"
           >
-            {PROJECTS.map((p) => (
+            {projects.map((p) => (
               <option key={p.id} value={p.id}>
-                {locale === 'es' ? p.name : p.nameEn}
+                {p.title}
               </option>
             ))}
           </select>
+
           <p className="text-xs text-slate-400 mt-1">{proyecto.location}</p>
         </div>
+
+        
 
         {/* Inversión */}
         <div className="mb-4">

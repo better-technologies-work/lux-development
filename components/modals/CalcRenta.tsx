@@ -1,21 +1,50 @@
 'use client';
-import { useState } from 'react';
-import { PROJECTS } from '@/lib/projects';
+import { useEffect, useState } from 'react';
+import {  getProjects } from '@/lib/projectService';
 
 const TC = 7600;
 
-export default function CalcRenta({ locale, onClose }: { locale: string; onClose: () => void }) {
+export default function CalcRenta({
+  locale,
+  onClose,
+}: {
+  locale: string;
+  onClose: () => void;
+}) {
+  const [projects, setProjects] = useState<any[]>([]);
+  const [proyectoId, setProyectoId] = useState<string>('');
+  const [precio, setPrecio] = useState<number>(0);
+
   const [currency, setCurrencyState] = useState<'USD' | 'GS'>('USD');
-  const [precio, setPrecio] = useState<number>(PROJECTS[0].priceUSD);
- const [proyectoId, setProyectoId] = useState<string>(PROJECTS[0].id);
   const [tasa, setTasa] = useState(8.5);
   const [mesesContrato, setMesesContrato] = useState(6);
 
-  const proyecto = PROJECTS.find((p) => p.id === proyectoId)!;
+ useEffect(() => {
+  async function load() {
+    const data = await getProjects();
+
+    setProjects(data);
+
+    if (data?.length > 0) {
+  setProyectoId(data[0].id);
+  setPrecio(Number(data[0].priceUSD ?? 0));
+}
+  }
+
+  load();
+}, []);
+
+  const proyecto = projects.find((p) => p.id === proyectoId);
 
   const n = 30 * 12;
   const r = tasa / 100 / 12;
-  const rentingFee = r === 0 ? precio / n : (precio * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+
+  const rentingFee =
+    r === 0
+      ? precio / n
+      : (precio * r * Math.pow(1 + r, n)) /
+        (Math.pow(1 + r, n) - 1);
+
   const totalRentLiquidity = rentingFee * mesesContrato;
   const precioFinal = precio - totalRentLiquidity;
 
@@ -25,17 +54,20 @@ export default function CalcRenta({ locale, onClose }: { locale: string; onClose
       : 'US$ ' + Math.round(val).toLocaleString('en-US');
 
   const handleProyecto = (id: string) => {
-    const p = PROJECTS.find((x) => x.id === id);
+    const p = projects.find((x) => x.id === id);
     if (!p) return;
     setProyectoId(id);
-    setCurrencyState((curr) => {
-      setPrecio(curr === 'GS' ? Math.round(p.priceUSD * TC) : p.priceUSD);
-      return curr;
-    });
+    setPrecio(p.priceUSD);
   };
 
   const waMsg = encodeURIComponent(
-    `Consulta Sooner Program: Proyecto ${locale === 'es' ? proyecto.name : proyecto.nameEn}, Propiedad ${fmt(precio)}, Renting Fee ${fmt(rentingFee)}/mes por ${mesesContrato} meses. Precio final: ${fmt(Math.max(precioFinal, 0))}.`
+    `Consulta Sooner Program: Proyecto ${
+      locale === 'es' ? proyecto?.name : proyecto?.nameEn
+    }, Propiedad ${fmt(precio)}, Renting Fee ${fmt(
+      rentingFee
+    )}/mes por ${mesesContrato} meses. Precio final: ${fmt(
+      Math.max(precioFinal, 0)
+    )}.`
   );
 
   return (
@@ -81,13 +113,15 @@ export default function CalcRenta({ locale, onClose }: { locale: string; onClose
               onChange={(e) => handleProyecto(e.target.value)}
               className="w-full bg-white/30 border border-black/10 rounded-xl px-4 py-2 text-sm font-semibold focus:outline-none"
             >
-              {PROJECTS.map((p) => (
+              {projects.map((p) => (
                 <option key={p.id} value={p.id}>
                   {locale === 'es' ? p.name : p.nameEn}
                 </option>
               ))}
             </select>
-            <p className="text-xs opacity-60 mt-1">{proyecto.location}</p>
+            <p className="text-xs opacity-60 mt-1">
+  {proyecto?.location ?? ''}
+</p>
           </div>
 
           {/* Moneda */}
@@ -113,7 +147,7 @@ export default function CalcRenta({ locale, onClose }: { locale: string; onClose
           </label>
           <input
             type="number"
-            value={precio}
+            value={precio ?? 0}
             onChange={(e) => {
               const val = parseFloat(e.target.value);
               setPrecio(isNaN(val) ? 0 : val);

@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import TeamSectionWithAnimation from '@/components/TeamSectionWithAnimation';
 import { useTranslations } from 'next-intl';
-import PropertyCarousel from '@/components/PropertyCarousel';
+
 import SuccessStories from '@/components/SuccessStories';
 import OurServices from '@/components/OurServices';
 import WhyLuxDevelopment from "@/components/WhyLuxDevelopment";
@@ -242,9 +242,7 @@ From legal requirements and financing options to development decisions and admin
   </div>
 
   {/* Mobile carousel */}
-<div className="md:hidden">
-  <PropertyCarousel locale={locale} cardDetails={sections('cardDetails')} />
-</div>
+
 <ProjectsSection locale={locale} cardDetails={locale === 'es' ? 'Ver Detalles' : 'View Details'} />
 </section>
 

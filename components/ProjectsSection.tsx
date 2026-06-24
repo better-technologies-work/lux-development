@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
+import {  getProjects } from '@/lib/projectService';
 
 interface Props {
   locale: string;
@@ -359,45 +360,15 @@ export default function ProjectsSection({ locale, cardDetails }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchProjects() {
-      const { data, error } = await supabase
-        .from('lux_projects')
-        .select('*')
-        .order('order_index', { ascending: true });
+  async function load() {
+    const data = await getProjects();
 
-      if (error) {
-  console.error('Error fetching projects:', error.message);
-  setProjects([]);
-  setLoading(false);
-  return;
-}
+    setProjects(data);
+    setLoading(false);
+  }
 
-      // Mapeo correcto: images ya es TEXT[] → llega como string[]
-      const supabaseProjects: Project[] = (data ?? []).map((item: any) => ({
-        id: item.id,
-        title: item.title ?? '',
-        description: item.description ?? '',
-        location: item.location ?? '',
-        // status viene como 'coming_soon', 'available', etc. — matchea directo
-        status: item.status as Project['status'],
-        price: item.price ? Number(item.price) : null,
-        currency: (item.currency ?? 'USD') as 'USD' | 'PYG',
-        category: item.category ?? 'residential',
-        external_link: item.external_link ?? '',
-        // images es TEXT[] en Supabase → ya es string[], no necesita parseo
-        images: Array.isArray(item.images) ? item.images : [],
-        featured: item.featured ?? false,
-        order_index: item.order_index ?? 0,
-      }));
-
-      // Proyectos estáticos primero, luego los de Supabase
-      setProjects(supabaseProjects);
-      setLoading(false);
-    }
-
-    fetchProjects();
-  }, []);
-
+  load();
+}, []);
   const activeProject = projects.find((p) => p.id === activeProjectId) ?? null;
 
   if (loading) {
