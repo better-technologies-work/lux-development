@@ -1,26 +1,28 @@
 {
   "Hero": {
-    "title_part1": "Invierte, compra y desarrolla propiedades en Paraguay ",
-    "title_part2": "con confianza.",
+    "title_part1": "Invierte, compra y desarrolla  ",
+    "title_part2": "propiedades en Paraguay ",
+    "title_part3" : "con confianza.",
     "subtitle": "En Lux Development, ayudamos a compradores locales e inversores internacionales a desenvolverse en el mercado inmobiliario de Paraguay con asesoría transparente, experiencia local y soporte de principio a fin, permitiéndote tomar decisiones más inteligentes y con menor riesgo.",
     "cta": "Agendar una consulta"
 
 },
   "Sections": {
     "contactButton": "Explorar oportunidades",
-    "featureTag": "Nuestra propuesta de valor",
+    "featureTag": " Propuesta de valor",
     "featureHeading": "Un socio de confianza para todo su viaje inmobiliario.",
-    "featureDescription": "La mayoría de los proveedores inmobiliarios solo gestionan una parte del proceso.\n Lux Development reúne todo bajo un mismo techo, ayudándole a pasar de la oportunidad a la propiedad con confianza.",
+    "featureDescription": "La mayoría de los proveedores solo se encargan de una parte del proceso. \n Lux Development reúne todo bajo un mismo techo, ayudando a compradores locales y clientes internacionales a navegar el mercado inmobiliario de Paraguay con mayor claridad y confianza.",
 
     "externalLinksTag": "Enlaces destacados",
     "externalLinksDescription": "Lee sobre Patricia Fretes en Asunci\u00f3n Times.",
     "houseForSale": "Casa en venta",
     "articleAboutMe": "Artículo sobre mí",
   "ValuePropositions": {
-    "buy": { "title": "Comprar propiedades" },
-    "develop": { "title": "Desarrollar propiedades" },
-    "finance": { "title": "Obtener financiamiento" },
-    "wealth": { "title": "Crear riqueza a través de bienes raíces" }
+    "buy": { "title": "Comprar propiedades en Paraguay" },
+    "develop": { "title": "Desarrollar proyectos residenciales y de inversión" },
+    "finance": { "title": "Acceder a soluciones de financiación" },
+    "wealth": { "title": "Construir patrimonio a largo plazo a través de bienes raíces" },
+    "invest" : { "title": "Identificar oportunidades de inversión con fuerte potencial de apreciación del capital"}
   },
     "cardsTag": "Portafolio",
     "cardsTitle": "Propiedades seleccionadas para explorar ahora",

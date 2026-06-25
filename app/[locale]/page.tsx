@@ -98,6 +98,7 @@ const rootT = await getTranslations({ locale });
       <h2 className="text-2xl md:text-5xl font-normal text-black tracking-tight max-w-xl mx-auto leading-tight">
   {hero('title_part1')}
   <span className="text-sky-700">{hero('title_part2')}</span>
+  {hero('title_part3')}
 </h2>
       <p className="mt-4 text-sm md:text-lg text-slate-600 max-w-md mx-auto font-light">
   {hero('subtitle')}
@@ -138,18 +139,20 @@ const rootT = await getTranslations({ locale });
 
     <span className="block text-slate-950 font-semibold text-lg">
       {locale === 'es' 
-        ? "El mercado inmobiliario de Paraguay está lleno de oportunidades. Navegarlo de forma segura es el desafío." 
-        : "Paraguay's real estate market is full of opportunity. Navigating it safely is the challenge."}
+        ? "El mercado de bienes raíces en Paraguay ofrece oportunidades únicas. El reto es saber navegarlo con seguridad." 
+        : "Paraguay's real estate market offers exceptional opportunities. Navigating it safely is the challenge."}
     </span>
 
     <p className="text-slate-700 text-sm md:text-lg leading-relaxed font-light">
       {locale === 'es'
-        ? `Comprar una propiedad debería ser emocionante, pero para muchos inversores, expatriados, jubilados y compradores primerizos, el proceso suele ser confuso, fragmentado y difícil de verificar.
-Desde requisitos legales y opciones de financiamiento hasta decisiones de desarrollo y trámites administrativos, un movimiento en falso puede convertirse en un error costoso.`
-        : `Buying property should be exciting, but for many investors, expats, retirees, and first-time buyers, the process is often confusing, fragmented, and difficult to verify.
-From legal requirements and financing options to development decisions and administrative procedures, one wrong move can become an expensive mistake.`}
+        ? `Comprar una propiedad en Paraguay debería ser una experiencia emocionante. Sin embargo, para inversores, expatriados, jubilados y compradores primerizos, el proceso puede resultar complejo y difícil de navegar. Desde la adquisición de inmuebles y los requisitos legales hasta el financiamiento, las decisiones de desarrollo y los trámites administrativos, la falta de conocimiento local puede convertirse rápidamente en un error costoso.`
+        : `Buying property in Paraguay should be exciting. Yet for investors, expats, retirees, and first-time buyers, the process can feel complex and difficult to navigate. From property acquisition and legal requirements to financing, development decisions, and administrative procedures, a lack of local knowledge can quickly become an expensive mistake.`}
     </p>
-
+    <p className="text-slate-700 text-sm md:text-lg leading-relaxed font-light">
+      {locale === 'es'
+        ? `Lux Development ofrece experiencia local de confianza, ayudando a sus clientes a reducir la incertidumbre, evitar riesgos innecesarios y pasar de la oportunidad a la propiedad con total seguridad.`
+        : `Lux Development provides trusted local expertise, helping clients reduce uncertainty, avoid unnecessary risks, and move from opportunity to ownership with confidence.`}
+    </p>
   </div>
 </section>
 
@@ -169,26 +172,28 @@ From legal requirements and financing options to development decisions and admin
         </p>
       </section>
 
-  {/* Value Propositions */}
-  <section className="w-full bg-slate-100 py-16 md:py-20">
+{/* Value Propositions */}
+<section className="w-full bg-slate-100 py-16 md:py-20">
   <div className="max-w-7xl mx-auto px-4 md:px-6">
 
     <h3 className="text-xl font-bold text-slate-950 mb-10">
       {locale === 'es' ? 'Ayudamos a nuestros clientes:' : 'We help clients:'}
     </h3>
 
-    <div className="flex flex-col md:grid md:grid-cols-4 gap-6">
+    <div className="flex flex-col md:grid md:grid-cols-5 gap-6">
       {[
         { key: 'buy',     icon: 'ti-building-estate' },
-        { key: 'develop', icon: 'ti-crane'            },
-        { key: 'finance', icon: 'ti-currency-dollar'  },
-        { key: 'wealth',  icon: 'ti-chart-line'       },
+        { key: 'develop', icon: 'ti-crane'           },
+        { key: 'finance', icon: 'ti-currency-dollar' },
+        { key: 'wealth',  icon: 'ti-chart-line'      },
+        { key: 'invest',  icon: 'ti-trending-up'     },
       ].map(({ key, icon }) => (
         <div key={key} className="flex md:flex-col items-start gap-4 p-6 md:p-10 bg-white rounded-lg border border-slate-200">
           <div className="w-12 h-12 md:w-16 md:h-16 border border-slate-900 rounded-lg flex items-center justify-center shrink-0">
             <i className={`ti ${icon} text-2xl md:text-4xl text-slate-900`} aria-hidden="true" />
           </div>
-          <p className="font-semibold text-slate-950 text-base md:text-xl leading-snug self-center md:self-auto md:mt-4">
+          {/* Aquí hice el ajuste del tamaño de letra */}
+          <p className="font-semibold text-slate-950 text-sm md:text-base leading-snug self-center md:self-auto md:mt-4">
             {sections(`ValuePropositions.${key}.title`)}
           </p>
         </div>

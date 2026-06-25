@@ -1,16 +1,17 @@
 {
   "Hero": {
-    "title_part1": "Invest, Buy and Develop Property in Paraguay ",
-    "title_part2": "with Confidence.",
+    "title_part1": "Invest, Buy and Develop  ",
+    "title_part2": "Real Estate in Paraguay ",
+    "title_part3": "with Confidence.",
     "subtitle": "Lux Development helps local buyers and international investors navigate Paraguay's real estate market through transparent guidance, local expertise, and end-to-end support—so you can make smarter decisions with less risk.",
     "cta": "Schedule a Consultation"
 
   },
   "Sections": {
     "contactButton": "Explore Opportunities",
-    "featureTag": "Our Value Proposition",
+    "featureTag": " Value Proposition",
     "featureHeading": "One trusted partner for your entire real estate journey.",
-    "featureDescription": "Most real estate providers only handle a single part of the process. \n Lux Development brings everything together under one roof, helping you move from opportunity to ownership with confidence.",
+    "featureDescription": "Most providers only handle one part of the process. \n Lux Development brings everything together under one roof, helping local buyers and international clients navigate Paraguay's real estate market with greater clarity and confidence.",
     "externalLinksTag": "Featured Links",
     "externalLinksDescription": "Read about Patricia Fretes in Asunción Times.",
     "articleAboutMe": "Article about me",
@@ -46,10 +47,11 @@
     "contactMessage": "Tell us about your project",
     "contactSubmit": "Send inquiry",
     "ValuePropositions": {
-      "buy": { "title": "Buy property" },
-      "develop": { "title": "Develop property" },
-      "finance": { "title": "Secure financing" },
-      "wealth": { "title": "Build wealth through real estate" }
+      "buy": { "title": "Buy property in Paraguay" },
+      "develop": { "title": "Develop residential and investment projects" },
+      "finance": { "title": "Access financing solutions" },
+      "wealth": { "title": "Build long-term wealth through real estate" },
+      "invest" : { "title": "Identify investment opportunities with strong capital appreciation potential"}
     }
   },
   
