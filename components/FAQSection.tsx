@@ -10,7 +10,7 @@ const TRANSLATIONS = {
       {
         question: "What is Lux Development?",
         answer:
-          "Lux Development is a real estate company specialized in helping local buyers and international investors navigate Paraguay's property market. We offer transparent guidance, local expertise, and end-to-end support — from opportunity identification to ownership.",
+          "Lux Development is a real estate and investment advisory company helping local buyers and international clients buy, develop, and invest in real estate in Paraguay. We provide trusted local expertise, transparent guidance, and end-to-end support throughout the entire property acquisition process.",
       },
       {
         question: "Who is Lux Development for?",
@@ -23,14 +23,14 @@ const TRANSLATIONS = {
           "We offer four core services: property acquisition, property development, financing and structuring, and asset management and investment support. Each service is designed to cover the full lifecycle of a real estate investment.",
       },
       {
-        question: "How does the property acquisition process work?",
+        question: "How does the property acquisition process work in Paraguay?",
         answer:
-          "We start with a consultation to understand your goals, then identify the right opportunities based on your needs and budget. From there, we guide you through legal requirements, negotiations, and administrative procedures until the property is yours.",
+          "Lux Development helps clients navigate every stage of the property acquisition process, including opportunity identification, due diligence, financing, legal coordination, and ownership transfer.",
       },
       {
-        question: "Does Lux Development offer financing options?",
+        question: "Can foreigners buy property in Paraguay?",
         answer:
-          "Yes. We help you navigate financing with clarity, connecting you with options that align with your financial goals. We also offer a mortgage credit simulator on our site so you can estimate your payments before committing.",
+          "Yes. Foreign buyers can legally purchase property in Paraguay. Lux Development helps international clients understand local regulations, minimize risks, and make informed investment decisions with confidence.",
       },
     ],
   },
@@ -41,7 +41,7 @@ const TRANSLATIONS = {
       {
         question: "¿Qué es Lux Development?",
         answer:
-          "Lux Development es una empresa inmobiliaria especializada en ayudar a compradores locales e inversores internacionales a navegar el mercado de propiedades en Paraguay. Ofrecemos asesoramiento transparente, experiencia local y soporte integral, desde la identificación de oportunidades hasta la titularidad.",
+          "Lux Development es una empresa de asesoría inmobiliaria e inversiones que ayuda a compradores locales y clientes internacionales a comprar, desarrollar e invertir en bienes raíces en Paraguay. Ofrecemos experiencia local confiable, asesoramiento transparente y soporte integral durante todo el proceso de adquisición.",
       },
       {
         question: "¿Para quién es Lux Development?",
@@ -54,14 +54,14 @@ const TRANSLATIONS = {
           "Ofrecemos cuatro servicios principales: adquisición de propiedades, desarrollo inmobiliario, financiamiento y estructuración, y gestión de activos y soporte de inversión. Cada servicio está diseñado para cubrir el ciclo completo de una inversión inmobiliaria.",
       },
       {
-        question: "¿Cómo funciona el proceso de compra de una propiedad?",
+        question: "¿Cómo funciona el proceso de compra de una propiedad en Paraguay?",
         answer:
-          "Comenzamos con una consulta para entender tus objetivos, luego identificamos las oportunidades adecuadas según tus necesidades y presupuesto. A partir de ahí, te guiamos a través de los requisitos legales, negociaciones y trámites administrativos hasta que la propiedad sea tuya.",
+          "Lux Development acompaña a los clientes en cada etapa del proceso de adquisición, incluyendo la identificación de oportunidades, due diligence, financiamiento, coordinación legal y transferencia de titularidad.",
       },
       {
-        question: "¿Lux Development ofrece opciones de financiamiento?",
+        question: "¿Pueden los extranjeros comprar propiedades en Paraguay?",
         answer:
-          "Sí. Te ayudamos a navegar el financiamiento con claridad, conectándote con opciones que se alinean con tus objetivos financieros. También ofrecemos un simulador de crédito hipotecario en nuestro sitio para que puedas estimar tus pagos antes de comprometerte.",
+          "Sí. Los compradores extranjeros pueden adquirir propiedades legalmente en Paraguay. Lux Development ayuda a los clientes internacionales a entender las regulaciones locales, minimizar riesgos y tomar decisiones de inversión informadas con confianza.",
       },
     ],
   },
@@ -75,6 +75,7 @@ interface Props {
 export default function FAQSection({ locale, imageSrc }: Props) {
   const t = TRANSLATIONS[locale as "en" | "es"] ?? TRANSLATIONS.es;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   return (
     <>
@@ -295,36 +296,40 @@ export default function FAQSection({ locale, imageSrc }: Props) {
           <div className="faq-right">
             <h2 className="faq-eyebrow">{t.eyebrow}</h2>
 
-            {t.faqs.map((faq, i) => {
-              const isOpen = openIndex === i;
-              return (
-                <div
-                  key={i}
-                  className="faq-item"
-                  onClick={() => setOpenIndex(isOpen ? null : i)}
-                >
-                  <div className="faq-question-row">
-                    <p className="faq-question">{faq.question}</p>
-                    <svg
-                      className={`faq-chevron${isOpen ? " open" : ""}`}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </div>
-                  <div className={`faq-answer${isOpen ? " open" : ""}`}>
-                    <p className="faq-answer-text">{faq.answer}</p>
-                  </div>
-                </div>
-              );
-            })}
+            {(showAll ? t.faqs : t.faqs.slice(0, 3)).map((faq, i) => {
+  const isOpen = openIndex === i;
+  return (
+    <div
+      key={i}
+      className="faq-item"
+      onClick={() => setOpenIndex(isOpen ? null : i)}
+    >
+      <div className="faq-question-row">
+        <p className="faq-question">{faq.question}</p>
+        <svg
+          className={`faq-chevron${isOpen ? " open" : ""}`}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </div>
+      <div className={`faq-answer${isOpen ? " open" : ""}`}>
+        <p className="faq-answer-text">{faq.answer}</p>
+      </div>
+    </div>
+  );
+})}
 
-            <button className="faq-view-all">{t.viewAll} →</button>
+            {!showAll && (
+  <button className="faq-view-all" onClick={() => setShowAll(true)}>
+    {t.viewAll} →
+  </button>
+)}
           </div>
         </div>
       </section>

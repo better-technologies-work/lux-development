@@ -16,13 +16,16 @@ export default function FinalCTA({ locale }: Props) {
   const [enviado, setEnviado] = useState(false);
 
   const handleSubmit = () => {
-    if (!nombre || !telefono) return;
-    const msg = encodeURIComponent(
-      `Hola Patricia, me contacto desde el sitio web de Lux Development.\n\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${telefono}${mensaje ? `\nMensaje: ${mensaje}` : ''}`
-    );
-    window.open(`https://wa.me/${WHATSAPP}?text=${msg}`, '_blank');
-    setEnviado(true);
-  };
+  if (!nombre || !telefono) return;
+  const subject = encodeURIComponent(
+    locale === 'es' ? 'Consulta desde el sitio web' : 'Inquiry from website'
+  );
+  const body = encodeURIComponent(
+    `Nombre: ${nombre}\nEmail: ${email}\nTeléfono: ${telefono}${mensaje ? `\nMensaje: ${mensaje}` : ''}`
+  );
+  window.open(`mailto:luxdevelopmentpy@gmail.com?subject=${subject}&body=${body}`, '_blank');
+  setEnviado(true);
+};
 
   return (
     <section className="border-t border-slate-200">
@@ -55,7 +58,7 @@ export default function FinalCTA({ locale }: Props) {
               <div className="flex items-center gap-3 mb-2">
                 <i className="ti ti-calendar text-sky-400 text-2xl" aria-hidden="true" />
                 <p className="text-white font-semibold text-lg">
-                  {locale === 'es' ? 'Agendá tu consulta' : 'Book your consultation'}
+                  {locale === 'es' ? 'Reserve una consulta con Patricia y descubra cómo la experiencia local de confianza puede ayudarle a invertir, comprar y desarrollar proyectos inmobiliarios en Paraguay con total seguridad' : 'Book a consultation with Patricia and discover how trusted local expertise can help you invest, buy, and develop real estate in Paraguay with confidence.'}
                 </p>
               </div>
               <p className="text-slate-400 text-sm font-light leading-relaxed">
@@ -171,13 +174,13 @@ export default function FinalCTA({ locale }: Props) {
                   </div>
 
                   <button
-                    onClick={handleSubmit}
-                    disabled={!nombre || !telefono}
-                    className="flex items-center justify-center gap-2 w-full bg-slate-950 hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-white text-sm font-semibold py-3.5 rounded-xl transition mt-2"
-                  >
-                    <i className="ti ti-brand-whatsapp text-base" aria-hidden="true" />
-                    {locale === 'es' ? 'Enviar por WhatsApp' : 'Send via WhatsApp'}
-                  </button>
+  onClick={handleSubmit}
+  disabled={!nombre || !telefono}
+  className="flex items-center justify-center gap-2 w-full bg-slate-950 hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-white text-sm font-semibold py-3.5 rounded-xl transition mt-2"
+>
+  <i className="ti ti-mail text-base" aria-hidden="true" />
+  {locale === 'es' ? 'Enviar mensaje' : 'Send message'}
+</button>
 
                   <p className="text-xs text-slate-400 text-center">
                     * {locale === 'es' ? 'Campos requeridos' : 'Required fields'}

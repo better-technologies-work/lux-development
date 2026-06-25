@@ -20,7 +20,7 @@ export default function OurMissionSection() {
 
         <div className="space-y-8 text-lg md:text-xl text-slate-600 font-light leading-relaxed">
           <p>{t("missionParagraph1")}</p>
-          <p>{t("missionParagraph2")}</p>
+          
 
           <p className="text-2xl md:text-3xl text-slate-900 font-medium">
             {t("missionParagraph3")}
