@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 const WHATSAPP = '595981506175';
-const CALENDLY_URL = 'https://calendly.com/TU_LINK_AQUI'; // reemplazár con el link de Paty
+const CALENDLY_URL = 'https://calendly.com/'; // reemplazár con el link de Paty
 
 interface Props {
   locale: string;
@@ -88,7 +88,7 @@ export default function FinalCTA({ locale }: Props) {
                 <i className="ti ti-brand-whatsapp text-2xl text-green-600" aria-hidden="true" />
                 <div>
                   <p className="text-xs text-slate-500 uppercase font-medium tracking-wider">WhatsApp</p>
-                  <p className="text-sm font-semibold text-slate-950">+595 991 358 652</p>
+                  <p className="text-sm font-semibold text-slate-950">+595981506175</p>
                 </div>
                 <i className="ti ti-arrow-right text-slate-300 group-hover:text-slate-600 ml-auto transition" aria-hidden="true" />
               </a>

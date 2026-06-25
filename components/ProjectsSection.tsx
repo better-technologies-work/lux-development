@@ -2,15 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { supabase } from '@/lib/supabase';
-import {  getProjects } from '@/lib/projectService';
+import { getProjects } from '@/lib/projectService';
 
 interface Props {
   locale: string;
   cardDetails: string;
 }
 
-// ─── Tipo alineado con la tabla lux_projects ────────────────────────────────
 type Project = {
   id: string;
   title: string;
@@ -21,21 +19,18 @@ type Project = {
   currency: 'USD' | 'PYG';
   category: string;
   external_link: string;
-  images: string[];         // TEXT[] en Supabase → ya llega como array
+  images: string[];
   featured: boolean;
   order_index: number;
-  // Campos legacy del hardcode anterior (opcionales para compatibilidad)
   bedrooms?: string;
   bathrooms?: string;
   area?: string;
-  highlights?: { en: string[]; es: string[] };
-  amenities?: { en: string[]; es: string[] };
-  finance?: { en: string; es: string };
+  highlights?: string[];
+  amenities?: string[];
+  finance?: string | null;
   monthlyPayment?: string;
 };
 
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 const STATUS_LABELS = {
   available:   { es: 'Disponible',   en: 'Available',    color: 'bg-green-500' },
   sold:        { es: 'Vendido',      en: 'Sold',         color: 'bg-red-500' },
@@ -51,7 +46,6 @@ function formatPrice(price: number | null, currency: 'USD' | 'PYG'): string {
   return `Gs. ${Number(price).toLocaleString('es-PY')}`;
 }
 
-// ─── Modal ───────────────────────────────────────────────────────────────────
 function ProjectModal({
   project,
   locale,
@@ -69,7 +63,6 @@ function ProjectModal({
   const [currentImage, setCurrentImage] = useState(0);
   const hasImages = project.images && project.images.length > 0;
 
-  // Reset imagen al cambiar de proyecto
   useEffect(() => { setCurrentImage(0); }, [project.id]);
 
   const statusInfo = STATUS_LABELS[project.status] ?? STATUS_LABELS.available;
@@ -80,7 +73,7 @@ function ProjectModal({
         className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Sidebar — otros proyectos */}
+        {/* Sidebar */}
         <div className="hidden md:flex flex-col w-48 shrink-0 border-r border-slate-100 bg-slate-50 p-3 gap-2 overflow-y-auto">
           <p className="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mb-1 px-1">
             {l === 'es' ? 'Proyectos' : 'Projects'}
@@ -114,7 +107,6 @@ function ProjectModal({
 
         {/* Contenido principal */}
         <div className="flex flex-col flex-1 min-w-0 overflow-y-auto">
-          {/* Header */}
           <div className="sticky top-0 bg-sky-900 text-white p-5 flex justify-between items-center z-10 shrink-0">
             <div>
               <h2 className="text-lg font-bold">{project.title}</h2>
@@ -124,7 +116,6 @@ function ProjectModal({
           </div>
 
           <div className="p-5 space-y-5">
-            {/* Imagen */}
             {hasImages ? (
               <div className="relative h-56 rounded-xl overflow-hidden bg-slate-100">
                 <Image
@@ -163,12 +154,10 @@ function ProjectModal({
               </div>
             )}
 
-            {/* Status badge */}
             <span className={`inline-flex items-center gap-1 text-white text-xs font-semibold px-3 py-1 rounded-full ${statusInfo.color}`}>
               {statusInfo[l]}
             </span>
 
-            {/* Precio */}
             <div className="border-b border-slate-200 pb-4">
               <p className="text-3xl font-bold text-slate-950">{formatPrice(project.price, project.currency)}</p>
               {(project.bedrooms || project.bathrooms || project.area) && (
@@ -195,7 +184,6 @@ function ProjectModal({
               )}
             </div>
 
-            {/* Descripción */}
             {project.description && (
               <div>
                 <h3 className="text-base font-bold text-slate-950 mb-2">{l === 'es' ? 'Descripción' : 'Description'}</h3>
@@ -203,12 +191,11 @@ function ProjectModal({
               </div>
             )}
 
-            {/* Highlights (solo proyectos estáticos) */}
-            {project.highlights && (
+            {project.highlights && project.highlights.length > 0 && (
               <div>
                 <h3 className="text-base font-bold text-slate-950 mb-3">{l === 'es' ? 'Características' : 'Features'}</h3>
                 <ul className="space-y-2 text-sm text-slate-600 font-light">
-                  {project.highlights[l].map((h, i) => (
+                  {project.highlights.map((h, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-sky-900 font-bold mt-0.5">•</span>
                       <span>{h}</span>
@@ -218,12 +205,11 @@ function ProjectModal({
               </div>
             )}
 
-            {/* Amenities (solo proyectos estáticos) */}
-            {project.amenities && (
+            {project.amenities && project.amenities.length > 0 && (
               <div>
                 <h3 className="text-base font-bold text-slate-950 mb-3">{l === 'es' ? 'Comodidades' : 'Amenities'}</h3>
                 <div className="grid grid-cols-2 gap-3 text-sm text-slate-600 font-light">
-                  {project.amenities[l].map((a, i) => (
+                  {project.amenities.map((a, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <span className="text-sky-900">✓</span><span>{a}</span>
                     </div>
@@ -232,11 +218,10 @@ function ProjectModal({
               </div>
             )}
 
-            {/* Financiación (solo proyectos estáticos) */}
             {project.finance && (
               <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
                 <h3 className="text-xs font-bold text-sky-900 uppercase">{l === 'es' ? 'Financiación' : 'Financing'}</h3>
-                <p className="text-slate-700 text-sm mt-2">{project.finance[l]}</p>
+                <p className="text-slate-700 text-sm mt-2">{project.finance}</p>
                 {project.monthlyPayment && (
                   <p className="text-slate-600 text-xs mt-1 font-light">
                     {l === 'es' ? 'Cuota mensual' : 'Monthly Payment'}:{' '}
@@ -246,10 +231,9 @@ function ProjectModal({
               </div>
             )}
 
-            {/* CTA */}
             {project.external_link && (
-              <a
-                href={project.external_link}
+              
+               <a href={project.external_link}
                 target="_blank"
                 rel="noreferrer"
                 className="block w-full bg-sky-900 text-white hover:bg-sky-800 px-6 py-3 rounded-lg font-medium transition text-center text-sm"
@@ -258,7 +242,6 @@ function ProjectModal({
               </a>
             )}
 
-            {/* Otros proyectos — mobile */}
             <div className="md:hidden border-t border-slate-100 pt-4">
               <p className="text-xs text-slate-400 uppercase font-medium mb-3">
                 {l === 'es' ? 'Otros proyectos' : 'Other projects'}
@@ -289,7 +272,6 @@ function ProjectModal({
   );
 }
 
-// ─── Card ─────────────────────────────────────────────────────────────────────
 function ProjectCard({
   project,
   locale,
@@ -353,22 +335,20 @@ function ProjectCard({
   );
 }
 
-// ─── Section principal ────────────────────────────────────────────────────────
 export default function ProjectsSection({ locale, cardDetails }: Props) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  async function load() {
-    const data = await getProjects();
+    async function load() {
+      const data = await getProjects(locale);
+      setProjects(data);
+      setLoading(false);
+    }
+    load();
+  }, [locale]);
 
-    setProjects(data);
-    setLoading(false);
-  }
-
-  load();
-}, []);
   const activeProject = projects.find((p) => p.id === activeProjectId) ?? null;
 
   if (loading) {
