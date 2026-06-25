@@ -224,11 +224,13 @@ const rootT = await getTranslations({ locale });
 
 <SuccessStories locale={locale} />
 <OurServices locale={locale} />
+<OurMissionSection />
+<WhoWeHelpSection  />
 <WhyLuxDevelopment locale={locale} />
 <SocialBar locale={locale} />
 <FAQSection locale={locale} imageSrc="/OIP.webp" />
-<WhoWeHelpSection  />
-<OurMissionSection />
+
+
 <FinalCTA locale={locale} />
 
   {/* Footer */}
