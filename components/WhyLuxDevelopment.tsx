@@ -6,7 +6,7 @@ const TRANSLATIONS = {
   en: {
     eyebrow: "Why Lux Development",
     headline1: "We don't just help you buy property.",
-    headline2: "We help you make the right decision.",
+    headline2: "We help you make the right investment decision.",
     subtitle:
       "One partner who knows the market, speaks your language, and is with you from the first step to the last.",
     cards: [
@@ -34,7 +34,7 @@ const TRANSLATIONS = {
   es: {
     eyebrow: "Por qué Lux Development",
     headline1: "No solo te ayudamos a comprar.",
-    headline2: "Te ayudamos a decidir bien.",
+    headline2: "Te ayudamos a decidir la correcta inversion.",
     subtitle:
       "Un socio que conoce el mercado, habla tu idioma y está contigo desde el primer paso hasta el último.",
     cards: [
@@ -118,7 +118,7 @@ export default function WhyLuxDevelopment({ locale }: Props) {
   width: 100%;
 }
         .wld-eyebrow {
-          font-size: 12px !important;
+          font-size: 18px !important;
           font-weight: 600 !important;
           letter-spacing: 0.14em !important;
           text-transform: uppercase !important;
@@ -174,11 +174,11 @@ export default function WhyLuxDevelopment({ locale }: Props) {
           width: 36px;
           height: 36px;
           border-radius: 8px;
-          background: #F5EFE6;
+          background: rgb(245, 242, 234);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #8B7A5E;
+          color: #061ea7;
           margin-bottom: 4px;
           flex-shrink: 0;
         }
@@ -191,7 +191,7 @@ export default function WhyLuxDevelopment({ locale }: Props) {
         }
         .wld-card-body {
           font-size: 13px !important;
-          color: #666 !important;
+          color: #1063a7 !important;
           line-height: 1.6 !important;
           margin: 0 !important;
           text-decoration: none !important;
@@ -221,7 +221,7 @@ export default function WhyLuxDevelopment({ locale }: Props) {
         }
         .wld-wide-sub {
           font-size: 14px !important;
-          color: #666 !important;
+          color: #1f099b666 !important;
           line-height: 1.6 !important;
           margin: 0 !important;
           max-width: 480px;
@@ -231,12 +231,12 @@ export default function WhyLuxDevelopment({ locale }: Props) {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          background: #F5EFE6;
+          background: #e8ebf3;
           border-radius: 99px;
           padding: 5px 14px;
           font-size: 12px !important;
           font-weight: 500 !important;
-          color: #8B7A5E !important;
+          color: #2f6dca !important;
           text-decoration: none !important;
           margin-top: 4px;
         }
@@ -271,13 +271,17 @@ export default function WhyLuxDevelopment({ locale }: Props) {
 
       <section ref={sectionRef} className="wld-section">
         {/* Header */}
-        <div data-animate data-delay="0">
-          <p className="wld-eyebrow">{t.eyebrow}</p>
-          <h2 className="wld-headline">
-            {t.headline1} <span>{t.headline2}</span>
-          </h2>
-          <p className="wld-subtitle">{t.subtitle}</p>
-        </div>
+<div data-animate data-delay="0">
+  {/* El eyebrow suele ser pequeño, lo dejamos como p o span con su clase */}
+  <p className="wld-eyebrow">{t.eyebrow}</p>
+  
+  {/* Cambiamos h3 a h2 y aseguramos que tenga la clase de headline para el tamaño grande */}
+  <h2 className="wld-headline">
+    {t.headline1} <span>{t.headline2}</span>
+  </h2>
+  
+  <p className="wld-subtitle">{t.subtitle}</p>
+</div>
 
         {/* Grid */}
         <div className="wld-grid">

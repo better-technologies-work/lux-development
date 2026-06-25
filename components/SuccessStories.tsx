@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useTranslations } from 'next-intl'
 
 interface Props {
   locale: string;
@@ -43,13 +44,13 @@ const stories = [
   },
 ];
 
-export default function SuccessStories({ locale }: Props) {
+export default function SuccessStories({ locale }: { locale: string }) {
+  const sections = useTranslations() // 2. Inicializar (o el nombre que le des, usualmente 't')
   const l = locale as 'en' | 'es';
-
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200">
       <h2 className="text-2xl md:text-4xl font-extrabold text-slate-950 tracking-tight mb-10">
-        {locale === 'es' ? 'Casos de éxito:' : 'Success Stories:'}
+        {sections('SuccessStories.title')} {/* 3. Ahora esto funcionará */}
       </h2>
 
       <div className="flex flex-col gap-4">
