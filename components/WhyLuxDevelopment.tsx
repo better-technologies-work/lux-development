@@ -8,35 +8,35 @@ const TRANSLATIONS = {
     headline1: "We don't just help you buy property.",
     headline2: "We help you make the right investment decision.",
     subtitle:
-      "One partner who knows the market, speaks your language, and is with you from the first step to the last.",
+      "One trusted partner who understands Paraguay's real estate market, speaks your language, and supports you from property acquisition to ownership and beyond.",
     cards: [
       {
         title: "Transparency",
-        body: "Clear information, realistic expectations, and honest communication throughout the process.",
+        body: "Clear information, realistic expectations, and honest communication throughout every stage of the process.",
       },
       {
         title: "Local Expertise",
-        body: "Deep knowledge of Paraguay's real estate market to help you identify opportunities and avoid unnecessary risks.",
+        body: "Deep knowledge of Paraguay's real estate market to help clients identify investment opportunities and minimize unnecessary risks.",
       },
       {
         title: "End-to-End Support",
-        body: "One trusted partner guiding you from acquisition to ownership and beyond.",
+        body: "One trusted partner guiding clients from due diligence and acquisition to ownership and long-term growth.",
       },
       {
         title: "Bilingual Communication",
-        body: "Bridging language and cultural barriers between local stakeholders and international investors.",
+        body: "Bridging language and cultural barriers between local stakeholders and international clients.",
       },
     ],
     wideTitle: "Long-Term Relationships",
-    wideSub: "Our goal is not a transaction.",
-    wideBadge: "Our goal is to become your trusted real estate partner for years to come.",
+    wideSub: "We don't focus on transactions",
+    wideBadge: "We focus on building trusted relationships that last for years.",
   },
   es: {
     eyebrow: "Por qué Lux Development",
     headline1: "No solo te ayudamos a comprar.",
     headline2: "Te ayudamos a decidir la correcta inversion.",
     subtitle:
-      "Un socio que conoce el mercado, habla tu idioma y está contigo desde el primer paso hasta el último.",
+      "Un socio de confianza que entiende el mercado inmobiliario de Paraguay, habla su mismo idioma y le acompaña desde la adquisición de la propiedad hasta su posesión y más allá.",
     cards: [
       {
         title: "Transparencia",
@@ -44,11 +44,11 @@ const TRANSLATIONS = {
       },
       {
         title: "Expertise local",
-        body: "Conocimiento profundo del mercado inmobiliario de Paraguay para identificar oportunidades y evitar riesgos innecesarios.",
+        body: " Conocimiento profundo del mercado inmobiliario de Paraguay para ayudar a los clientes a identificar oportunidades de inversión y minimizar riesgos innecesarios.",
       },
       {
         title: "Acompañamiento integral",
-        body: "Un solo socio de confianza que te guía desde la adquisición hasta la titularidad y más allá.",
+        body: "Un socio de confianza que guía a sus clientes desde la debida diligencia y la adquisición hasta la posesión y el crecimiento a largo plazo",
       },
       {
         title: "Comunicación bilingüe",
@@ -56,8 +56,8 @@ const TRANSLATIONS = {
       },
     ],
     wideTitle: "Relaciones a Largo Plazo",
-    wideSub: "Nuestro objetivo no es una transacción.",
-    wideBadge: "Nuestro objetivo es convertirnos en su socio inmobiliario de confianza durante muchos años.",
+    wideSub: "No nos enfocamos en transacciones",
+    wideBadge: "Nos enfocamos en construir relaciones de confianza que perduren por años.",
   },
 };
 

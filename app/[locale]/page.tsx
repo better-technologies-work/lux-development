@@ -16,6 +16,7 @@ import FinalCTA from '@/components/FinalCTA'
 import ProjectsSection from '@/components/ProjectsSection';
 import Navbar from '@/components/Navbar';
 import { supabase } from '@/lib/supabase'
+import SocialBar from '@/components/SocialBar';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -224,6 +225,7 @@ const rootT = await getTranslations({ locale });
 <SuccessStories locale={locale} />
 <OurServices locale={locale} />
 <WhyLuxDevelopment locale={locale} />
+<SocialBar locale={locale} />
 <FAQSection locale={locale} imageSrc="/OIP.webp" />
 <WhoWeHelpSection  />
 <OurMissionSection />
