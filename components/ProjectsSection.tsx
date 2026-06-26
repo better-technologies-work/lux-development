@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getProjects } from '@/lib/projectService';
 
+import { createPortal } from 'react-dom';
 interface Props {
   locale: string;
   cardDetails: string;
@@ -46,6 +47,95 @@ function formatPrice(price: number | null, currency: 'USD' | 'PYG'): string {
   return `Gs. ${Number(price).toLocaleString('es-PY')}`;
 }
 
+// ── LIGHTBOX (nuevo) ──────────────────────────────────────────────
+function Lightbox({
+  images,
+  startIndex,
+  onClose,
+}: {
+  images: string[];
+  startIndex: number;
+  onClose: () => void;
+}) {
+  const [current, setCurrent] = useState(startIndex);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') setCurrent((p) => (p - 1 + images.length) % images.length);
+      if (e.key === 'ArrowRight') setCurrent((p) => (p + 1) % images.length);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [images.length, onClose]);
+
+  return createPortal(
+    <div
+      className="fixed inset-0 bg-black/95 flex items-center justify-center"
+      style={{ zIndex: 9999 }}
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full h-full max-w-5xl max-h-[90vh] mx-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Image
+          src={images[current]}
+          alt={`Imagen ${current + 1}`}
+          fill
+          className="object-contain"
+          sizes="100vw"
+        />
+
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl transition"
+        >
+          ✕
+        </button>
+
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={() => setCurrent((p) => (p - 1 + images.length) % images.length)}
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/25 text-white rounded-full w-11 h-11 flex items-center justify-center text-xl transition"
+            >
+              &#10094;
+            </button>
+            <button
+              onClick={() => setCurrent((p) => (p + 1) % images.length)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/25 text-white rounded-full w-11 h-11 flex items-center justify-center text-xl transition"
+            >
+              &#10095;
+            </button>
+          </>
+        )}
+
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-3 py-1 rounded-full">
+          {current + 1} / {images.length}
+        </div>
+
+        {images.length > 1 && (
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-2">
+            {images.map((src, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`w-12 h-9 rounded overflow-hidden relative border-2 transition ${
+                  i === current ? 'border-white' : 'border-transparent opacity-50 hover:opacity-80'
+                }`}
+              >
+                <Image src={src} alt="" fill className="object-cover" sizes="48px" />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>,
+    document.body
+  );
+}
+
 function ProjectModal({
   project,
   locale,
@@ -61,6 +151,7 @@ function ProjectModal({
 }) {
   const l = locale as 'en' | 'es';
   const [currentImage, setCurrentImage] = useState(0);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null); // nuevo
   const hasImages = project.images && project.images.length > 0;
 
   useEffect(() => { setCurrentImage(0); }, [project.id]);
@@ -69,6 +160,15 @@ function ProjectModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
+      {/* Lightbox (nuevo) */}
+      {lightboxIndex !== null && (
+        <Lightbox
+          images={project.images}
+          startIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+        />
+      )}
+
       <div
         className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -118,6 +218,11 @@ function ProjectModal({
           <div className="p-5 space-y-5">
             {hasImages ? (
               <div className="relative h-56 rounded-xl overflow-hidden bg-slate-100">
+                {/* Click en imagen abre lightbox (nuevo) */}
+                <div
+                  className="absolute inset-0 cursor-zoom-in z-10"
+                  onClick={() => setLightboxIndex(currentImage)}
+                />
                 <Image
                   src={project.images[currentImage]}
                   alt={`${project.title} - ${currentImage + 1}`}
@@ -128,25 +233,29 @@ function ProjectModal({
                 {project.images.length > 1 && (
                   <>
                     <button
-                      onClick={() => setCurrentImage((p) => (p - 1 + project.images.length) % project.images.length)}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
+                      onClick={(e) => { e.stopPropagation(); setCurrentImage((p) => (p - 1 + project.images.length) % project.images.length); }}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition z-20"
                     >&#10094;</button>
                     <button
-                      onClick={() => setCurrentImage((p) => (p + 1) % project.images.length)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition"
+                      onClick={(e) => { e.stopPropagation(); setCurrentImage((p) => (p + 1) % project.images.length); }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-sky-900/80 hover:bg-sky-900 text-white p-2 rounded-full transition z-20"
                     >&#10095;</button>
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
                       {project.images.map((_, i) => (
-                        <button key={i} onClick={() => setCurrentImage(i)}
+                        <button key={i} onClick={(e) => { e.stopPropagation(); setCurrentImage(i); }}
                           className={`w-2 h-2 rounded-full transition ${i === currentImage ? 'bg-white' : 'bg-white/40'}`}
                         />
                       ))}
                     </div>
-                    <div className="absolute bottom-3 right-3 bg-slate-950/70 text-white text-xs px-2 py-1 rounded font-semibold">
+                    <div className="absolute bottom-3 right-3 bg-slate-950/70 text-white text-xs px-2 py-1 rounded font-semibold z-20">
                       {currentImage + 1} / {project.images.length}
                     </div>
                   </>
                 )}
+                {/* Ícono de zoom (nuevo) */}
+                <div className="absolute top-3 right-3 bg-black/40 text-white text-xs px-2 py-1 rounded z-20 pointer-events-none">
+                  🔍
+                </div>
               </div>
             ) : (
               <div className="h-40 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
@@ -233,7 +342,7 @@ function ProjectModal({
 
             {project.external_link && (
               
-               <a href={project.external_link}
+                <a href={project.external_link}
                 target="_blank"
                 rel="noreferrer"
                 className="block w-full bg-sky-900 text-white hover:bg-sky-800 px-6 py-3 rounded-lg font-medium transition text-center text-sm"
