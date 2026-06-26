@@ -1,0 +1,34 @@
+# Lux Development
+
+> Empresa inmobiliaria de lujo en Paraguay especializada en propiedades residenciales, inversión y financiamiento.
+
+## Qué hacemos
+Lux Development conecta a compradores locales e internacionales con propiedades exclusivas en Paraguay. Ofrecemos acompañamiento integral en todo el proceso de adquisición, desde la búsqueda hasta el financiamiento.
+
+## Servicios
+- Venta de propiedades residenciales de lujo
+- Simulador de adquisición hipotecaria
+- Programa Sooner (renta con opción a compra)
+- Asesoramiento en inversión inmobiliaria
+- Financiamiento bancario facilitado
+
+## Proyectos actuales
+- Duplex Villa Elisa — Villa Elisa, Central (disponible)
+- Aura Penthouse — Asunción (disponible)
+- The Zen Pavilions — Asunción (disponible)
+
+## Para quién trabajamos
+- Familias buscando su primera vivienda en Paraguay
+- Inversores locales e internacionales
+- Paraguayos en el exterior buscando invertir en su país
+
+## Contacto
+- Email: luxdevelopmentpy@gmail.com
+- Web: https://luxdevelopmentpy.com
+- Instagram: https://www.instagram.com/luxdevelopmentpy
+- LinkedIn: https://www.linkedin.com/company/luxdevelopment
+
+## URLs importantes
+- Sitemap: https://luxdevelopmentpy.com/sitemap.xml
+- Proyectos: https://luxdevelopmentpy.com/#proyectos
+- Blog: https://luxdevelopmentpy.com/#blog

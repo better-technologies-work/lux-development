@@ -19,8 +19,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 
   const descriptions: Record<string, string> = {
-    en: 'Discover premium luxury properties and real estate investment opportunities in Malibu, Monaco, Kyoto and more. Curated sanctuaries for modern living.',
-    es: 'Descubre propiedades de lujo premium y oportunidades de inversión inmobiliaria en Malibu, Mónaco, Kioto y más. Espacios exclusivos para la vida moderna.',
+    en: 'Discover exclusive luxury properties and real estate investment opportunities in Paraguay. Personalized financing and expert guidance for local and international buyers.',
+    es: 'Descubrí propiedades exclusivas de lujo y oportunidades de inversión inmobiliaria en Paraguay. Financiamiento personalizado y acompañamiento integral para compradores locales e internacionales.',
   };
 
   const baseUrl = 'https://luxdevelopmentpy.com';
@@ -34,8 +34,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       apple: '/logo.png',
     },
     keywords: locale === 'es' 
-      ? 'casas de lujo, propiedades exclusivas, inversión inmobiliaria, vivienda de lujo, Malibu, Mónaco, Kioto'
-      : 'luxury homes, exclusive properties, real estate investment, luxury living, Malibu, Monaco, Kyoto',
+      ? 'casas de lujo Paraguay, propiedades exclusivas Asunción, inversión inmobiliaria Paraguay, Villa Elisa, duplex Paraguay, financiamiento hipotecario'
+      : 'luxury homes Paraguay, exclusive properties Asuncion, real estate investment Paraguay, Villa Elisa, duplex Paraguay, mortgage financing',
     alternates: {
       canonical: `${baseUrl}${locale === 'en' ? '' : `/${locale}`}/`,
     },
@@ -116,9 +116,9 @@ export default async function LocaleLayout({
             "contactPoint": {
               "@type": "ContactPoint",
               "contactType": "Customer Service",
-              "email": "contact@luxdevelopmentpy.com"
+              "email": "luxdevelopmentpy@gmail.com"
             },
-            "areaServed": ["US", "MC", "JP"]
+            "areaServed": ["PY"]
           }`}
         </Script>
 

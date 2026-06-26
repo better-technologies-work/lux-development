@@ -197,7 +197,7 @@ export default function FAQSection({ locale, imageSrc }: Props) {
         <div className="faq-inner">
 
           {/* Left — L U X letter shapes with image fill */}
-          <div className="faq-letters">
+          <div className="faq-letters" role="img" aria-label="Lux Development">
 
             {/* L */}
             <div className="faq-letter" style={{ marginTop: "2rem" }}>

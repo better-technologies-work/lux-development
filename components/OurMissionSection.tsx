@@ -126,7 +126,7 @@ export default function OurMissionSection({ imageSrc }: Props) {
           <div className="mission-image-wrap desktop-image">
             <Image
               src={imageSrc}
-              alt="Mission"
+              alt="Casa moderna en Paraguay — Lux Development"
               fill
               className="object-cover"
               sizes="40vw"
@@ -152,7 +152,7 @@ export default function OurMissionSection({ imageSrc }: Props) {
             <div className="mobile-image">
               <Image
                 src={imageSrc}
-                alt="Mission"
+                alt="Casa moderna en Paraguay — Lux Development"
                 fill
                 className="object-cover"
                 sizes="100vw"
