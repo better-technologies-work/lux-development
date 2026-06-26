@@ -14,27 +14,31 @@ export default function CalcRenta({
   const [projects, setProjects] = useState<any[]>([]);
   const [proyectoId, setProyectoId] = useState<string>('');
   const [precio, setPrecio] = useState<number>(0);
+  const [precioOriginalPYG, setPrecioOriginalPYG] = useState<number | null>(null);
   const [currency, setCurrencyState] = useState<'USD' | 'GS'>('USD');
   const [tasa, setTasa] = useState(8.5);
   const [mesesContrato, setMesesContrato] = useState(6);
 
   useEffect(() => {
     async function load() {
-      const data = await getProjects();
+      const data = await getProjects(locale);
       setProjects(data);
-
       if (data?.length > 0) {
         const first = data[0];
         setProyectoId(first.id);
-        // price en Supabase es el valor base; si es PYG lo convertimos a USD
-        const priceUSD = first.currency === 'PYG'
-          ? Math.round(Number(first.price) / TC)
-          : Number(first.price ?? 0);
-        setPrecio(priceUSD);
+        const rawPrice = Number(first.price ?? 0);
+        if (first.currency === 'PYG') {
+          setPrecioOriginalPYG(rawPrice);
+          setPrecio(Math.round(rawPrice / TC));
+        } else {
+          setPrecioOriginalPYG(null);
+          setPrecio(rawPrice);
+        }
+        setCurrencyState('USD');
       }
     }
     load();
-  }, []);
+  }, [locale]);
 
   const proyecto = projects.find((p) => p.id === proyectoId);
 
@@ -42,28 +46,46 @@ export default function CalcRenta({
     const p = projects.find((x) => x.id === id);
     if (!p) return;
     setProyectoId(id);
-    const priceUSD = p.currency === 'PYG'
-      ? Math.round(Number(p.price) / TC)
-      : Number(p.price ?? 0);
-    // Convertir al currency activo
-    setPrecio(currency === 'GS' ? Math.round(priceUSD * TC) : priceUSD);
+    const rawPrice = Number(p.price ?? 0);
+    if (p.currency === 'PYG') {
+      setPrecioOriginalPYG(rawPrice);
+      setPrecio(currency === 'GS' ? rawPrice : Math.round(rawPrice / TC));
+    } else {
+      setPrecioOriginalPYG(null);
+      setPrecio(currency === 'GS' ? Math.round(rawPrice * TC) : rawPrice);
+    }
   };
 
-  const n = 30 * 12;
-  const r = tasa / 100 / 12;
-
-  const rentingFee =
-    r === 0
-      ? precio / n
-      : (precio * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-
-  const totalRentLiquidity = rentingFee * mesesContrato;
-  const precioFinal = precio - totalRentLiquidity;
+  const handleCurrency = (c: 'USD' | 'GS') => {
+    if (c === currency) return;
+    if (c === 'GS') {
+      setPrecio(precioOriginalPYG ?? Math.round(precio * TC));
+    } else {
+      setPrecio(precioOriginalPYG ? Math.round(precioOriginalPYG / TC) : Math.round(precio / TC));
+    }
+    setCurrencyState(c);
+  };
 
   const fmt = (val: number) =>
     currency === 'GS'
       ? 'Gs. ' + Math.round(val).toLocaleString('es-PY')
       : 'US$ ' + Math.round(val).toLocaleString('en-US');
+
+  const fmtInput = (val: number) =>
+    currency === 'GS'
+      ? Math.round(val).toLocaleString('es-PY')
+      : Math.round(val).toLocaleString('en-US');
+
+  const handlePrecioChange = (raw: string) => {
+    const clean = raw.replace(/\./g, '').replace(/,/g, '');
+    setPrecio(isNaN(parseFloat(clean)) ? 0 : parseFloat(clean));
+  };
+
+  const n = 30 * 12;
+  const r = tasa / 100 / 12;
+  const rentingFee = r === 0 ? precio / n : (precio * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  const totalRentLiquidity = rentingFee * mesesContrato;
+  const precioFinal = precio - totalRentLiquidity;
 
   const waMsg = encodeURIComponent(
     `Consulta Sooner Program: Proyecto ${proyecto?.title ?? ''}, Propiedad ${fmt(precio)}, Renting Fee ${fmt(rentingFee)}/mes por ${mesesContrato} meses. Precio final: ${fmt(Math.max(precioFinal, 0))}.`
@@ -75,9 +97,7 @@ export default function CalcRenta({
         className="w-full max-w-md bg-white rounded-3xl overflow-y-auto max-h-[90vh] shadow-2xl relative"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="bg-[#C0C0C0] p-6 text-slate-900 rounded-b-[2rem] shrink-0">
-
           <div className="flex items-start justify-between mb-2">
             <div className="flex items-center gap-4">
               <div>
@@ -87,9 +107,7 @@ export default function CalcRenta({
                 <h3 className="text-xl font-bold">
                   {locale === 'es' ? 'Simulador de renta' : 'Rental simulator'}
                 </h3>
-                <p className="text-xs opacity-70 mt-1">
-                  Asset Management & Investment Support
-                </p>
+                <p className="text-xs opacity-70 mt-1">Asset Management & Investment Support</p>
               </div>
               <img src="/calculadora.png" alt="Logo" className="w-12 h-12 object-contain" />
             </div>
@@ -102,7 +120,7 @@ export default function CalcRenta({
               : 'End the rental cycle and achieve homeownership faster through personalized financing solutions and end-to-end guidance from Lux.'}
           </p>
 
-          {/* Selector de proyecto */}
+          {/* Proyecto */}
           <div className="mb-4">
             <label className="block text-xs uppercase opacity-70 mb-1 font-bold">
               {locale === 'es' ? 'Proyecto' : 'Project'}
@@ -113,14 +131,10 @@ export default function CalcRenta({
               className="w-full bg-white/30 border border-black/10 rounded-xl px-4 py-2 text-sm font-semibold focus:outline-none"
             >
               {projects.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.title}
-                </option>
+                <option key={p.id} value={p.id}>{p.title}</option>
               ))}
             </select>
-            <p className="text-xs opacity-60 mt-1">
-              {proyecto?.location ?? ''}
-            </p>
+            <p className="text-xs opacity-60 mt-1">{proyecto?.location ?? ''}</p>
           </div>
 
           {/* Moneda */}
@@ -128,11 +142,7 @@ export default function CalcRenta({
             {(['USD', 'GS'] as const).map((c) => (
               <button
                 key={c}
-                onClick={() => {
-                  if (c === currency) return;
-                  setPrecio((prev) => c === 'GS' ? Math.round(prev * TC) : Math.round(prev / TC));
-                  setCurrencyState(c);
-                }}
+                onClick={() => handleCurrency(c)}
                 className={`px-4 py-1 rounded-full text-xs font-bold transition ${currency === c ? 'bg-slate-900 text-white' : 'bg-white/50 text-slate-900'}`}
               >
                 {c === 'GS' ? 'Guaraníes' : 'USD'}
@@ -145,12 +155,9 @@ export default function CalcRenta({
             {locale === 'es' ? 'Valor propiedad' : 'Property value'}
           </label>
           <input
-            type="number"
-            value={precio ?? 0}
-            onChange={(e) => {
-              const val = parseFloat(e.target.value);
-              setPrecio(isNaN(val) ? 0 : val);
-            }}
+            type="text"
+            value={fmtInput(precio)}
+            onChange={(e) => handlePrecioChange(e.target.value)}
             className="w-full bg-white/30 border border-black/10 rounded-xl px-4 py-3 text-lg font-bold focus:outline-none"
           />
 
@@ -187,13 +194,12 @@ export default function CalcRenta({
 
         {/* Resultados */}
         <div className="p-6 space-y-3">
-
-          {/* Renting Fee */}
           <div className="bg-slate-50 rounded-2xl border border-slate-100 p-4">
             <div className="flex items-center justify-between mb-1">
               <p className="text-xs font-bold text-slate-500 uppercase">Renting Fee</p>
               <p className="text-lg font-bold text-slate-950">
-                {fmt(rentingFee)}<span className="text-xs font-normal text-slate-400">/mes</span>
+                {fmt(rentingFee)}
+                <span className="text-xs font-normal text-slate-400">/{locale === 'es' ? 'mes' : 'month'}</span>
               </p>
             </div>
             <p className="text-[10px] text-slate-400 leading-relaxed">
@@ -203,7 +209,6 @@ export default function CalcRenta({
             </p>
           </div>
 
-          {/* Total Rent Liquidity */}
           <div className="bg-slate-50 rounded-2xl border border-slate-100 p-4">
             <div className="flex items-center justify-between mb-1">
               <p className="text-xs font-bold text-slate-500 uppercase">Total Rent Liquidity</p>
@@ -216,7 +221,6 @@ export default function CalcRenta({
             </p>
           </div>
 
-          {/* Precio final */}
           <div className="bg-slate-900 rounded-2xl p-4">
             <div className="flex items-center justify-between mb-1">
               <p className="text-xs font-bold text-white/60 uppercase">
@@ -231,15 +235,14 @@ export default function CalcRenta({
             </p>
           </div>
 
-          {/* Nota legal */}
           <p className="text-[10px] text-slate-400 leading-relaxed px-1">
             {locale === 'es'
               ? 'El ingreso total de alquiler acumulado durante el período se descontará de la obligación de pago final del cliente. A través del financiamiento bancario facilitado por Lux, esta estructura permite al cliente mantener mayor liquidez mientras completa la compra.'
               : "The total rental income accumulated during the period will be deducted from the client's final payment obligation. Through bank financing facilitated by Lux, this structure allows the client to retain greater liquidity while completing the purchase."}
           </p>
 
-          <a
-            href={`https://wa.me/595981506175?text=${waMsg}`}
+          
+           <a href={`https://wa.me/595981506175?text=${waMsg}`}
             target="_blank"
             rel="noreferrer"
             className="w-full bg-slate-900 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 hover:bg-slate-800 transition"

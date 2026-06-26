@@ -1,12 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { getProjects } from '@/lib/projectService';
+
+const TC = 7600;
 
 type Project = {
   id: string;
   title: string;
   location: string;
   price: number;
+  currency: 'USD' | 'PYG';
 };
 
 export default function CalcDesarrollo({
@@ -18,9 +21,10 @@ export default function CalcDesarrollo({
 }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [proyectoId, setProyectoId] = useState('');
   const [inversion, setInversion] = useState(0);
+  const [precioOriginalPYG, setPrecioOriginalPYG] = useState<number | null>(null);
+  const [currency, setCurrencyState] = useState<'USD' | 'GS'>('USD');
   const [retorno, setRetorno] = useState(32);
   const [meses, setMeses] = useState(24);
   const [condicion, setCondicion] = useState<'contado' | 'cuotas'>('contado');
@@ -28,54 +32,83 @@ export default function CalcDesarrollo({
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from('lux_projects')
-        .select('id,title,location,price')
-        .order('order_index', { ascending: true });
-
-      const formatted = (data ?? []).map((p: any) => ({
+      const data = await getProjects(locale);
+      const mapped = (data ?? []).map((p: any) => ({
         id: p.id,
         title: p.title,
         location: p.location,
-        price: p.price ?? 0,
+        price: Number(p.price) || 0,
+        currency: p.currency ?? 'USD',
       }));
-
-      setProjects(formatted);
-
-      if (formatted.length > 0) {
-        setProyectoId(formatted[0].id);
-        setInversion(formatted[0].price);
+      setProjects(mapped);
+      if (mapped.length > 0) {
+        const first = mapped[0];
+        setProyectoId(first.id);
+        const rawPrice = Number(first.price);
+        if (first.currency === 'PYG') {
+          setPrecioOriginalPYG(rawPrice);
+          setInversion(Math.round(rawPrice / TC));
+        } else {
+          setPrecioOriginalPYG(null);
+          setInversion(rawPrice);
+        }
+        setCurrencyState('USD');
       }
-
       setLoading(false);
     }
-
     load();
-  }, []);
+  }, [locale]);
 
   const proyecto = projects.find((p) => p.id === proyectoId);
+
+  const handleProyecto = (id: string) => {
+    const p = projects.find((x) => x.id === id);
+    if (!p) return;
+    setProyectoId(id);
+    const rawPrice = Number(p.price);
+    if (p.currency === 'PYG') {
+      setPrecioOriginalPYG(rawPrice);
+      setInversion(currency === 'GS' ? rawPrice : Math.round(rawPrice / TC));
+    } else {
+      setPrecioOriginalPYG(null);
+      setInversion(currency === 'GS' ? Math.round(rawPrice * TC) : rawPrice);
+    }
+  };
+
+  const handleCurrency = (c: 'USD' | 'GS') => {
+    if (c === currency) return;
+    if (c === 'GS') {
+      setInversion(precioOriginalPYG ?? Math.round(inversion * TC));
+    } else {
+      setInversion(precioOriginalPYG ? Math.round(precioOriginalPYG / TC) : Math.round(inversion / TC));
+    }
+    setCurrencyState(c);
+  };
 
   const ganancia = inversion * (retorno / 100);
   const total = inversion + ganancia;
   const cuotaMensual = condicion === 'cuotas' ? inversion / cuotas : 0;
 
-  const fmt = (val: number) => 'USD ' + Math.round(val).toLocaleString('en-US');
+  const fmt = (val: number) =>
+    currency === 'GS'
+      ? 'Gs. ' + Math.round(val).toLocaleString('es-PY')
+      : 'USD ' + Math.round(val).toLocaleString('en-US');
 
-  const handleProyecto = (id: string) => {
-    const p = projects.find((x) => x.id === id);
-    if (!p) return;
+  const fmtInput = (val: number) =>
+    currency === 'GS'
+      ? Math.round(val).toLocaleString('es-PY')
+      : Math.round(val).toLocaleString('en-US');
 
-    setProyectoId(id);
-    setInversion(p.price);
+  const handleInversionChange = (raw: string) => {
+    const clean = raw.replace(/\./g, '').replace(/,/g, '');
+    setInversion(isNaN(parseFloat(clean)) ? 0 : parseFloat(clean));
   };
 
-  if (loading || !proyecto) return null;
-
   const waMsg = encodeURIComponent(
-    `Consulta desarrollo: Proyecto ${
-      locale === 'es' ? proyecto.title : proyecto.title
-    }, Inversión ${fmt(inversion)}, retorno estimado ${retorno}% en ${meses} meses. Total: ${fmt(total)}.`
+    `Consulta desarrollo: Proyecto ${proyecto?.title ?? ''}, Inversión ${fmt(inversion)}, retorno estimado ${retorno}% en ${meses} meses. Total: ${fmt(total)}.`
   );
+
+  if (loading || !proyecto) return null;
 
   return (
     <div
@@ -86,21 +119,15 @@ export default function CalcDesarrollo({
         className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto p-6 relative"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-700"
-        >
+        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-700">
           <i className="ti ti-x text-xl" />
         </button>
 
         <h3 className="text-lg font-bold text-slate-950 mb-1">
           {locale === 'es' ? 'Simulador de desarrollo' : 'Development simulator'}
         </h3>
-
         <p className="text-sm text-slate-500 mb-5">
-          {locale === 'es'
-            ? 'Calculá el retorno de tu inversión'
-            : 'Calculate your investment return'}
+          {locale === 'es' ? 'Calculá el retorno de tu inversión' : 'Calculate your investment return'}
         </p>
 
         {/* Proyecto */}
@@ -108,36 +135,46 @@ export default function CalcDesarrollo({
           <label className="text-xs text-slate-500 uppercase font-medium">
             {locale === 'es' ? 'Proyecto' : 'Project'}
           </label>
-
           <select
             value={proyectoId}
             onChange={(e) => handleProyecto(e.target.value)}
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1"
           >
             {projects.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.title}
-              </option>
+              <option key={p.id} value={p.id}>{p.title}</option>
             ))}
           </select>
-
           <p className="text-xs text-slate-400 mt-1">{proyecto.location}</p>
         </div>
 
-        
+        {/* Moneda */}
+        <div className="flex gap-2 mb-5">
+          {(['USD', 'GS'] as const).map((c) => (
+            <button
+              key={c}
+              onClick={() => handleCurrency(c)}
+              className={`px-5 py-1.5 rounded-full text-sm border transition ${
+                currency === c
+                  ? 'bg-slate-900 text-white border-slate-900'
+                  : 'bg-white text-slate-600 border-slate-300'
+              }`}
+            >
+              {c === 'GS' ? 'Guaraníes' : 'USD'}
+            </button>
+          ))}
+        </div>
 
         {/* Inversión */}
         <div className="mb-4">
           <label className="text-xs text-slate-500 uppercase font-medium">
-            {locale === 'es' ? 'Monto a invertir (USD)' : 'Investment amount (USD)'}
+            {locale === 'es'
+              ? `Monto a invertir (${currency === 'GS' ? 'Gs.' : 'USD'})`
+              : `Investment amount (${currency === 'GS' ? 'Gs.' : 'USD'})`}
           </label>
           <input
-            type="number"
-            value={inversion}
-            onChange={(e) => {
-              const val = parseFloat(e.target.value);
-              setInversion(isNaN(val) ? 0 : val);
-            }}
+            type="text"
+            value={fmtInput(inversion)}
+            onChange={(e) => handleInversionChange(e.target.value)}
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm mt-1"
           />
         </div>
@@ -242,7 +279,8 @@ export default function CalcDesarrollo({
 
         
          <a href={`https://wa.me/595981506175?text=${waMsg}`}
-          target="_blank" rel="noreferrer"
+          target="_blank"
+          rel="noreferrer"
           className="flex items-center justify-center gap-2 w-full bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold py-3 rounded-xl transition"
         >
           <i className="ti ti-brand-whatsapp text-lg" />

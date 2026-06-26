@@ -224,7 +224,7 @@ const rootT = await getTranslations({ locale });
 
 <SuccessStories locale={locale} />
 <OurServices locale={locale} />
-<OurMissionSection />
+<OurMissionSection imageSrc="/comprar.casa.webp" />
 <WhoWeHelpSection  />
 <WhyLuxDevelopment locale={locale} />
 <SocialBar locale={locale} />
