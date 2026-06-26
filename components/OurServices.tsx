@@ -42,10 +42,10 @@ export default function OurServices({ locale }: Props) {
     },
     {
       icon: 'ti-chart-line',
-      title: locale === 'es' ? 'Gestión de activos' : 'Asset Management & Investment Support',
+      title: locale === 'es' ? 'El programa exclusivo de Lux: Sooner' : "Lux's Own Sooner Program",
       subtitle: locale === 'es' ? 'Inversores' : 'Investors',
       description: locale === 'es' ? 'Protegé y hacé crecer tu inversión.' : 'Protect and grow your investment.',
-      benefit: locale === 'es' ? 'Maximice el potencial de ingresos por alquiler, preserve el valor y respalde la revalorización del capital a largo plazo a través de una asesoría de inversión personalizada.' : 'Maximize rental income potential, preserve value, and support long-term capital appreciation through personalized investment guidance.',
+      benefit: locale === 'es' ? 'Rompe el ciclo del alquiler y accede a la propiedad de tu vivienda más rápidamente mediante soluciones de financiamiento personalizadas y el acompañamiento integral de Lux en todo el proceso, de principio a fin.' : 'End the rental cycle and achieve homeownership faster through personalized financing solutions and end-to-end guidance from Lux.',
       cta: locale === 'es' ? 'Ver simulador de renta' : 'View rental simulator',
       modal: 'renta' as ModalType,
     },
