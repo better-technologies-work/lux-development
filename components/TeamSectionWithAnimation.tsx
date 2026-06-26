@@ -9,21 +9,32 @@ interface TeamSectionProps {
 
 export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
   const imgRef = useRef<HTMLDivElement>(null)
+  const imgMobileRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
+    const targets = [imgRef.current, imgMobileRef.current].filter(Boolean)
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.unobserve(entry.target)
-        }
+        if (entry.isIntersecting) setIsVisible(true)
       },
       { threshold: 0.2 }
     )
-    if (imgRef.current) observer.observe(imgRef.current)
+    targets.forEach((t) => observer.observe(t!))
     return () => observer.disconnect()
   }, [])
+
+  const imageContent = (
+    <div className="relative w-full h-full">
+      <Image
+        src="/Patricia-Fretes.jpg"
+        alt="Patricia Fretes"
+        fill
+        className="object-cover"
+        sizes="(max-width: 768px) 100vw, 40vw"
+      />
+    </div>
+  )
 
   return (
     <>
@@ -51,6 +62,9 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
           background: #f1f5f9;
           border: 1px solid #e2e8f0;
         }
+        .team-image-mobile {
+          display: none;
+        }
         .team-right {
           display: flex;
           flex-direction: column;
@@ -68,7 +82,7 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
           font-size: clamp(26px, 4vw, 38px);
           font-weight: 700;
           color: #0f172a;
-          margin: 0;
+          margin: 0.5rem 0 0;
           line-height: 1.15;
         }
         .team-p {
@@ -111,17 +125,26 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
         @media (max-width: 768px) {
           .team-section { padding: 3rem 1rem; }
           .team-inner {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
+            display: block;
           }
           .team-image-wrap {
+            display: none;
+          }
+          .team-image-mobile {
+            display: block;
             position: static;
-            order: 2;
+            border-radius: 24px;
+            overflow: hidden;
             aspect-ratio: 4/3;
+            width: 100%;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            margin: 1.25rem 0;
           }
           .team-right {
-            order: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
           }
         }
       `}</style>
@@ -129,42 +152,44 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
       <section id="team" className="team-section">
         <div className="team-inner">
 
-          
+          {/* Imagen desktop — sticky columna izquierda */}
+          <div
+            ref={imgRef}
+            className={`team-image-wrap ${isVisible ? 'animate-slide-bounce' : 'opacity-0'}`}
+          >
+            {imageContent}
+          </div>
 
-          {/* Todo el texto a la derecha */}
+          {/* Columna derecha */}
           <div className="team-right">
+
+            {/* Eyebrow + nombre */}
             <p className="team-eyebrow">
               {locale === 'es' ? 'La fundadora' : 'The Founder'}
             </p>
             <h2 className="team-name">Patricia Natalia Narvaez</h2>
 
+           
+
+            {/* Resto del texto */}
             <p className="team-p">
               {locale === 'es'
                 ? 'Con una amplia experiencia en el sector inmobiliario residencial tanto en Nueva York como en Paraguay, Patricia Natalia Narvaez ha construido una sólida reputación ayudando a familias, propietarios e inversores a navegar cada etapa del proceso de adquisición de inmuebles. Su enfoque centrado en el cliente, su profundo conocimiento del mercado y su compromiso con la obtención de resultados han contribuido a más de 100 proyectos exitosos y a relaciones a largo plazo basadas en la confianza.'
                 : 'With extensive experience in residential real estate in both New York and Paraguay, Patricia Natalia Narvaez has built a reputation for helping families, homeowners, and investors navigate every stage of the property acquisition process. Her client-focused approach, deep understanding of the market, and commitment to delivering results have contributed to more than 100 successful projects and long-term relationships built on trust.'}
             </p>
-            {/* Imagen izquierda — sticky en desktop */}
-          <div
-            ref={imgRef}
-            className={`team-image-wrap ${isVisible ? 'animate-slide-bounce' : 'opacity-0'}`}
-          >
-            <div className="relative w-full h-full">
-              <Image
-                src="/Patricia-Fretes.jpg"
-                alt="Patricia Fretes"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 40vw"
-              />
-            </div>
-          </div>
 
             <p className="team-p">
               {locale === 'es'
                 ? 'Un capítulo definitorio de su carrera tuvo lugar durante la crisis financiera de 2008, cuando la caída en el valor de las viviendas puso en riesgo a millones de propietarios. Trabajando directamente con bancos y entidades crediticias, Patricia negoció acuerdos hipotecarios y resoluciones de deuda que ayudaron a muchas familias a evitar la bancarrota durante uno de los períodos más desafiantes en la historia moderna del sector inmobiliario.'
                 : 'A defining chapter of her career came during the 2008 financial crisis, when declining home values placed millions of homeowners at risk. Working directly with banks and lenders, Patricia negotiated mortgage settlements and debt resolutions that helped families avoid bankruptcy during one of the most challenging periods in modern real estate history.'}
             </p>
-
+             {/* Imagen mobile — aparece aquí, justo después del nombre */}
+            <div
+              ref={imgMobileRef}
+              className={`team-image-mobile ${isVisible ? 'animate-slide-bounce' : 'opacity-0'}`}
+            >
+              {imageContent}
+            </div>
             <div className="team-card">
               <p>
                 <span>{locale === 'es' ? 'Especialización: ' : 'Specialization: '}</span>
@@ -189,8 +214,8 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
                 ? 'Hoy, Patricia aporta esa misma experiencia y compromiso a Lux Development, ayudando a compradores locales e internacionales a invertir, comprar y desarrollar bienes raíces en Paraguay con confianza. A través de una orientación transparente, experiencia local y soporte personalizado, ayuda a sus clientes a tomar decisiones informadas e identificar oportunidades con valor a largo plazo y potencial de revalorización del capital.'
                 : 'Today, Patricia brings that same experience and commitment to Lux Development, helping local buyers and international clients invest, buy, and develop real estate in Paraguay with confidence. Through transparent guidance, local expertise, and personalized support, she helps clients make informed decisions and identify opportunities with long-term value and capital appreciation potential.'}
             </p>
-          </div>
 
+          </div>
         </div>
       </section>
     </>

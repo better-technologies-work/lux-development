@@ -32,8 +32,8 @@ export default function CalcAdquisicion({
   const proyecto = projects.find((p) => p.id === proyectoId);
   const montoAnticipo = precio * (anticipo / 100);
   const monto = precio - montoAnticipo;
-  const n = plazo * 12;
-  const r = tasa / 100 / 12;
+  const n = Number(plazo) * 12;
+const r = tasa / 100 / 12;
   const cuota = r === 0 ? monto / n : (monto * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
 
   const fmt = (val: number) =>

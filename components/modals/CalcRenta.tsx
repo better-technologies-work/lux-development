@@ -17,6 +17,7 @@ export default function CalcRenta({
   const [precioOriginalPYG, setPrecioOriginalPYG] = useState<number | null>(null);
   const [currency, setCurrencyState] = useState<'USD' | 'GS'>('USD');
   const [tasa, setTasa] = useState(8.5);
+  const [plazo, setPlazo] = useState(30); // ← NUEVO
   const [mesesContrato, setMesesContrato] = useState(6);
 
   useEffect(() => {
@@ -81,7 +82,8 @@ export default function CalcRenta({
     setPrecio(isNaN(parseFloat(clean)) ? 0 : parseFloat(clean));
   };
 
-  const n = 30 * 12;
+  // ✅ FÓRMULA CORREGIDA: usa plazo seleccionado
+  const n = Number(plazo) * 12;
   const r = tasa / 100 / 12;
   const rentingFee = r === 0 ? precio / n : (precio * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   const totalRentLiquidity = rentingFee * mesesContrato;
@@ -161,16 +163,31 @@ export default function CalcRenta({
             className="w-full bg-white/30 border border-black/10 rounded-xl px-4 py-3 text-lg font-bold focus:outline-none"
           />
 
-          {/* Tasa */}
-          <div className="mt-4">
-            <label className="block text-xs uppercase opacity-70 mb-1 font-bold">
-              {locale === 'es' ? 'Tasa anual' : 'Annual rate'}: {tasa.toFixed(1)}%
-            </label>
-            <input
-              type="range" min={5} max={14} step={0.5} value={tasa}
-              onChange={(e) => setTasa(Number(e.target.value))}
-              className="w-full"
-            />
+          {/* Plazo y Tasa — NUEVO grid igual que CalcAdquisicion */}
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            <div>
+              <label className="block text-xs uppercase opacity-70 mb-1 font-bold">
+                {locale === 'es' ? 'Plazo' : 'Term'}
+              </label>
+              <select
+                value={plazo}
+                onChange={(e) => setPlazo(Number(e.target.value))}
+                className="w-full bg-white/30 border border-black/10 rounded-xl px-3 py-2 text-sm font-semibold focus:outline-none"
+              >
+                <option value={15}>15 {locale === 'es' ? 'años' : 'years'}</option>
+                <option value={30}>30 {locale === 'es' ? 'años' : 'years'}</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs uppercase opacity-70 mb-1 font-bold">
+                {locale === 'es' ? 'Tasa anual' : 'Annual rate'}: {tasa.toFixed(1)}%
+              </label>
+              <input
+                type="range" min={5} max={14} step={0.5} value={tasa}
+                onChange={(e) => setTasa(Number(e.target.value))}
+                className="w-full mt-2"
+              />
+            </div>
           </div>
 
           {/* Duración contrato */}
@@ -242,7 +259,7 @@ export default function CalcRenta({
           </p>
 
           
-           <a href={`https://wa.me/595981506175?text=${waMsg}`}
+           <a  href={`https://wa.me/595981506175?text=${waMsg}`}
             target="_blank"
             rel="noreferrer"
             className="w-full bg-slate-900 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 hover:bg-slate-800 transition"
