@@ -111,12 +111,17 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
         @media (max-width: 768px) {
           .team-section { padding: 3rem 1rem; }
           .team-inner {
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 2rem;
           }
           .team-image-wrap {
             position: static;
+            order: 2;
             aspect-ratio: 4/3;
+          }
+          .team-right {
+            order: 1;
           }
         }
       `}</style>
@@ -124,19 +129,7 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
       <section id="team" className="team-section">
         <div className="team-inner">
 
-          {/* Imagen izquierda — sticky en desktop */}
-          <div
-            ref={imgRef}
-            className={`team-image-wrap ${isVisible ? 'animate-slide-bounce' : 'opacity-0'}`}
-          >
-            <Image
-              src="/Patricia-Fretes.jpg"
-              alt="Patricia Fretes"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 40vw"
-            />
-          </div>
+          
 
           {/* Todo el texto a la derecha */}
           <div className="team-right">
@@ -150,6 +143,21 @@ export default function TeamSectionWithAnimation({ locale }: TeamSectionProps) {
                 ? 'Con una amplia experiencia en el sector inmobiliario residencial tanto en Nueva York como en Paraguay, Patricia Natalia Narvaez ha construido una sólida reputación ayudando a familias, propietarios e inversores a navegar cada etapa del proceso de adquisición de inmuebles. Su enfoque centrado en el cliente, su profundo conocimiento del mercado y su compromiso con la obtención de resultados han contribuido a más de 100 proyectos exitosos y a relaciones a largo plazo basadas en la confianza.'
                 : 'With extensive experience in residential real estate in both New York and Paraguay, Patricia Natalia Narvaez has built a reputation for helping families, homeowners, and investors navigate every stage of the property acquisition process. Her client-focused approach, deep understanding of the market, and commitment to delivering results have contributed to more than 100 successful projects and long-term relationships built on trust.'}
             </p>
+            {/* Imagen izquierda — sticky en desktop */}
+          <div
+            ref={imgRef}
+            className={`team-image-wrap ${isVisible ? 'animate-slide-bounce' : 'opacity-0'}`}
+          >
+            <div className="relative w-full h-full">
+              <Image
+                src="/Patricia-Fretes.jpg"
+                alt="Patricia Fretes"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+            </div>
+          </div>
 
             <p className="team-p">
               {locale === 'es'
