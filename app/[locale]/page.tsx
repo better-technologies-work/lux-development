@@ -134,9 +134,9 @@ const rootT = await getTranslations({ locale });
  
   <div className="max-w-3xl w-full text-center space-y-6"> 
     
-    <h2 className="text-blue-600 text-3xl md:text-4xl font-black uppercase tracking-tighter">
-      {locale === 'es' ? 'El problema' : 'The problem'}
-    </h2>
+    <h2 className="text-sky-700 text-3xl md:text-4xl font-black uppercase tracking-tighter">
+  {locale === 'es' ? 'El problema' : 'The problem'}
+</h2>
 
     <span className="block text-slate-950 font-semibold text-lg">
       {locale === 'es' 

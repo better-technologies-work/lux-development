@@ -15,16 +15,21 @@ export default function FinalCTA({ locale }: Props) {
   const [mensaje, setMensaje] = useState('');
   const [enviado, setEnviado] = useState(false);
 
-  const handleSubmit = () => {
+ const handleSubmit = async () => {
   if (!nombre || !telefono) return;
-  const subject = encodeURIComponent(
-    locale === 'es' ? 'Consulta desde el sitio web' : 'Inquiry from website'
-  );
-  const body = encodeURIComponent(
-    `Nombre: ${nombre}\nEmail: ${email}\nTeléfono: ${telefono}${mensaje ? `\nMensaje: ${mensaje}` : ''}`
-  );
-  window.open(`mailto:luxdevelopmentpy@gmail.com?subject=${subject}&body=${body}`, '_blank');
-  setEnviado(true);
+
+  // Fíjate que ahora incluimos el locale en la URL
+  const response = await fetch(`/${locale}/api/contact`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nombre, email, telefono, mensaje }),
+  });
+
+  if (response.ok) {
+    setEnviado(true);
+  } else {
+    alert("Hubo un error al enviar el mensaje.");
+  }
 };
 
   return (
