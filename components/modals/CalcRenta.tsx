@@ -88,7 +88,9 @@ export default function CalcRenta({
   const montoFinanciado = precio - montoAnticipo;
   const n = Number(plazo) * 12;
   const r = tasa / 100 / 12;
-  const rentingFee = r === 0 ? montoFinanciado / n : (montoFinanciado * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  const intereses = montoFinanciado * (tasa / 100);
+  const totalFinanciado = montoFinanciado + intereses;
+  const rentingFee = totalFinanciado / n;
   const totalRentLiquidity = rentingFee * mesesContrato;
   const precioFinal = precio - totalRentLiquidity;
 
@@ -101,7 +103,7 @@ export default function CalcRenta({
       <div className="w-full max-w-md bg-white rounded-3xl overflow-y-auto max-h-[90vh] shadow-2xl relative p-6" onClick={(e) => e.stopPropagation()}>
         
         {/* Header original */}
-        <button onClick={onClose} className="absolute top-4 right-4 text-2xl">×</button>
+        <button onClick={(e) => { e.stopPropagation(); onClose(); }} className="absolute top-4 right-4 text-2xl">×</button>
         <p className="text-xs font-bold uppercase tracking-widest opacity-60">LUX'S OWN SOONER PROGRAM</p>
         <h3 className="text-xl font-bold mb-2">Rental simulator</h3>
         <p className="text-xs text-slate-500 mb-4">Asset Management & Investment Support</p>
@@ -171,8 +173,7 @@ export default function CalcRenta({
               <p className="text-xs font-bold uppercase">FINAL PURCHASE PRICE</p>
               <p className="text-lg font-bold">{fmt(Math.max(precioFinal, 0))}</p>
             </div>
-            <p className="text-[10px] text-white/50 mt-1">Property value minus the liquidity accumulated during the rental period.</p>
-          </div>
+            <p className="text-[10px] text-slate-400 mt-1">The total rental income accumulated during the period will be deducted from the client's final payment obligation. Through bank financing facilitated by Lux, this structure allows the client to retain greater liquidity while completing the purchase.</p>          </div>
 
           <a href={`https://wa.me/595981506175?text=${waMsg}`} target="_blank" rel="noreferrer" className="w-full bg-slate-900 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2">
             Contact via WhatsApp

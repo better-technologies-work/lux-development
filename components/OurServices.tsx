@@ -42,8 +42,8 @@ export default function OurServices({ locale }: Props) {
     },
     {
       icon: 'ti-chart-line',
-      title: locale === 'es' ? 'El programa exclusivo de Lux: Sooner' : "Lux's Own Sooner Program",
-      subtitle: locale === 'es' ? 'Inversores' : 'Investors',
+      title: locale === 'es' ? 'Renta para comprar' : "Rent-to-own",
+      subtitle: locale === 'es' ? 'Propietarios locales' : 'Local Owners',
       description: locale === 'es' ? 'Protegé y hacé crecer tu inversión.' : 'Protect and grow your investment.',
       benefit: locale === 'es' ? 'Rompe el ciclo del alquiler y accede a la propiedad de tu vivienda más rápidamente mediante soluciones de financiamiento personalizadas y el acompañamiento integral de Lux en todo el proceso, de principio a fin.' : 'End the rental cycle and achieve homeownership faster through personalized financing solutions and end-to-end guidance from Lux.',
       cta: locale === 'es' ? 'Ver simulador de renta' : 'View rental simulator',

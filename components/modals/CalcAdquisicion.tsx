@@ -81,8 +81,9 @@ export default function CalcAdquisicion({
   const montoFinanciado = precio - montoAnticipo;
   const n = Number(plazo) * 12;
   const r = tasa / 100 / 12;
-  const cuotaMensual = r === 0 ? montoFinanciado / n : (montoFinanciado * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-
+  const intereses = montoFinanciado * (tasa / 100);
+  const totalFinanciado = montoFinanciado + intereses;
+  const cuotaMensual = totalFinanciado / n;
   const waMsg = encodeURIComponent(
     `Consulta Adquisición: Proyecto ${proyecto?.title ?? ''}, Propiedad ${fmt(precio)}, Anticipo ${anticipoPct}%, Financiación ${fmt(montoFinanciado)}, Cuota mensual ${fmt(cuotaMensual)}.`
   );

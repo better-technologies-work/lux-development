@@ -17,6 +17,7 @@ import ProjectsSection from '@/components/ProjectsSection';
 import Navbar from '@/components/Navbar';
 import { supabase } from '@/lib/supabase'
 import SocialBar from '@/components/SocialBar';
+import Testimonials from '@/components/Testimonials'
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -226,6 +227,7 @@ const rootT = await getTranslations({ locale });
 <OurServices locale={locale} />
 <OurMissionSection imageSrc="/comprar.casa.webp" />
 <WhoWeHelpSection  />
+<Testimonials locale={locale} />
 <WhyLuxDevelopment locale={locale} />
 <SocialBar locale={locale} />
 <FAQSection locale={locale} imageSrc="/OIP.webp" />
