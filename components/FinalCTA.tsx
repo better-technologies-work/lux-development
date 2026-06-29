@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 const WHATSAPP = '595981506175';
-const CALENDLY_URL = 'https://calendly.com/'; // reemplazár con el link de Paty
+const CALENDLY_URL = "https://calendar.app.google/imixfMsfy99koBVz6";
 
 interface Props {
   locale: string;
@@ -72,7 +72,7 @@ export default function FinalCTA({ locale }: Props) {
                   : 'Pick the time that works best for you and speak directly with Patricia.'}
               </p>
               <a
-                href={CALENDLY_URL}
+                href="https://calendar.app.google/imixfMsfy99koBVz6"
                 target="_blank"
                 rel="noreferrer"
                 className="mt-2 flex items-center justify-center gap-2 w-full bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold py-3.5 rounded-xl transition"
@@ -81,7 +81,7 @@ export default function FinalCTA({ locale }: Props) {
                 {locale === 'es' ? 'Ver disponibilidad' : 'View availability'}
               </a>
               <p className="text-xs text-slate-500 text-center">
-                {locale === 'es' ? 'Próximamente disponible' : 'Coming soon'} — Calendly
+                {locale === 'es' ? 'Disponible' : 'Available'} — Calendly
               </p>
             </div>
 

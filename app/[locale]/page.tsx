@@ -58,7 +58,7 @@ const rootT = await getTranslations({ locale });
 <div className="w-full md:w-1/2 flex items-center justify-center bg-slate-50 min-h-[50vh] md:min-h-[80vh]">
   
   {/* Ajustamos el gap para que el espacio entre letras sea proporcional al tamaño */}
-  <div className="flex items-end gap-1 md:gap-2 scale-75 md:scale-90">
+  <div className="flex items-end gap-1 md:gap-2 scale-100 md:scale-125">
 
     {/* L - Reducido a 80x128 (antes 100x160) */}
     <svg width="80" height="128" viewBox="0 0 100 160">
@@ -108,7 +108,7 @@ const rootT = await getTranslations({ locale });
 
       <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
         <a
-  href="https://calendly.com" 
+  href="https://calendar.app.google/imixfMsfy99koBVz6 " 
   target="_blank" 
   rel="noopener noreferrer"
   className="bg-sky-700 text-white hover:bg-sky-600 px-6 py-3 rounded font-medium text-sm"

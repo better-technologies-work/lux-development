@@ -22,7 +22,7 @@ export default function Testimonials({ locale }: { locale: string }) {
           {locale === 'es' ? 'Testimonios' : 'Testimonials'}
         </p>
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">
-          {locale === 'es' ? 'Lo que dicen nuestros clientes' : 'What our clients say'}
+          {locale === 'es' ? 'Lo que dicen nuestros clientes sobre nosotros' : 'What our clients say about us'}
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
