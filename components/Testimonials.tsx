@@ -20,7 +20,7 @@ export default function Testimonials({ locale }: { locale: string }) {
       {/* Fondo imagen ondas */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/fondo.1.jpeg')", opacity: 0.6 }}
+        style={{ backgroundImage: "url('/fondo.2.jpeg')", opacity: 0.6 }}
       />
       {/* Capa blanca para suavizar */}
       <div className="absolute inset-0 bg-slate-50/60" />

@@ -48,114 +48,123 @@ export default function SuccessStories({ locale }: { locale: string }) {
   const sections = useTranslations() // 2. Inicializar (o el nombre que le des, usualmente 't')
   const l = locale as 'en' | 'es';
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20 border-t border-slate-200">
-      <h2 className="text-2xl md:text-4xl font-extrabold text-slate-950 tracking-tight mb-10">
-        {sections('SuccessStories.title')} {/* 3. Ahora esto funcionará */}
-      </h2>
+    <section className="relative px-4 md:px-6 py-16 md:py-20 border-t border-slate-200 overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/fondo.2.jpeg')", opacity: 0.6 }}
+      />
+      <div className="absolute inset-0 bg-white/70" />
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <h2 className="text-2xl md:text-4xl font-extrabold text-slate-950 tracking-tight mb-10">
+          {sections('SuccessStories.title')} {/* 3. Ahora esto funcionará */}
+        </h2>
 
-      <div className="flex flex-col gap-4">
-        {stories.map((story) => (
-          <div
-            key={story.id}
-            className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-slate-400 transition cursor-pointer"
-          >
-            {/* Mobile layout */}
-            <div className="flex md:hidden items-start gap-4 p-4">
-              <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0">
-                <Image
-                  src={story.image}
-                  alt={typeof story.name === 'string' ? story.name : story.name[l]}
-                  fill
-                  sizes="96px"
-                  className="object-cover"
-                />
+        <div className="flex flex-col gap-4">
+          {stories.map((story) => (
+            <div
+              key={story.id}
+              className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-slate-400 transition cursor-pointer"
+            >
+              {/* Mobile layout */}
+              <div className="flex md:hidden items-start gap-4 p-4">
+                <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0">
+                  <Image
+                    src={story.image}
+                    alt={typeof story.name === 'string' ? story.name : story.name[l]}
+                    fill
+                    sizes="96px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs bg-slate-100 text-slate-700 font-semibold px-2 py-0.5 rounded w-fit">
+                    {story.type[l]}
+                  </span>
+                  <p className="text-xs text-slate-500">{story.location}</p>
+                  <p className="text-sm font-bold text-slate-950">
+                    {typeof story.name === 'string' ? story.name : story.name[l]}
+                  </p>
+                  <p className="text-xs font-semibold text-sky-900">
+                    {story.stat2.value && typeof story.stat2.value === 'string'
+                      ? story.stat2.value
+                      : (story.stat2.value as Record<string, string>)[l]}{' '}
+                    {story.stat2.label[l]}
+                  </p>
+                  {story.description && (
+                    <p className="text-xs text-slate-500 mt-1">{story.description[l]}</p>
+                  )}
+                </div>
               </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-xs bg-slate-100 text-slate-700 font-semibold px-2 py-0.5 rounded w-fit">
+
+
+              {/* Desktop layout */}
+              <div className="hidden md:flex items-center gap-6 p-4">
+                <div className="relative w-20 h-16 rounded-lg overflow-hidden shrink-0">
+                  <Image
+                    src={story.image}
+                    alt={typeof story.name === 'string' ? story.name : story.name[l]}
+                    fill
+                    sizes="80px"
+                    className="object-cover"
+                  />
+                </div>
+
+                <div className="flex flex-col min-w-[220px]">
+                  <p className="text-xs text-slate-500">{story.location}</p>
+                  <p className="text-sm font-bold text-slate-950">
+                    {typeof story.name === 'string' ? story.name : story.name[l]}
+                  </p>
+                  {story.description && (
+                    <p className="text-xs text-slate-400 mt-1 max-w-xs leading-relaxed">
+                      {story.description[l]}
+                    </p>
+                  )}
+                </div>
+
+                <span className="text-xs bg-slate-100 text-slate-700 font-semibold px-3 py-1 rounded shrink-0">
                   {story.type[l]}
                 </span>
-                <p className="text-xs text-slate-500">{story.location}</p>
-                <p className="text-sm font-bold text-slate-950">
-                  {typeof story.name === 'string' ? story.name : story.name[l]}
-                </p>
-                <p className="text-xs font-semibold text-sky-900">
-                  {story.stat2.value && typeof story.stat2.value === 'string'
-                    ? story.stat2.value
-                    : (story.stat2.value as Record<string, string>)[l]}{' '}
-                  {story.stat2.label[l]}
-                </p>
-                {story.description && (
-                  <p className="text-xs text-slate-500 mt-1">{story.description[l]}</p>
-                )}
-              </div>
-            </div>
 
-            {/* Desktop layout */}
-            <div className="hidden md:flex items-center gap-6 p-4">
-              <div className="relative w-20 h-16 rounded-lg overflow-hidden shrink-0">
-                <Image
-                  src={story.image}
-                  alt={typeof story.name === 'string' ? story.name : story.name[l]}
-                  fill
-                  sizes="80px"
-                  className="object-cover"
-                />
-              </div>
-
-              <div className="flex flex-col min-w-[220px]">
-                <p className="text-xs text-slate-500">{story.location}</p>
-                <p className="text-sm font-bold text-slate-950">
-                  {typeof story.name === 'string' ? story.name : story.name[l]}
-                </p>
-                {story.description && (
-                  <p className="text-xs text-slate-400 mt-1 max-w-xs leading-relaxed">
-                    {story.description[l]}
-                  </p>
-                )}
-              </div>
-
-              <span className="text-xs bg-slate-100 text-slate-700 font-semibold px-3 py-1 rounded shrink-0">
-                {story.type[l]}
-              </span>
-
-              <div className="flex items-center gap-8 ml-auto">
-                {/* Stat 1 */}
-                <div className="text-center">
-                  <p className="text-base font-bold text-slate-950">
-                    {typeof story.stat1.value === 'string'
-                      ? story.stat1.value
-                      : story.stat1.value[l]}
-                  </p>
-                  <p className="text-xs text-slate-500">{story.stat1.label[l]}</p>
-                </div>
-
-                {/* Stat 2 */}
-                <div className="text-center">
-                  <p className="text-base font-bold text-slate-950">
-                    {typeof story.stat2.value === 'string'
-                      ? story.stat2.value
-                      : (story.stat2.value as Record<string, string>)[l]}
-                  </p>
-                  <p className="text-xs text-slate-500">{story.stat2.label[l]}</p>
-                </div>
-
-                {/* Stat 3 (opcional) */}
-                {story.stat3 && (
-                  <div className="text-center max-w-[160px]">
+                <div className="flex items-center gap-8 ml-auto">
+                  {/* Stat 1 */}
+                  <div className="text-center">
                     <p className="text-base font-bold text-slate-950">
-                      {typeof story.stat3.value === 'string'
-                        ? story.stat3.value
-                        : story.stat3.value[l]}
+                      {typeof story.stat1.value === 'string'
+                        ? story.stat1.value
+                        : story.stat1.value[l]}
                     </p>
-                    <p className="text-xs text-slate-500">{story.stat3.label[l]}</p>
+                    <p className="text-xs text-slate-500">{story.stat1.label[l]}</p>
                   </div>
-                )}
 
-                <i className="ti ti-chevron-right text-slate-400 text-xl" aria-hidden="true" />
+                  {/* Stat 2 */}
+                  <div className="text-center">
+                    <p className="text-base font-bold text-slate-950">
+                      {typeof story.stat2.value === 'string'
+                        ? story.stat2.value
+                        : (story.stat2.value as Record<string, string>)[l]}
+                    </p>
+                    <p className="text-xs text-slate-500">{story.stat2.label[l]}</p>
+                  </div>
+
+                  {/* Stat 3 (opcional) */}
+                  {story.stat3 && (
+                    <div className="text-center max-w-[160px]">
+                      <p className="text-base font-bold text-slate-950">
+                        {typeof story.stat3.value === 'string'
+                          ? story.stat3.value
+                          : story.stat3.value[l]}
+                      </p>
+                      <p className="text-xs text-slate-500">{story.stat3.label[l]}</p>
+                    </div>
+                  )}
+
+                  <i className="ti ti-chevron-right text-slate-400 text-xl" aria-hidden="true" />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+
+          ))}
+        </div>
       </div>
     </section>
   );

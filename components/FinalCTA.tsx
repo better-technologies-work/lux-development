@@ -36,7 +36,7 @@ export default function FinalCTA({ locale }: Props) {
     <section className="relative border-t border-slate-200 overflow-hidden">
   <div
     className="absolute inset-0 bg-cover bg-center"
-    style={{ backgroundImage: "url('/fondo.1.jpeg')", opacity: 0.6 }}
+    style={{ backgroundImage: "url('/fondo.2.jpeg')", opacity: 0.6 }}
   />
   <div className="absolute inset-0 bg-white/70" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-20 md:py-28">
