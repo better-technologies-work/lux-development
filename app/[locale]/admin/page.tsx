@@ -233,7 +233,18 @@ export default function AdminDashboard() {
               {projects.map((p) => (
                 <div key={p.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-white border rounded-xl shadow-sm gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 truncate">{p.title}</p>
+                    <p className="font-semibold text-gray-900 truncate">
+        {p.title_es || p.title_en || '(sin título)'}
+      </p>
+      <div className="flex gap-4 mt-0.5">
+    <p className="text-xs text-gray-400">{p.location || '—'}</p>
+    {/* Nuevo campo de tiempo */}
+    {p.estimated_time && (
+      <p className="text-xs text-blue-500 font-medium">
+        ⏳ {p.estimated_time}
+      </p>
+    )}
+  </div>
                     <p className="text-xs text-gray-400 mt-0.5">{p.location || '—'}</p>
                   </div>
                   <div className="flex gap-2">

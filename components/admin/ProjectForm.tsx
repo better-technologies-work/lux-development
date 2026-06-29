@@ -3,6 +3,7 @@ import { useState, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 
 export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => void }) {
+
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -13,6 +14,7 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
     category: 'residential',
     external_link: '',
     featured: false,
+    estimated_time: '', // <-- Agregado aquí
   })
   const [files, setFiles] = useState<File[]>([])
   const [previews, setPreviews] = useState<string[]>([])
@@ -63,19 +65,37 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
       const { error: dbError } = await supabase
         .from('lux_projects')
         .insert([{
-          title: form.title,
-          description: form.description,
+          title_es: form.title,
+          title_en: form.title,              // por ahora copia el español
+          description_es: form.description,
+          description_en: form.description,  // por ahora copia el español
+
           location: form.location,
           price: form.price ? parseFloat(form.price) : null,
           currency: form.currency,
           status: form.status,
           category: form.category,
           external_link: form.external_link,
-          images: uploadedUrls,   // TEXT[] — array de URLs
+          images: uploadedUrls,
           featured: form.featured,
         }])
 
-      if (dbError) throw dbError
+      if (dbError) {
+        console.error('Supabase error:', dbError)
+        console.log('message:', dbError.message)
+        console.log('details:', dbError.details)
+        console.log('hint:', dbError.hint)
+        console.log('code:', dbError.code)
+
+        alert(
+          `Message: ${dbError.message}\n\n` +
+          `Details: ${dbError.details}\n\n` +
+          `Hint: ${dbError.hint}\n\n` +
+          `Code: ${dbError.code}`
+        )
+
+        return
+      }
 
       alert('Proyecto creado exitosamente')
 
@@ -90,6 +110,7 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
         category: 'residential',
         external_link: '',
         featured: false,
+        estimated_time: '',
       })
       setFiles([])
       setPreviews([])
@@ -103,7 +124,7 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
   }
 
   return (
-<form onSubmit={handleSubmit} className="w-full space-y-5 bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
+    <form onSubmit={handleSubmit} className="w-full space-y-5 bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
       <h2 className="text-xl font-bold text-gray-900 border-b pb-2">Nuevo Proyecto</h2>
 
       {/* Título */}
@@ -112,7 +133,10 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
         <input
           type="text"
           value={form.title}
-          onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+
+          onChange={(e) =>
+            setForm((f) => ({ ...f, title: e.target.value }))
+          }
           required
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
         />
@@ -123,7 +147,10 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
         <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
         <textarea
           value={form.description}
-          onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+
+          onChange={(e) =>
+            setForm((f) => ({ ...f, description: e.target.value }))
+          }
           rows={3}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm resize-none"
         />
@@ -192,6 +219,17 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
             <option value="luxury">Lujo</option>
           </select>
         </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Tiempo estimado</label>
+        <input
+          type="text"
+          placeholder="Ej: 3 meses"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+          value={form.estimated_time} // Usamos 'form'
+          onChange={(e) => setForm((f) => ({ ...f, estimated_time: e.target.value }))} // Usamos 'setForm'
+        />
       </div>
 
       {/* Link externo */}
