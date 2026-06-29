@@ -14,7 +14,8 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
     category: 'residential',
     external_link: '',
     featured: false,
-    estimated_time: '', // <-- Agregado aquí
+    estimated_time: '', 
+    expected_return: '',// <-- Agregado aquí
   })
   const [files, setFiles] = useState<File[]>([])
   const [previews, setPreviews] = useState<string[]>([])
@@ -66,9 +67,9 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
         .from('lux_projects')
         .insert([{
           title_es: form.title,
-          title_en: form.title,              // por ahora copia el español
+          title_en: form.title,              
           description_es: form.description,
-          description_en: form.description,  // por ahora copia el español
+          description_en: form.description,  
 
           location: form.location,
           price: form.price ? parseFloat(form.price) : null,
@@ -78,6 +79,8 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
           external_link: form.external_link,
           images: uploadedUrls,
           featured: form.featured,
+          estimated_time: form.estimated_time || null,
+          expected_return: form.expected_return || null,
         }])
 
       if (dbError) {
@@ -111,6 +114,7 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
         external_link: '',
         featured: false,
         estimated_time: '',
+        expected_return: '',
       })
       setFiles([])
       setPreviews([])
@@ -231,6 +235,17 @@ export default function ProjectForm({ onProjectAdded }: { onProjectAdded: () => 
           onChange={(e) => setForm((f) => ({ ...f, estimated_time: e.target.value }))} // Usamos 'setForm'
         />
       </div>
+          <div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">Retorno esperado</label>
+  <input
+    type="text"
+    placeholder="Ej: 12% anual"
+    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+    value={form.expected_return}
+    onChange={(e) => setForm((f) => ({ ...f, expected_return: e.target.value }))}
+  />
+</div>
+      
 
       {/* Link externo */}
       <div>

@@ -20,6 +20,8 @@ export default function ProjectEditModal({ project, onClose, onSaved }: Props) {
     external_link: project.external_link ?? '',
     featured: project.featured ?? false,
     images: (project.images ?? []) as string[],
+    estimated_time: project.estimated_time ?? '',
+    expected_return: project.expected_return ?? '',
   })
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -170,7 +172,26 @@ export default function ProjectEditModal({ project, onClose, onSaved }: Props) {
               className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
+         <div className="grid grid-cols-2 gap-4">
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Tiempo estimado</label>
+    <input
+      value={form.estimated_time}
+      onChange={(e) => setForm((f) => ({ ...f, estimated_time: e.target.value }))}
+      placeholder="Ej: 3 meses"
+      className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  </div>
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">Retorno esperado</label>
+    <input
+      value={form.expected_return}
+      onChange={(e) => setForm((f) => ({ ...f, expected_return: e.target.value }))}
+      placeholder="Ej: 12% anual"
+      className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  </div>
+</div>
           {/* Imágenes */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Imágenes</label>
