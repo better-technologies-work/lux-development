@@ -7,8 +7,13 @@ export default function WhoWeHelpSection() {
   const t = useTranslations("Home");
 
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+   <section className="relative py-24 overflow-hidden">
+  <div
+    className="absolute inset-0 bg-cover bg-center"
+    style={{ backgroundImage: "url('/fondo.2.jpeg')", opacity: 0.6 }}
+  />
+  <div className="absolute inset-0 bg-white/60" />
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
 
         <h2 className="text-xl font-bold tracking-[0.2em] text-[#0A4D8C] uppercase mb-4">
           {t("whoWeHelpTag")}

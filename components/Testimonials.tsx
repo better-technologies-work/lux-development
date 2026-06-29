@@ -15,9 +15,18 @@ const testimonials = [
 
 export default function Testimonials({ locale }: { locale: string }) {
   return (
-    <section className="w-full bg-slate-50 py-16 px-4">
-      <div className="max-w-4xl mx-auto">
+    <section className="relative w-full py-16 px-4 overflow-hidden">
 
+      {/* Fondo imagen ondas */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/fondo.1.jpeg')", opacity: 0.6 }}
+      />
+      {/* Capa blanca para suavizar */}
+      <div className="absolute inset-0 bg-slate-50/60" />
+
+      {/* Contenido */}
+      <div className="relative max-w-4xl mx-auto">
         <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 text-center">
           {locale === 'es' ? 'Testimonios' : 'Testimonials'}
         </p>
@@ -43,7 +52,6 @@ export default function Testimonials({ locale }: { locale: string }) {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   )

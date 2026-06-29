@@ -175,8 +175,13 @@ const rootT = await getTranslations({ locale });
       </section>
 
 {/* Value Propositions */}
-<section className="w-full bg-slate-100 py-16 md:py-20">
-  <div className="max-w-7xl mx-auto px-4 md:px-6">
+<section className="relative w-full py-16 md:py-20 overflow-hidden">
+  <div
+    className="absolute inset-0 bg-cover bg-center"
+    style={{ backgroundImage: "url('/fondo.1.jpeg')", opacity: 0.6 }}
+  />
+  <div className="absolute inset-0 bg-slate-100/60" />
+  <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6">
 
     <h3 className="text-xl font-bold text-slate-950 mb-10">
       {locale === 'es' ? 'Ayudamos a nuestros clientes:' : 'We help clients:'}
