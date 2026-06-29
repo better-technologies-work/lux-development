@@ -131,9 +131,13 @@ const rootT = await getTranslations({ locale });
 
       {/* seccion 2 - the problem */}
 
-<section className="w-full flex justify-center py-10 px-4">
- 
-  <div className="max-w-3xl w-full text-center space-y-6"> 
+<section className="relative w-full flex justify-center py-10 px-4 overflow-hidden">
+  <div
+    className="absolute inset-0 bg-cover bg-center"
+    style={{ backgroundImage: "url('/fondo.2.jpeg')", opacity: 0.6 }}
+  />
+  <div className="absolute inset-0 bg-white/70" />
+ <div className="relative z-10 max-w-3xl w-full text-center space-y-6">
     
     <h2 className="text-sky-700 text-3xl md:text-4xl font-black uppercase tracking-tighter">
   {locale === 'es' ? 'El problema' : 'The problem'}
